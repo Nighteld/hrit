@@ -1,21 +1,50 @@
+import { useRef, useState } from "react";
 import Hero from "../components/Hero";
 import PrincipalMessage from "../components/PrincipalMessage";
 import Events from "../components/Events";
 import { Button } from "../components/ui/button";
-
+import { Volume2, VolumeX } from "lucide-react";
 
 export default function Home() {
-    return (
-        <>
-        {/* <Hero />
-        <PrincipalMessage />
-        <Events /> */}
-{/* <div>
-      <Button>Click me</Button>
-    </div> */}
-        
+  const videoRef = useRef();
+  const [isMuted, setIsMuted] = useState(true);
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setIsMuted(videoRef.current.muted);
+    }
+  };
 
-
-        </>
-    )
+  return (
+    <>
+      <div className="relative">
+        <div className="video-container">
+          <video
+            ref={videoRef}
+            playsInline
+            autoPlay
+            muted={isMuted}
+            loop
+            id="video-background"
+           
+          >
+            <source src="/Hrti-Aerial-View.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div className="absolute  bottom-5 left-5 ">
+          <Button variant="outline" size="icon" onClick={toggleMute} className="bg-white/60 rounded-full cursor-pointer">
+            {isMuted ?  <VolumeX />: <Volume2 />}
+          </Button>
+        </div>
+        <div className="absolute bottom-5 right-5  ">
+        <Button className="default-button" variant="">Apply Now</Button>
+        </div>
+      </div>
+      
+      {/* <Hero /> */}
+      <PrincipalMessage />
+      <Events />
+    </>
+  );
 }

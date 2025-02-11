@@ -6,8 +6,8 @@ import { NavigationMenuDemo } from "./NavBarDemo";
 export default function MainLayout() {
   return (
     <>
-      <NavBar />
-      {/* <NavigationMenuDemo/> */}
+      {/* <NavBar /> */}
+      <NavigationMenuDemo/>
       <main>
         <Outlet />
       </main>

@@ -4,6 +4,7 @@ import PrincipalMessage from "../components/PrincipalMessage";
 import Events from "../components/Events";
 import { Button } from "../components/ui/button";
 import { Volume2, VolumeX } from "lucide-react";
+import HRIT from "@/components/Hrit";
 
 export default function Home() {
   const videoRef = useRef();
@@ -40,10 +41,11 @@ export default function Home() {
         <div className="absolute bottom-5 right-5  ">
         <Button className="default-button" variant="">Apply Now</Button>
         </div>
+
       </div>
-      
+      <HRIT/>
       {/* <Hero /> */}
-      <PrincipalMessage />
+      {/* <PrincipalMessage /> */}
       <Events />
     </>
   );

@@ -30,7 +30,7 @@ export default function PrincipalMessage() {
             </button> */}
             <button
               type="button"
-              class="py-2.5 px-5 me-2 mb-2 mt-6 text-sm font-medium  focus:outline-none bg-white rounded-full border border-gray-200 text-[#005B7F] hover:bg-[#005B7F] hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-100 inline-flex items-center justify-center gap-1"
+              className="py-2.5 px-5 me-2 mb-2 mt-6 text-sm font-medium  focus:outline-none bg-white rounded-full border border-gray-200 text-[#005B7F] hover:bg-[#005B7F] hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-100 inline-flex items-center justify-center gap-1"
             >
               Read More
               <span className="">

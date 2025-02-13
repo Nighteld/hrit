@@ -7,10 +7,13 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
+import clsx from "clsx";
 import { Twitter } from "lucide-react";
 import React from "react";
 import { Link } from "react-router";
+import MobileMenu from "./MobileMenu";
 
 const components = [
   {
@@ -118,21 +121,20 @@ const navItems = [
 console.log(navItems);
 
 export function NavigationMenuDemo() {
+  const isMobile = useIsMobile();
+
   return (
-    <div className="flex justify-between">
+    <nav className="nav-menu flex justify-between h-[80px] w-full">
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>HRIT</NavigationMenuTrigger>
+            <NavigationMenuTrigger className="nav-button">
+              HRIT
+            </NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+              <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] z-10">
                 {components.map((component) => (
-                  <Link
-                    to={component.href}
-                    key={component.title}
-                    legacyBehavior
-                    passHref
-                  >
+                  <Link to={component.href} key={component.title}>
                     <ListItem
                       key={component.title}
                       title={component.title}
@@ -146,16 +148,13 @@ export function NavigationMenuDemo() {
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Academics</NavigationMenuTrigger>
+            <NavigationMenuTrigger className="nav-button">
+              Academics
+            </NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                 {academics.map((component) => (
-                  <Link
-                    to={component.href}
-                    key={component.title}
-                    legacyBehavior
-                    passHref
-                  >
+                  <Link to={component.href} key={component.title}>
                     <ListItem
                       key={component.title}
                       title={component.title}
@@ -170,16 +169,13 @@ export function NavigationMenuDemo() {
           </NavigationMenuItem>
 
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Admission</NavigationMenuTrigger>
+            <NavigationMenuTrigger className="nav-button">
+              Admission
+            </NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                 {admission.map((component) => (
-                  <Link
-                    to={component.href}
-                    key={component.title}
-                    legacyBehavior
-                    passHref
-                  >
+                  <Link to={component.href} key={component.title}>
                     <ListItem
                       key={component.title}
                       title={component.title}
@@ -193,59 +189,73 @@ export function NavigationMenuDemo() {
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link to="#" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+            <Link to="#">
+              <NavigationMenuLink
+                className={clsx(navigationMenuTriggerStyle(), "nav-button")}
+              >
                 Alumni committee
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-      <Link to="/">
-        <figure>
-          <img src="/hrit.png" alt="school-logo" className="h-20" />
-        </figure>
-      </Link>
+
+      <div>
+        <Link to="/">
+          <img src="/hrit.png" alt="school-logo" height={80} width={250} />
+        </Link>
+      </div>
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <Link to="#" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+            <Link to="#">
+              <NavigationMenuLink
+                className={clsx(navigationMenuTriggerStyle(), "nav-button")}
+              >
                 Notices
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link to="#" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+            <Link to="#">
+              <NavigationMenuLink
+                className={clsx(navigationMenuTriggerStyle(), "nav-button")}
+              >
                 News
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link to="#" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+            <Link to="#">
+              <NavigationMenuLink
+                className={clsx(navigationMenuTriggerStyle(), "nav-button")}
+              >
                 Gallery
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link to="#" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+            <Link to="#">
+              <NavigationMenuLink
+                className={clsx(navigationMenuTriggerStyle(), "nav-button")}
+              >
                 Downloads
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link to="#" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+            <Link to="#">
+              <NavigationMenuLink
+                className={clsx(navigationMenuTriggerStyle(), "nav-button")}
+              >
                 Contact Us
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-    </div>
+      {/* <MobileMenu/> */}
+    </nav>
   );
 }
 

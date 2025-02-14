@@ -15,7 +15,7 @@ import React from "react";
 import { Link } from "react-router";
 import MobileMenu from "./MobileMenu";
 
-const components = [
+export const components = [
   {
     title: "About Us",
     href: "/about-us",
@@ -44,7 +44,7 @@ const components = [
   },
 ];
 
-const academics = [
+export const academics = [
   {
     title: "Law",
     href: "/about-us",
@@ -67,7 +67,7 @@ const academics = [
   },
 ];
 
-const admission = [
+export const admission = [
   {
     title: "Admission Procedure",
     href: "/about-us",
@@ -122,11 +122,19 @@ console.log(navItems);
 
 export function NavigationMenuDemo() {
   const isMobile = useIsMobile();
-
+  console.log("isMobile", isMobile);
   return (
-    <nav className="nav-menu flex justify-between h-[80px] w-full">
-      <NavigationMenu>
-        <NavigationMenuList>
+    <nav className="nav-menu flex justify-between h-[80px] w-full flex-wrap items-center px-2">
+       <div className="flex md:hidden">
+  <Link to="/">
+    <img src="/hrit.png" alt="school-logo" height={80} width={250} />
+  </Link>
+</div>
+
+      <NavigationMenu 
+      className="hidden md:flex"
+      >
+        <NavigationMenuList className="flex-wrap">
           <NavigationMenuItem>
             <NavigationMenuTrigger className="nav-button">
               HRIT
@@ -169,7 +177,7 @@ export function NavigationMenuDemo() {
           </NavigationMenuItem>
 
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="nav-button">
+            <NavigationMenuTrigger className="nav-button flex-1">
               Admission
             </NavigationMenuTrigger>
             <NavigationMenuContent>
@@ -199,14 +207,15 @@ export function NavigationMenuDemo() {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-
-      <div>
-        <Link to="/">
-          <img src="/hrit.png" alt="school-logo" height={80} width={250} />
-        </Link>
-      </div>
-      <NavigationMenu>
-        <NavigationMenuList>
+        <div className="md:flex hidden">
+          <Link to="/">
+            <img src="/hrit.png" alt="school-logo" height={80} width={250} />
+          </Link>
+        </div>
+      <NavigationMenu
+       className="hidden md:flex"
+       >
+        <NavigationMenuList className="flex-wrap">
           <NavigationMenuItem>
             <Link to="#">
               <NavigationMenuLink
@@ -254,7 +263,7 @@ export function NavigationMenuDemo() {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-      {/* <MobileMenu/> */}
+      <MobileMenu/>
     </nav>
   );
 }

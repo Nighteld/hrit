@@ -1,4 +1,5 @@
 import './App.css'
+import "./breakpoints.css";
 
 import { Route, Routes } from "react-router"
 import MainLayout from "./layouts/MainLayout"

@@ -18,7 +18,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="relative">
+      <div className="relative w-full">
         <div className="video-container">
           <video
             ref={videoRef}
@@ -27,23 +27,30 @@ export default function Home() {
             muted={isMuted}
             loop
             id="video-background"
-           
           >
             <source src="/Hrti-Aerial-View.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>
         <div className="absolute  bottom-5 left-5 ">
-          <Button variant="outline" size="icon" onClick={toggleMute} className="bg-white/60 rounded-full cursor-pointer">
-            {isMuted ?  <VolumeX />: <Volume2 />}
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={toggleMute}
+            className="bg-white/60 rounded-full cursor-pointer"
+          >
+            {isMuted ? <VolumeX /> : <Volume2 />}
           </Button>
         </div>
         <div className="absolute bottom-5 right-5  ">
-        <Button className="default-button" variant="">Apply Now</Button>
+          <Button className="default-button" variant="">
+            Apply Now
+          </Button>
         </div>
-
       </div>
-      <HRIT/>
+
+      <HRIT />
+
       {/* <Hero /> */}
       {/* <PrincipalMessage /> */}
       <Events />

@@ -143,7 +143,7 @@ const MobileMenu = () => {
                   {/* <Plus /> */}
                 </label>
               </div>
-              <ul className="ml-5">
+              <ul className="ml-5 ease-in-out duration-500">
                 {components.map((component) => (
                   <Link to={component.href} key={component.title}>
                     <li>{component.title}</li>
@@ -177,7 +177,7 @@ const MobileMenu = () => {
                   {/* <Plus /> */}
                 </label>
               </div>
-              <ul className="ml-5">
+              <ul className="ml-5 ease-in-out duration-500">
                 {admission.map((component) => (
                   <Link to={component.href} key={component.title}>
                     <li>{component.title}</li>

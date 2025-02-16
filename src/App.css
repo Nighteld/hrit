@@ -158,7 +158,6 @@ h2 {
   margin-left: 0;
   margin-right: 0;
   font-weight: bold;
-  color: var(--base-color);
 }
 h3 {
   display: block;
@@ -205,6 +204,9 @@ h6 {
 .bg-color {
   background-color: #016690;
 }
+.bg-text {
+  color: #016690;
+}
 
 /* .nav-button{
   background-color: var(--base-color);
@@ -230,7 +232,7 @@ h6 {
   position: relative;
   overflow: hidden;
   width: 100%;
-  max-width: 315px;
+  max-width: 325px;
   min-width: 230px;
   font-family: "Source Sans Pro", sans-serif;
   color: #fff;
@@ -238,6 +240,7 @@ h6 {
   margin: 10px;
   text-align: left;
   transform: translateZ(0);
+  flex: 1;
 }
 
 .snip:hover .snip__title,

@@ -38,7 +38,7 @@ export default function HRIT() {
   
       {/* Content Section */}
       <div className="">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">To Grow in Grace and Wisdom</h2>
+        <h2 className="text-2xl font-bold bg-text mb-4">To Grow in Grace and Wisdom</h2>
         <p className="text-lg text-gray-700 leading-relaxed">
           The mission of the college is to produce and prepare complete manpower to excel in any type of tests 
           and exams of their life. Including social, moral, and realistic values, our priceless strive is to let 

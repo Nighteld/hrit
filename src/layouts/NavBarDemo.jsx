@@ -253,7 +253,7 @@ export function NavigationMenuDemo() {
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link to="#">
+            <Link to="contact-us">
               <NavigationMenuLink
                 className={clsx(navigationMenuTriggerStyle(), "nav-button")}
               >

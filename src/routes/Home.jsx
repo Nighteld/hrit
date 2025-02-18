@@ -15,10 +15,15 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer"
+import EmblaCarousel from "@/components/EmblaCarousel";
 
 export default function Home() {
   const videoRef = useRef();
   const [isMuted, setIsMuted] = useState(true);
+  const OPTIONS = { dragFree: true }
+const SLIDE_COUNT = 6
+const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
+
   const toggleMute = () => {
     if (videoRef.current) {
       videoRef.current.muted = !videoRef.current.muted;
@@ -61,6 +66,7 @@ export default function Home() {
 
       <HRIT />
 
+      <EmblaCarousel slides={SLIDES} options={OPTIONS} />
       {/* <Hero /> */}
       {/* <PrincipalMessage /> */}
       <Events />

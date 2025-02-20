@@ -1,7 +1,7 @@
 const BookListGradeTwelve = () => {
     const tables = [
       {
-        title: "Law and Humanities",
+        title: "Book Lists of Class 12 Law",
         data: [
           { id: 1, subject: "Compulsory Nepali", author: "Sajha" },
           { id: 2, subject: "Compulsory English", author: "Sajha" },
@@ -13,7 +13,7 @@ const BookListGradeTwelve = () => {
         ],
       },
       {
-        title: "Science Stream",
+        title: "Book Lists of Class 12  Science",
         data: [
           { id: 1, subject: "Compulsory Nepali", author: "Curriculum Development Center Sajha Prakashan" },
           { id: 2, subject: "Compulsory English", author: "Curriculum Development Center Sajha Prakashan" },
@@ -26,7 +26,7 @@ const BookListGradeTwelve = () => {
         ],
       },
       {
-        title: "Management Stream",
+        title: "Book Lists of Class 12 Management ",
         data: [
           { id: 1, subject: "Mathematics", author: "Sukunda Publication, Advance Sarswati Publication" },
           { id: 2, subject: "Economics", author: "Boudha Publication, Advance Sarswati Publication" },
@@ -45,15 +45,15 @@ const BookListGradeTwelve = () => {
             <table className="w-full border border-gray-300">
               <thead>
                 <tr className="bg-gray-200">
-                  <th className="border p-2">#</th>
+                  <th className="border p-2">SN</th>
                   <th className="border p-2">Subject</th>
                   <th className="border p-2">Publication (Author)</th>
                 </tr>
               </thead>
               <tbody>
-                {table.data.map((row) => (
+                {table.data.map((row,index) => (
                   <tr key={row.id} className="border">
-                    <td className="border p-2 text-center">{row.id}</td>
+                    <td className="border p-2 text-center">{index+1}</td>
                     <td className="border p-2">{row.subject}</td>
                     <td className="border p-2">{row.author}</td>
                   </tr>

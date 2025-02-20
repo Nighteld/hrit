@@ -3,6 +3,8 @@ const BookListGradeEleven = () => {
   const tables = [
     {
       id: 1,
+      title: "Book Lists of Class 11 Law",
+
       data: [
         { subject: "Compulsory Nepali", author: "Sajha" },
         { subject: "Compulsory English", author: "Sajha" },
@@ -15,6 +17,8 @@ const BookListGradeEleven = () => {
     },
     {
       id: 2,
+      title: "Book Lists of Class 11 Science",
+
       data: [
         { subject: "Compulsory Nepali", author: "Curriculum Development Center Sajha Prakashan" },
         { subject: "Compulsory English", author: "Curriculum Development Center Sajha Prakashan" },
@@ -28,6 +32,8 @@ const BookListGradeEleven = () => {
     },
     {
       id: 3,
+      title: "Book Lists of Class 11 Management",
+
       data: [
         { subject: "Economics", author: "Textbook: Advance Sarswati Publication | Reference Book: Asmita Publication" },
         { subject: "Business Studies", author: "Textbook: Boudha Publication | Reference Book: Asmita Publication" },
@@ -39,28 +45,31 @@ const BookListGradeEleven = () => {
   ];
 
   return (
-    <div className="p-4">
-      {tables.map((table) => (
-        <table key={table.id} className="w-full border border-gray-300 mb-6">
-          <thead>
-            <tr className="bg-green-200">
-              <th className="border px-4 py-2">#</th>
-              <th className="border px-4 py-2">Subject</th>
-              <th className="border px-4 py-2">Publication (Author)</th>
-            </tr>
-          </thead>
-          <tbody>
-            {table.data.map((item, index) => (
-              <tr key={index} className={index % 2 === 0 ? "bg-gray-100" : "bg-white"}>
-                <td className="border px-4 py-2 text-center">{index + 1}</td>
-                <td className="border px-4 py-2 text-blue-500 font-bold">{item.subject}</td>
-                <td className="border px-4 py-2 text-orange-500">{item.author}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ))}
-    </div>
+    <div className="p-6">
+        {tables.map((table, index) => (
+          <div key={index} className="mb-8">
+            <h2 className="text-xl font-bold mb-4">{table.title}</h2>
+            <table className="w-full border border-gray-300 ">
+              <thead>
+                <tr className="bg-gray-200">
+                  <th className="border p-2">SN</th>
+                  <th className="border p-2">Subject</th>
+                  <th className="border p-2">Publication (Author)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {table.data.map((row,index) => (
+                  <tr key={row.id} className="border">
+                    <td className="border p-2 text-center">{index+1}</td>
+                    <td className="border p-2">{row.subject}</td>
+                    <td className="border p-2">{row.author}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ))}
+      </div>
   );
 };
 

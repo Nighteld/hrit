@@ -367,3 +367,9 @@ h6 {
 .list-style-wrapper li:has(input:checked) ul {
   display: block; /* Show when input is checked */
 }
+
+ thead tr th{
+  background-color: var(--base-color-next);
+  color: white;
+  white-space: nowrap;
+}

@@ -7,6 +7,8 @@ import MainLayout from "./layouts/MainLayout";
 
 import Home from "./routes/Home";
 import ScrollTop from "./components/scroll-top";
+import BookList from "./routes/book-list";
+import AboutUs from "./routes/about-us";
 const ContactPage = lazy(() => import("./routes/contact-us"));
 function App() {
   return (
@@ -16,8 +18,9 @@ function App() {
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Home />} />
           <Route path="contact-us" element={<ContactPage />} />
-          {/* <Route path="about" element={<About />} />
-          {/* <Route path="*" element={<NotFound />} /> */}
+          <Route path="book-list" element={<BookList />} />
+          <Route path="about-us" element={<AboutUs />} />
+          <Route path="*" element={<AboutUs />} /> 
         </Route>
       </Routes>
       <ScrollTop />

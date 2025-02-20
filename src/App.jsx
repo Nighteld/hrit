@@ -8,8 +8,8 @@ import MainLayout from "./layouts/MainLayout";
 import Home from "./routes/Home";
 import ScrollTop from "./components/scroll-top";
 import BookList from "./routes/book-list";
-import AboutUs from "./routes/about-us";
 const ContactPage = lazy(() => import("./routes/contact-us"));
+const AboutUs = lazy(() => import("./routes/about-us"));
 function App() {
   return (
     <div>

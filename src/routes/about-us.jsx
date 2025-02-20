@@ -1,5 +1,6 @@
 import useEmblaCarousel from "embla-carousel-react";
-// import "../../src/css/embla.css";
+import "../../src/css/embla-full.css";
+import "../../src/css/base.css";
 import {
   PrevButton,
   NextButton,
@@ -29,30 +30,15 @@ export default function AboutUs() {
     onPrevButtonClick,
     onNextButtonClick,
   } = usePrevNextButtons(emblaApi);
-  const name = {
-    0: "Sandeep Gurung",
-    1: "Joseph Thompson",
-    2: "James K. Levine",
-    3: "John Doe",
-    4: "Jane Smith",
-    5: "Michael Johnson",
-  };
-  const subject = {
-    0: "Science Teacher",
-    1: "Math Teacher",
-    2: "Management Teacher",
-    3: "Law Teacher",
-    4: "Business Teacher",
-    5: "Arts Teacher",
-  };
+
   return (
     <div>
-      <section className="embla">
-        <div className="embla__viewport " ref={emblaRef}>
-          <div className="embla__container">
+      <section className="about-embla">
+        <div className="about-embla__viewport " ref={emblaRef}>
+          <div className="about-embla__container">
             {SLIDES.map((index) => (
-              <div className="embla__slide relative" key={index}>
-                <div className="embla__slide__number">
+              <div className="about-embla__slide relative" key={index}>
+                <div className="about-embla__slide__number">
                   <img
                     src={`/banner/teacher${index}.jpg`}
                     className="w-full h-full"
@@ -75,7 +61,7 @@ export default function AboutUs() {
         </div>
 
         <div className="flex items-center text-center justify-center embla__controls">
-          <div className="embla__buttons">
+          <div className="about-embla__buttons">
             <PrevButton
               onClick={onPrevButtonClick}
               disabled={prevBtnDisabled}

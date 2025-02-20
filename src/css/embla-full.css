@@ -1,26 +1,26 @@
 
-.embla {
+.about-embla {
   /* max-width: 48rem; */
   margin: auto;
-  --slide-height: 25rem;
+  --slide-height: 35rem;
   --slide-spacing: 1rem;
-  --slide-size: 30%;
+  --slide-size: 100%;
 }
-.embla__viewport {
+.about-embla__viewport {
   overflow: hidden;
 }
-.embla__container {
+.about-embla__container {
   display: flex;
   touch-action: pan-y pinch-zoom;
   margin-left: calc(var(--slide-spacing) * -1);
 }
-.embla__slide {
+.about-embla__slide {
   transform: translate3d(0, 0, 0);
   flex: 0 0 var(--slide-size);
   min-width: 0;
   padding-left: var(--slide-spacing);
 }
-.embla__slide__number {
+.about-embla__slide__number {
   box-shadow: inset 0 0 0 0.2rem var(--detail-medium-contrast);
   border-radius: 1.8rem;
   font-size: 4rem;
@@ -31,20 +31,20 @@
   height: var(--slide-height);
   user-select: none;
 }
-.embla__controls {
+.about-embla__controls {
   display: flex;
   grid-template-columns: auto 1fr;
   justify-content: center;
   gap: 1.2rem;
   margin-top: 1.8rem;
 }
-.embla__buttons {
+.about-embla__buttons {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.6rem;
   align-items: center;
 }
-.embla__button {
+.about-embla__button {
   -webkit-tap-highlight-color: rgba(var(--text-high-contrast-rgb-value), 0.5);
   -webkit-appearance: none;
   appearance: none;
@@ -66,21 +66,21 @@
   align-items: center;
   justify-content: center;
 }
-.embla__button:disabled {
+.about-embla__button:disabled {
   color: var(--detail-high-contrast);
 }
-.embla__button__svg {
+.about-embla__button__svg {
   width: 35%;
   height: 35%;
 }
-.embla__dots {
+.about-embla__dots {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
   align-items: center;
   margin-right: calc((2.6rem - 1.4rem) / 2 * -1);
 }
-.embla__dot {
+.about-embla__dot {
   -webkit-tap-highlight-color: rgba(var(--text-high-contrast-rgb-value), 0.5);
   -webkit-appearance: none;
   appearance: none;

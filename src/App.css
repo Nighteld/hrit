@@ -9,7 +9,11 @@ body {
   /* font-weight: 400; */
   font-style: normal;
 }
-
+:root {
+  --base-color: #016690;
+  --base-color-next: #f9a427;
+  --dark-color: #000e67;
+}
 .poppins-thin {
   font-family: "Poppins", serif;
   font-weight: 100;
@@ -118,11 +122,7 @@ body {
   font-style: italic;
 }
 
-:root {
-  --base-color: #016690;
-  --base-color-next: #f9a427;
-  --dark-color: #000e67;
-}
+
 
 .video-container {
   height: calc(100dvh - 80px); /* Full viewport height minus navbar */

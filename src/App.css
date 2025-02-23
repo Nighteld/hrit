@@ -190,11 +190,22 @@ h6 {
 }
 
 .bg-color {
-  background-color: #016690;
+  background-color: var(--base-color);
 }
 .bg-text {
-  color: #016690;
+  color:var(--base-color);
 }
+.bg-color-next {
+  background-color: var(--base-color-next);
+}
+.bg-text-next {
+  color: var(--base-color-next);
+}
+/* h1::first-letter{
+
+  color: var(--base-color-next);
+} */
+
 
 /* .nav-button{
   background-color: var(--base-color);
@@ -373,3 +384,20 @@ h6 {
   color: white;
   white-space: nowrap;
 }
+
+.bread-crumbs{
+  color: var(--base-color);
+  /* text-decoration: underline; */
+}
+
+/* .bread-crumbs li{
+  border-left: 1px solid var(--base-color);
+} */
+
+a.active{
+  color: var(--base-color-next);
+  text-decoration: underline;
+  /* border-left: 1px solid var(--base-color); */
+
+}
+

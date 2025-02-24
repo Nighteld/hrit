@@ -11,6 +11,7 @@ import BookList from "./routes/book-list";
 import OurMission from "./routes/our-mission";
 import OurDirector from "./routes/our-director";
 import OurPrincipal from "./routes/our-principal";
+import WhyUs from "./routes/why-hrit";
 const ContactPage = lazy(() => import("./routes/contact-us"));
 const AboutUs = lazy(() => import("./routes/about-us"));
 function App() {
@@ -26,7 +27,8 @@ function App() {
           <Route path="our-mission" element={<OurMission />} />
           <Route path="our-director" element={<OurDirector />} />
           <Route path="our-principal" element={<OurPrincipal />} />
-          <Route path="*" element={<ContactPage />} />   
+          <Route path="why-hrit" element={<WhyUs />}  />
+          <Route path="*" element={<h1>No Found ...</h1>} />   
         </Route>
       </Routes>
       <ScrollTop />

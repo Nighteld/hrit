@@ -118,7 +118,7 @@ const navItems = [
   { name: "Downloads", href: "/downloads" },
   { name: "Contact", href: "/articles" },
 ];
-console.log(navItems);
+// console.log(navItems);
 
 export function NavigationMenuDemo() {
   const isMobile = useIsMobile();

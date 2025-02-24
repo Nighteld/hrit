@@ -1,18 +1,18 @@
 import BreadCrumbs from "@/components/BreadCrumbs";
 import { components } from "@/layouts/NavBarDemo";
+import { CircleCheck } from "lucide-react";
 
 export default function OurMission() {
   return (
     <div className="section container">
-      
       <div className="grid md:grid-cols-4 gap-2">
         <div>
           <BreadCrumbs menuLists={components} />
         </div>
         <div className="col-span-3">
-        <h1>
-        <span className="bg-text-next">Our</span> Mission
-      </h1>
+          <h1>
+            <span className="bg-text-next">Our</span> Mission
+          </h1>
           <p>
             The mission of the college is to produce and prepare complete
             manpower to excel in any types of tests and exams of their life.
@@ -33,13 +33,18 @@ export default function OurMission() {
         </div>
 
         <div>
-      <h1>
-        <span className="bg-text-next">Our</span> Values
-      </h1>
+          <h1>
+            <span className="bg-text-next">Our</span> Values
+          </h1>
+          <ul className="list-style-wrapper">
+            <li className="flex gap-2">  <CircleCheck  />Professionalism, transparency and accountability</li>
+            <li className="flex gap-2"> <CircleCheck  />Respect towards equality and diversity</li>
+            <li className="flex gap-2"> <CircleCheck  />Commitment towards excellence</li>
+            <li className="flex gap-2"> <CircleCheck  />Responsiveness to our stakeholders</li>
+            <li className="flex gap-2"> <CircleCheck  />Up gradation of services to match with market requirements</li>
+          </ul>
+        </div>
       </div>
-      </div>
-
-      
     </div>
   );
 }

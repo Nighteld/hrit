@@ -28,19 +28,19 @@ export const components = [
   },
   {
     title: "Director",
-    href: "/docs/primitives/progress",
+    href: "/our-director",
   },
   {
     title: "Principal Message",
-    href: "/docs/primitives/progress",
+    href: "/our-principal",
   },
   {
     title: "Why Hrit",
-    href: "/docs/primitives/scroll-area",
+    href: "/why-hrit",
   },
   {
     title: "Blogs",
-    href: "/docs/primitives/tabs",
+    href: "/blogs",
   },
 ];
 

@@ -92,8 +92,8 @@ export default function AboutUs() {
         </div>
       </section>
       <div className="section container">
-        <div className="grid grid-cols-4 gap-2">
-          <div>
+        <div className="grid md:grid-cols-4 gap-2">
+          <div className="">
            <BreadCrumbs menuLists={components} />
           </div>
           <div className="col-span-3">

@@ -30,20 +30,41 @@ export default function OurMission() {
             them with intectuality, facilitate for overall personality and
             inspire them to explore their potential.
           </p>
-        </div>
 
-        <div>
+          <div className="">
           <h1>
             <span className="bg-text-next">Our</span> Values
           </h1>
           <ul className="list-style-wrapper">
-            <li className="flex gap-2">  <CircleCheck  />Professionalism, transparency and accountability</li>
-            <li className="flex gap-2"> <CircleCheck  />Respect towards equality and diversity</li>
-            <li className="flex gap-2"> <CircleCheck  />Commitment towards excellence</li>
-            <li className="flex gap-2"> <CircleCheck  />Responsiveness to our stakeholders</li>
-            <li className="flex gap-2"> <CircleCheck  />Up gradation of services to match with market requirements</li>
+            <li className="flex gap-2">
+              {" "}
+              <CircleCheck />
+              Professionalism, transparency and accountability
+            </li>
+            <li className="flex gap-2">
+              {" "}
+              <CircleCheck />
+              Respect towards equality and diversity
+            </li>
+            <li className="flex gap-2">
+              {" "}
+              <CircleCheck />
+              Commitment towards excellence
+            </li>
+            <li className="flex gap-2">
+              {" "}
+              <CircleCheck />
+              Responsiveness to our stakeholders
+            </li>
+            <li className="flex gap-2">
+              {" "}
+              <CircleCheck />
+              Up gradation of services to match with market requirements
+            </li>
           </ul>
         </div>
+        </div>
+       
       </div>
     </div>
   );

@@ -7,6 +7,15 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import clsx from "clsx";
@@ -125,15 +134,13 @@ export function NavigationMenuDemo() {
   console.log("isMobile", isMobile);
   return (
     <nav className="nav-menu flex justify-between h-[80px] w-full flex-wrap items-center px-2">
-       <div className="flex md:hidden">
-  <Link to="/">
-    <img src="/hrit.png" alt="school-logo" height={80} width={250} />
-  </Link>
-</div>
+      <div className="flex md:hidden">
+        <Link to="/">
+          <img src="/hrit.png" alt="school-logo" height={80} width={250} />
+        </Link>
+      </div>
 
-      <NavigationMenu 
-      className="hidden md:flex"
-      >
+      <NavigationMenu className="hidden md:flex">
         <NavigationMenuList className="flex-wrap">
           <NavigationMenuItem>
             <NavigationMenuTrigger className="nav-button">
@@ -207,14 +214,12 @@ export function NavigationMenuDemo() {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-        <div className="md:flex hidden">
-          <Link to="/">
-            <img src="/hrit.png" alt="school-logo" height={80} width={250} />
-          </Link>
-        </div>
-      <NavigationMenu
-       className="hidden md:flex"
-       >
+      <div className="md:flex hidden">
+        <Link to="/">
+          <img src="/hrit.png" alt="school-logo" height={80} width={250} />
+        </Link>
+      </div>
+      <NavigationMenu className="hidden md:flex">
         <NavigationMenuList className="flex-wrap">
           <NavigationMenuItem>
             <Link to="#">
@@ -263,7 +268,7 @@ export function NavigationMenuDemo() {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-      <MobileMenu/>
+      <MobileMenu />
     </nav>
   );
 }

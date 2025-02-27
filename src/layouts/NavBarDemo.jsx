@@ -7,19 +7,10 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import clsx from "clsx";
-import { Twitter } from "lucide-react";
 import React from "react";
 import { Link } from "react-router";
 import MobileMenu from "./MobileMenu";
@@ -46,6 +37,14 @@ export const components = [
   {
     title: "Why Hrit",
     href: "/why-hrit",
+  },
+  {
+    title: "Teaching Approach",
+    href: "/teaching-approach",
+  },
+  {
+    title: "Our Supports and facilities",
+    href: "/support-facilities",
   },
   {
     title: "Blogs",
@@ -133,7 +132,7 @@ export function NavigationMenuDemo() {
   const isMobile = useIsMobile();
   console.log("isMobile", isMobile);
   return (
-    <nav className="nav-menu flex justify-between h-[80px] w-full flex-wrap items-center px-2">
+    <nav className="nav-menu bg-white flex justify-between h-[80px] w-full flex-wrap items-center px-2 sticky inset-0 z-50">
       <div className="flex md:hidden">
         <Link to="/">
           <img src="/hrit.png" alt="school-logo" height={80} width={250} />

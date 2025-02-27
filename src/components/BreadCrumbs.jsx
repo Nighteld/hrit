@@ -13,7 +13,7 @@ export default function BreadCrumbs({menuLists}){
             key={component.title}
             title={component.title}
             to={component.href}
-            className="p-1 ml-10 "
+            className="px-2 py-1"
           >
             <NavLink to={component.href} key={component.title}>
               {component.title}

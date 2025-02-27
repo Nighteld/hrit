@@ -52,7 +52,7 @@ export default function AboutUs() {
                 <div className="about-embla__slide__number">
                   <img
                     src={`/banner/hrit${index}.jpg`}
-                    className="w-full h-full"
+                    className="w-full h-full object-fill"
                   />
                 </div>
 
@@ -94,11 +94,13 @@ export default function AboutUs() {
       <div className="section container">
         <div className="grid md:grid-cols-4 gap-2">
           <div className="">
-           <BreadCrumbs menuLists={components} />
+            <BreadCrumbs menuLists={components} />
           </div>
           <div className="col-span-3">
             {" "}
-            <h1><span className="bg-text-next">About</span> Hrit</h1>
+            <h1>
+              <span className="bg-text-next">About</span> Hrit
+            </h1>
             <p>
               Collaboration and supports are central to college ethos. We, here
               at HRIT are heading forward to create, integrate and impart the
@@ -115,21 +117,20 @@ export default function AboutUs() {
               and ethics by providing quality education on par with global
               standards. Thus imparting quality based value education is our
               foresight and vision.
-              
-              </p>
-              <p> The college located at the historical place
-              with Academic Black at Bashundhara Chauki, Kantimarg, attaches
-              utmost importance towards the maintenance of discipline. Any sorts
-              of misbehaving are ruled out. It is just because we feel
-              discipline; dedication and devoting are key to success are turn
-              individual into ideal being. So the students are expected to be
-              well disciplined, cooperative and well behaved with decency and
-              decorum.
+            </p>
+            <p>
+              {" "}
+              The college located at the historical place with Academic Black at
+              Bashundhara Chauki, Kantimarg, attaches utmost importance towards
+              the maintenance of discipline. Any sorts of misbehaving are ruled
+              out. It is just because we feel discipline; dedication and
+              devoting are key to success are turn individual into ideal being.
+              So the students are expected to be well disciplined, cooperative
+              and well behaved with decency and decorum.
             </p>
           </div>
         </div>
       </div>
-    
     </div>
   );
 }

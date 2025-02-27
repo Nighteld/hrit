@@ -5,12 +5,12 @@ export default function OurPrincipal() {
   return (
     <div className="section container">
       <div className="grid md:grid-cols-4 gap-2">
-        <div className="hidden md:block">
+        <div className="">
           <BreadCrumbs menuLists={components} />
         </div>
         <div className="col-span-3">
           <h1>
-            <span className="bg-text-next">Our</span> Principal
+            <span className="bg-text-next">Principal</span> Message
           </h1>
           <div className="grid grid-cols-12 gap-10">
             <div className="col-span-4">

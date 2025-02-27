@@ -12,6 +12,8 @@ import OurMission from "./routes/our-mission";
 import OurDirector from "./routes/our-director";
 import OurPrincipal from "./routes/our-principal";
 import WhyUs from "./routes/why-hrit";
+import SupportFacilities from "./routes/support-facilities";
+import TeachingApproach from "./routes/teaching-approach";
 const ContactPage = lazy(() => import("./routes/contact-us"));
 const AboutUs = lazy(() => import("./routes/about-us"));
 function App() {
@@ -28,7 +30,9 @@ function App() {
           <Route path="our-director" element={<OurDirector />} />
           <Route path="our-principal" element={<OurPrincipal />} />
           <Route path="why-hrit" element={<WhyUs />}  />
-          <Route path="*" element={<h1>No Found ...</h1>} />   
+          <Route path="teaching-approach" element={<TeachingApproach />}  />
+          <Route path="support-facilities" element={<SupportFacilities />}  />
+          <Route path="*" element={<h1>Not Found ...</h1>} />   
         </Route>
       </Routes>
       <ScrollTop />

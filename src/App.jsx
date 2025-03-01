@@ -13,9 +13,14 @@ import OurDirector from "./routes/our-director";
 import OurPrincipal from "./routes/our-principal";
 import WhyUs from "./routes/why-hrit";
 import SupportFacilities from "./routes/support-facilities";
-import TeachingApproach from "./routes/teaching-approach";
 const ContactPage = lazy(() => import("./routes/contact-us"));
 const AboutUs = lazy(() => import("./routes/about-us"));
+const Humanities = lazy(() => import("./routes/humanities"));
+const FineArts = lazy(() => import("./routes/fine-arts"));
+const Science = lazy(() => import("./routes/science"));
+const Management = lazy(() => import("./routes/management"));
+const Law = lazy(() => import("./routes/law"));
+const TeachingApproach = lazy(() => import("./routes/teaching-approach"));
 function App() {
   return (
     <div>
@@ -29,10 +34,15 @@ function App() {
           <Route path="our-mission" element={<OurMission />} />
           <Route path="our-director" element={<OurDirector />} />
           <Route path="our-principal" element={<OurPrincipal />} />
-          <Route path="why-hrit" element={<WhyUs />}  />
-          <Route path="teaching-approach" element={<TeachingApproach />}  />
-          <Route path="support-facilities" element={<SupportFacilities />}  />
-          <Route path="*" element={<h1>Not Found ...</h1>} />   
+          <Route path="why-hrit" element={<WhyUs />} />
+          <Route path="teaching-approach" element={<TeachingApproach />} />
+          <Route path="support-facilities" element={<SupportFacilities />} />
+          <Route path="law" element={<Law />} />
+          <Route path="management" element={<Management />} />
+          <Route path="science" element={<Science />} />
+          <Route path="fine-arts" element={<FineArts />} />
+          <Route path="humanities" element={<Humanities />} />
+          <Route path="*" element={<h1>Not Found ...</h1>} />
         </Route>
       </Routes>
       <ScrollTop />

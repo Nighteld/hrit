@@ -48,10 +48,10 @@ const EmblaCarousel = (props) => {
           <div className="embla__container">
             {slides.map((index) => (
               <div className="embla__slide relative" key={index}>
-                <div className="embla__slide__number">
+                <div className="embla__slide__number">  
                   <img
                     src={`/banner/teacher${index}.jpg`}
-                    className="w-full h-full"
+                    className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="absolute left-10 bottom-10 text-white text-2xl">

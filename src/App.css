@@ -154,6 +154,8 @@ h2 {
   margin-top: 0.83em;
   margin-bottom: 0.83em;
   font-weight: bold;
+  color: var(--base-color);
+
 }
 h3 {
   display: block;
@@ -403,3 +405,7 @@ a.active{
 
 }
 
+.first-letter::first-letter {
+  color: var(--base-color-next); 
+
+}

@@ -55,23 +55,23 @@ export const components = [
 export const academics = [
   {
     title: "Law",
-    href: "/about-us",
+    href: "/law",
   },
   {
     title: "Management",
-    href: "/our-mission",
+    href: "/management",
   },
   {
     title: "Science",
-    href: "/docs/primitives/progress",
+    href: "/science",
   },
   {
     title: "Fine Arts",
-    href: "/docs/primitives/progress",
+    href: "/fine-arts",
   },
   {
     title: "Humanities",
-    href: "/docs/primitives/scroll-area",
+    href: "/humanities",
   },
 ];
 

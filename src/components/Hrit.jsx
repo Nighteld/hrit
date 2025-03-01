@@ -14,7 +14,7 @@ export default function HRIT() {
     },
   ];
   return (
-    <div className="@container mt-5 mx-5">
+    <div className="container">
     <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
       {/* Card Section */}
       <div className="flex flex-wrap">

@@ -6,13 +6,20 @@ import { Route, Routes } from "react-router";
 import MainLayout from "./layouts/MainLayout";
 
 import Home from "./routes/Home";
-import ScrollTop from "./components/scroll-top";
-import BookList from "./routes/book-list";
-import OurMission from "./routes/our-mission";
-import OurDirector from "./routes/our-director";
-import OurPrincipal from "./routes/our-principal";
-import WhyUs from "./routes/why-hrit";
-import SupportFacilities from "./routes/support-facilities";
+import AlumniCommittee from "./routes/almuniee-comittee";
+import NoticesFeed from "./routes/notices-feed";
+const ScrollTop = lazy(() => import("./components/scroll-top"));
+const BookList = lazy(() => import("./routes/book-list"));
+const OurMission = lazy(() => import("./routes/our-mission"));
+const OurDirector = lazy(() => import("./routes/our-director"));
+const OurPrincipal = lazy(() => import("./routes/our-principal"));
+const WhyUs = lazy(() => import("./routes/why-hrit"));
+const SupportFacilities = lazy(() => import("./routes/support-facilities"));
+const AdmissionProcedure = lazy(() => import("./routes/AdmissionProcedure"));
+const ScholarShipSchemes = lazy(() => import("./routes/scholarship-schemes"));
+const HotelManagement = lazy(() => import("./routes/hotel-management"));
+const BusinessStudies = lazy(() => import("./routes/business-studies"));
+const ComputerScience = lazy(() => import("./routes/computer-science"));
 const ContactPage = lazy(() => import("./routes/contact-us"));
 const AboutUs = lazy(() => import("./routes/about-us"));
 const Humanities = lazy(() => import("./routes/humanities"));
@@ -42,6 +49,15 @@ function App() {
           <Route path="science" element={<Science />} />
           <Route path="fine-arts" element={<FineArts />} />
           <Route path="humanities" element={<Humanities />} />
+          <Route path="admission-procedure" element={<AdmissionProcedure />} />
+          <Route path="scholarship-schemes" element={<ScholarShipSchemes />} />
+          <Route path="hotel-management" element={<HotelManagement />} />
+          <Route path="business-studies" element={<BusinessStudies />} />
+          <Route path="computer-science" element={<ComputerScience />} />
+          <Route path="alumni-committee" element={<AlumniCommittee />} />
+          <Route path="notices" element={<NoticesFeed />} />
+          
+          
           <Route path="*" element={<h1>Not Found ...</h1>} />
         </Route>
       </Routes>

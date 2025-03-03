@@ -78,55 +78,31 @@ export const academics = [
 export const admission = [
   {
     title: "Admission Procedure",
-    href: "/about-us",
+    href: "/admission-procedure",
   },
   {
     title: "Admission Form",
-    href: "/our-mission",
+    href: "/admission-form",
   },
   {
     title: "Scholarship Schemes",
-    href: "/docs/primitives/progress",
+    href: "/scholarship-schemes",
   },
   {
     title: "Hotel Management",
-    href: "/docs/primitives/progress",
+    href: "/hotel-management",
   },
   {
     title: "Business Studies",
-    href: "/docs/primitives/scroll-area",
+    href: "/business-studies",
   },
   {
     title: "Computer Science",
-    href: "/docs/primitives/scroll-area",
+    href: "/computer-science",
   },
 ];
 
-const navItems = [
-  { name: "Home", href: "/" },
-  {
-    name: "HRIT",
-    href: "/academy",
-    children: [
-      {
-        name: "About Us",
-        href: "/about-us",
-      },
-      {
-        name: "Our Mission",
-        href: "/our-mission",
-      },
-    ],
-  },
-  { name: "Admission", href: "/admission" },
-  { name: "Alumni Committee", href: "/alumni" },
-  { name: "Notices", href: "/event" },
-  { name: "News", href: "/news" },
-  { name: "Gallery", href: "/gallery" },
-  { name: "Downloads", href: "/downloads" },
-  { name: "Contact", href: "/articles" },
-];
-// console.log(navItems);
+
 
 export function NavigationMenuDemo() {
   const isMobile = useIsMobile();
@@ -203,7 +179,7 @@ export function NavigationMenuDemo() {
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link to="#">
+            <Link to="/alumni-committee">
               <NavigationMenuLink
                 className={clsx(navigationMenuTriggerStyle(), "nav-button")}
               >
@@ -221,7 +197,7 @@ export function NavigationMenuDemo() {
       <NavigationMenu className="hidden md:flex">
         <NavigationMenuList className="flex-wrap">
           <NavigationMenuItem>
-            <Link to="#">
+            <Link to="/notices">
               <NavigationMenuLink
                 className={clsx(navigationMenuTriggerStyle(), "nav-button")}
               >

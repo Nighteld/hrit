@@ -81,7 +81,7 @@ export default function Management() {
           </div>
           <div className="col-span-3 ">
             <div className="">
-              <Tabs defaultValue="hotel-management" className=" w-full mx-auto">
+              <Tabs defaultValue="hotel-management" className="w-full ">
                 <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 gap-2">
                   <TabsTrigger value="hotel-management" className="">
                     Hotel Management
@@ -89,11 +89,11 @@ export default function Management() {
                   <TabsTrigger value="business-studies" className="">
                     Business Studies
                   </TabsTrigger>
-                  <TabsTrigger value="computer-science" className="">
+                  <TabsTrigger value="computer-science" className="bg-muted">
                     Computer Science
                   </TabsTrigger>
                 </TabsList>
-                <TabsContent value="hotel-management" className="mt-6">
+                <TabsContent value="hotel-management" className="mt-10 md:mt-6">
                   <div className="space-y-4">
                     <p className="leading-relaxed">
                       Hotel Management program at HRIT shapes students with
@@ -112,7 +112,7 @@ export default function Management() {
                     </p>
                   </div>
                 </TabsContent>
-                <TabsContent value="business-studies" className="mt-6">
+                <TabsContent value="business-studies" className="mt-10 md:mt-6">
                   <div className="space-y-4">
                     <p className="leading-relaxed">
                       Business studies at Hrit prepare students to master in
@@ -140,7 +140,7 @@ export default function Management() {
                   </div>
                 </TabsContent>
 
-                <TabsContent value="computer-science" className="mt-6">
+                <TabsContent value="computer-science" className="mt-10 md:mt-6">
                   <div className="space-y-4 text-gray-700 dark:text-gray-300">
                     <p className="leading-relaxed">
                       Computer Science is the study of theory, experimentation

@@ -16,12 +16,13 @@ export default function OurPrincipal() {
             <div className="col-span-4">
               <img
                 src="/teachers/principal-blur.png"
+                className="rounded-lg"
                 alt="teacher"
                 height={300}
                 width={300}
               />
             </div>
-            <div className="col-span-8 space-y-4 m-auto text-center">
+            <div className="col-span-8 space-y-6 text-justify">
               <p>
                 I feel delighted to inform you that HRIT ACADEMY is committed to
                 advance learning with diverse range of courses to inspire and
@@ -43,13 +44,13 @@ export default function OurPrincipal() {
                 our education with latest global trend and pedagogy.
               </p> */}
             </div>
-            <div className="col-span-12">
+            <div className="col-span-12 space-y-4 text-justify">
               <p>
                 Therefore, we at HRIT encourages students to be cooperative with
                 positive intent to act as a one team with integrity and take an
                 imaginative and practical approaches to all that they do.
               </p>
-              <p className="section-text">
+              <p className="">
                 Our prime aim is to prepare individual for the next phase of
                 their lives, the world of work, entrepreneurship, advanced
                 learning and career progression. At the same time HRIT is
@@ -73,7 +74,7 @@ export default function OurPrincipal() {
                 institution.
               </p>
             </div>
-            <div className="col-span-12">
+            <div className="col-span-12 text-center mt-6">
               <p className="font-semibold">Anand Kumar Yadav</p>
               {/* <p className="">Ph.D. Scholar in Criminal Law, T.U.</p>
               <p>Academic Director, Hrit Academy</p> */}

@@ -5,13 +5,13 @@ import {
   PrevButton,
   usePrevNextButtons,
 } from "./EmblaCarouselArrowButtons";
-import {
-  useSelectedSnapDisplay
-} from "./EmblaCarouselSelectedSnapDisplay";
 
-const EmblaCarousel = (props) => {
-  const { slides, options } = props;
-  const [emblaRef, emblaApi] = useEmblaCarousel(options);
+const EmblaCarousel = () => {
+  const OPTIONS = { dragFree: true }
+  const SLIDE_COUNT = 6
+  const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
+  
+  const [emblaRef, emblaApi] = useEmblaCarousel(OPTIONS);
 
   const {
     prevBtnDisabled,
@@ -20,7 +20,6 @@ const EmblaCarousel = (props) => {
     onNextButtonClick,
   } = usePrevNextButtons(emblaApi);
 
-  const { selectedSnap, snapCount } = useSelectedSnapDisplay(emblaApi);
   const name = {
     0: "Sandeep Gurung",
     1: "Joseph Thompson",
@@ -38,20 +37,23 @@ const EmblaCarousel = (props) => {
     5: "Arts Teacher",
   };
   return (
-    <div>
-      <div className="container">
-      <h2 className="bg-text ml-5">Meet Our Teachers</h2>
+    <div className="container">
+      <div className="">
+      <h1>
+            <span className="bg-text-next">Our</span> Teacher
+          </h1>
       </div>
 
       <section className="embla">
         <div className="embla__viewport " ref={emblaRef}>
           <div className="embla__container">
-            {slides.map((index) => (
+            {SLIDES.map((_,index) => (
               <div className="embla__slide relative" key={index}>
                 <div className="embla__slide__number">  
                   <img
                     src={`/banner/teacher${index}.jpg`}
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                 </div>
                 <div className="absolute left-10 bottom-10 text-white text-2xl">
@@ -60,16 +62,7 @@ const EmblaCarousel = (props) => {
                 <div className="absolute left-10 bottom-2 text-white text-xl font-semibold">
                   {subject[index]}
                 </div>
-                {/* <div className="absolute bottom-0 right-0 w-auto group">
-                  <div className="w-12 group-hover:w-full h-full transition-all duration-300 bg-color">
-                    <Button
-                      variant="outline"
-                      className="w-full h-full border-0 rounded-none bg-color"
-                    >
-                      <ChevronsRight />
-                    </Button>
-                  </div>
-                </div> */}
+               
               </div>
             ))}
           </div>

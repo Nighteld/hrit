@@ -235,12 +235,12 @@ h6 {
   position: relative;
   overflow: hidden;
   width: 100%;
-  max-width: 325px;
-  min-width: 230px;
+  /* max-width: 325px;
+  min-width: 230px; */
   font-family: "Source Sans Pro", sans-serif;
   color: #fff;
   font-size: 16px;
-  margin: 10px;
+  /* margin: 10px; */
   text-align: left;
   transform: translateZ(0);
   flex: 1;

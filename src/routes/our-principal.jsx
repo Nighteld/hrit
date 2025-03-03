@@ -74,7 +74,7 @@ export default function OurPrincipal() {
                 institution.
               </p>
             </div>
-            <div className="col-span-12 text-center mt-6">
+            <div className="col-span-12 text-end mt-6">
               <p className="font-semibold">Anand Kumar Yadav</p>
               {/* <p className="">Ph.D. Scholar in Criminal Law, T.U.</p>
               <p>Academic Director, Hrit Academy</p> */}

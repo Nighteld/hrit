@@ -17,7 +17,7 @@ const notices = [
     type: "event",
     description:
       "Hrit Academy is thrilled to extend invitation for Hrit Inter College Legal Quiz Contest 2080 organized by Hrit Legal Club taking place on Magh 12, 2080. This event stands as an exceptional opportunity to foster legal knowledge and perspectives.",
-    image: "/placeholder.svg?height=400&width=600",
+    image: "https://hritacademy.edu.np/wp-content/uploads/2023/08/notice_hrit_11_class_start-01-768x768.jpg?height=400&width=600",
   },
   {
     id: 2,
@@ -27,7 +27,27 @@ const notices = [
     type: "result",
     description:
       "Dear Hritian Parents/ Guardian/ Students, We hope this post finds you well! As per our academic calendar, we're excited to share the academic achievements of our brilliant students as the result of First Terminal Examination 2080. ⭐ We appreciate your cooperation",
-    image: "/placeholder.svg?height=400&width=600",
+    image: "https://hritacademy.edu.np/wp-content/uploads/2023/11/NOtice-Result-Distribution-2080-320x320.jpg?height=400&width=600",
+  },
+  {
+    id: 3,
+    title: "Result Distribution Program 2080!",
+    date: "NOVEMBER 26, 2023",
+    category: "UNCATEGORIZED",
+    type: "result",
+    description:
+      "Dear Hritian Parents/ Guardian/ Students, We hope this post finds you well! As per our academic calendar, we're excited to share the academic achievements of our brilliant students as the result of First Terminal Examination 2080. ⭐ We appreciate your cooperation",
+    image: "https://hritacademy.edu.np/wp-content/uploads/2023/11/NOtice-Result-Distribution-2080-320x320.jpg?height=400&width=600",
+  },
+  {
+    id: 4,
+    title: "Result Distribution Program 2080!",
+    date: "NOVEMBER 26, 2023",
+    category: "UNCATEGORIZED",
+    type: "result",
+    description:
+      "Dear Hritian Parents/ Guardian/ Students, We hope this post finds you well! As per our academic calendar, we're excited to share the academic achievements of our brilliant students as the result of First Terminal Examination 2080. ⭐ We appreciate your cooperation",
+    image: "https://hritacademy.edu.np/wp-content/uploads/2023/11/NOtice-Result-Distribution-2080-320x320.jpg?height=400&width=600",
   },
 ]
 
@@ -74,7 +94,7 @@ export default function NoticesFeed() {
                       <Tag className="w-4 h-4" />
                       {notice.category}
                     </div>
-                    <CardTitle className="text-2xl font-bold tracking-tight">{notice.title}</CardTitle>
+                    <CardTitle className="text-2xl font-bold tracking-tight bg-text ">{notice.title}</CardTitle>
                   </CardHeader>
 
                   <CardContent className="p-0">
@@ -82,7 +102,7 @@ export default function NoticesFeed() {
                   </CardContent>
 
                   <CardFooter className="p-0 mt-6">
-                    <Button variant="outline" className="group">
+                    <Button variant="outline" className="group default-button text-white">
                       Read More
                       <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                     </Button>

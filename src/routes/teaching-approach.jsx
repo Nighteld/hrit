@@ -98,9 +98,9 @@ export default function TeachingApproach() {
         </div>
         <div className="col-span-4">
           <div className="section-text">
-            <h3 className="m-0">
+            <h2 className="m-0">
               <span className="bg-text-next">Group</span> Work
-            </h3>
+            </h2>
             ‘More hands make for lighter work’, ‘Two heads are better than one’,
             ‘The more the merrier’ are some of the potential of group work. It
             allows students to be more productive, creative and motivated. We
@@ -115,9 +115,9 @@ export default function TeachingApproach() {
           </div>
 
           <div className="">
-            <h3 className="m-0">
+            <h2 className="m-0">
               <span className="bg-text-next">Field </span> Visits
-            </h3>
+            </h2>
             <p>
               HRIT as a law college is dedicated to advancing human dignity,
               social welfare, and justice through knowledge of law. Students are
@@ -142,9 +142,9 @@ export default function TeachingApproach() {
           </div>
 
           <div className="section-text">
-            <h3 className="m-0">
+            <h2 className="m-0">
               <span className="bg-text-next">Student </span> Publication
-            </h3>
+            </h2>
             <p>
               Students can foster their intrapersonal talents, intellect, and
               knowledge only if they are allowed to reflect their competence
@@ -157,9 +157,9 @@ export default function TeachingApproach() {
           </div>
 
           <div className="section-text">
-            <h3 className="m-0">
+            <h2 className="m-0">
               <span className="bg-text-next">Research </span> Work
-            </h3>
+            </h2>
             <p>
               Advancing curriculum is not enough in enhancing intellectual
               environment and thus research work can be source of entertainment,
@@ -174,9 +174,9 @@ export default function TeachingApproach() {
           </div>
 
           <div className="section-text">
-            <h3 className="m-0">
-              <span className="bg-text-next">Presentation </span>
-            </h3>
+            <h2 className="m-0 first-letter">
+              <span className="">Presentation </span>
+            </h2>
             <p>
               Coherence and confidants are two inseparable essential particulars
               of presentation. Developing presentation skill is essential for
@@ -190,9 +190,9 @@ export default function TeachingApproach() {
           </div>
 
           <div className="section-text">
-            <h3 className="m-0">
-              <span className="bg-text-next">Counselling</span>
-            </h3>
+            <h2 className="m-0 first-letter">
+              <span className="">Counselling</span>
+            </h2>
             <p>
               Counselling is an integral part of overall learning and it is
               specific process to motivate, and clarify the goals, potential and
@@ -211,9 +211,9 @@ export default function TeachingApproach() {
           </div>
 
           <div className="section-text">
-            <h3 className="m-0">
-              <span className="bg-text-next">Evaluation</span>
-            </h3>
+            <h2 className="m-0 first-letter">
+              <span className="">Evaluation</span>
+            </h2>
             <p>
               Evaluating students is always a tough job for academicians. Thus,
               planning for evaluating students is an integral part of teaching

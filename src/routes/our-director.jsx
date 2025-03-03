@@ -61,7 +61,7 @@ export default function OurDirector() {
                 streams from this year.
               </p>
             </div>
-            <div className="col-span-12 text-center mt-6">
+            <div className="col-span-12 text-end mt-6">
               <p className="font-semibold text-lg">Rewati Raj Tripathee</p>
               <p className="text-sm">Ph.D. Scholar in Criminal Law, T.U.</p>
               <p className="text-sm">Academic Director, Hrit Academy</p>

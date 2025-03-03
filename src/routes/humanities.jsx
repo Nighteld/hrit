@@ -98,7 +98,7 @@ export default function Humanities() {
           </div>
           <div className="col-span-3">
             {" "}
-            <h1 className="">Humanities</h1>
+            <h1 className="first-letter">Humanities</h1>
             <div className="space-y-4">
             <p className="leading-relaxed">
               Humanities at Hrit encourage students to understand what indeed
@@ -129,7 +129,8 @@ export default function Humanities() {
                 </div>
 
                 <Tabs defaultValue="grade-xi" className="mt-8">
-          <TabsList className="justify-center">
+                <TabsList className="grid w-full grid-cols-2">
+
             <TabsTrigger value="grade-xi">Grade XI</TabsTrigger>
             <TabsTrigger value="grade-xii">Grade XII</TabsTrigger>
           </TabsList>

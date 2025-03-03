@@ -1,12 +1,9 @@
 /* Default (Mobile First) */
-
 .container {
+  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-}
-
-.container {
-  padding: 0.5rem 1rem;
+  padding: 1rem;
 }
 
 @media (min-width: 640px) {
@@ -29,7 +26,7 @@
 
 @media (min-width: 1536px) {
   .container {
-    padding: 4rem 5rem;
+    padding: 3rem;
   }
 }
 

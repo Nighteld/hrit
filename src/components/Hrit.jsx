@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 export default function HRIT() {
   const schools = [
     {
@@ -27,12 +29,13 @@ export default function HRIT() {
                   alt={school.name}
                 />
                 <figcaption className="snip__figcaption">
-                  <h3 className="snip__title"> {school.name}</h3>
+                  <Link to="hotel-management">
+                  <h3 className="snip__title underline"> {school.name}</h3>
+                  </Link>
                   <p className="snip__text">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   </p>
                 </figcaption>
-                <a className="snip__link" href="#"></a>
               </figure>
             ))}
           </div>

@@ -79,15 +79,13 @@ const AdmissionProcedure = () => {
                 </h3>
               </div>
 
-              <p className="leading-relaxed">
-                <ul>
+                <ul className="leading-relaxed">
                   <li>Two Passport size color Photographs</li>
                   <li>Copies of marksheet and certificates</li>
                   <li>
                     A receipt of application procession fee set by the college
                   </li>
                 </ul>
-              </p>
             </div>
           </div>
         </div>

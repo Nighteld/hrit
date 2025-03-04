@@ -1,6 +1,6 @@
 import EmblaCarousel from "@/components/EmblaCarousel";
 import HRIT from "@/components/Hrit";
-import { ChevronRight, Volume2, VolumeX } from "lucide-react";
+import { ChevronRight, ChevronsDown, Volume2, VolumeX } from "lucide-react";
 import { useRef, useState } from "react";
 import Events from "../components/Events";
 import { Button } from "../components/ui/button";
@@ -20,6 +20,7 @@ export default function Home() {
   return (
     <>
       <div className="relative w-full">
+
         <div className="video-container">
           <video
             ref={videoRef}
@@ -49,12 +50,16 @@ export default function Home() {
             <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition" />
 
           </Button>
+          {/* <Button className="ml-5 default-button group" variant="">
+           News & Events
+            <ChevronsDown className="ml-2 h-4 w-4 group-hover:translate-x-1 transition" />
+          </Button> */}
         </div>
       </div>
 
       <HRIT />
 
-      <EmblaCarousel  />
+      {/* <EmblaCarousel  /> */}
      
  
       {/* <Events /> */}

@@ -1,15 +1,10 @@
-import {
-  NavigationMenuLink
-} from "@/components/ui/navigation-menu";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router";
 
-import { cn } from "@/lib/utils";
 import { academics, admission, components } from "./NavBarDemo";
 
 const MobileMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
-  
 
   console.log("isOpen", isOpen);
   return (
@@ -36,7 +31,7 @@ const MobileMenu = () => {
       </div>
       {isOpen && (
         <div className="absolute bg-color text-white left-0 top-20 w-full  bg-white flex flex-col  gap-8 font-medium text-xl z-10 p-5">
-          <ul className="list-style-wrapper" >
+          <ul className="list-style-wrapper">
             <li className="">
               <div className="flex justify-between items-center">
                 HRIT
@@ -47,7 +42,7 @@ const MobileMenu = () => {
               </div>
               <ul className="ml-5 ease-in-out duration-500">
                 {components.map((component) => (
-                  <Link to={component.href} key={component.title} >
+                  <Link to={component.href} key={component.title}>
                     <li>{component.title}</li>
                   </Link>
                 ))}
@@ -87,13 +82,20 @@ const MobileMenu = () => {
                 ))}
               </ul>
             </li>
-            <li>Alumni committee</li>
-            <li>Notices</li>
+            <li>
+              <Link to="/alumni-committee">Alumni committee</Link>
+            </li>
+            <li>
+              <Link to="/notices">Notices </Link>
+            </li>
             <li>News</li>
             <li>Gallery</li>
 
             <li>Downloads</li>
-            <li>Contact Us</li>
+            <li>
+            <Link to="/contact-us"> Contact Us </Link>
+              
+             </li>
           </ul>
 
           {/* <Link to="/">Friends</Link>
@@ -107,28 +109,4 @@ const MobileMenu = () => {
 };
 
 export default MobileMenu;
-const ListItem = React.forwardRef(
-  ({ className, title, children, ...props }, ref) => {
-    return (
-      <li>
-        <NavigationMenuLink asChild>
-          <a
-            ref={ref}
-            className={cn(
-              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-              className
-            )}
-            {...props}
-          >
-            <div className="text-sm font-medium leading-none">{title}</div>
-            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-              {children}
-            </p>
-          </a>
-        </NavigationMenuLink>
-      </li>
-    );
-  }
-);
 
-ListItem.displayName = "ListItem";

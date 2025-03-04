@@ -8,6 +8,7 @@ import MainLayout from "./layouts/MainLayout";
 import Home from "./routes/Home";
 import AlumniCommittee from "./routes/almuniee-comittee";
 import NoticesFeed from "./routes/notices-feed";
+import News from "./routes/news";
 const ScrollTop = lazy(() => import("./components/scroll-top"));
 const BookList = lazy(() => import("./routes/book-list"));
 const OurMission = lazy(() => import("./routes/our-mission"));
@@ -56,6 +57,7 @@ function App() {
           <Route path="computer-science" element={<ComputerScience />} />
           <Route path="alumni-committee" element={<AlumniCommittee />} />
           <Route path="notices" element={<NoticesFeed />} />
+          <Route path="news" element={<News />} />
           
           
           <Route path="*" element={<h1>Not Found ...</h1>} />

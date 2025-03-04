@@ -46,10 +46,10 @@ export const components = [
     title: "Our Supports and facilities",
     href: "/support-facilities",
   },
-  {
-    title: "Blogs",
-    href: "/blogs",
-  },
+  // {
+  //   title: "Blogs",
+  //   href: "/blogs",
+  // },
 ];
 
 export const academics = [
@@ -80,10 +80,10 @@ export const admission = [
     title: "Admission Procedure",
     href: "/admission-procedure",
   },
-  {
-    title: "Admission Form",
-    href: "/admission-form",
-  },
+  // {
+  //   title: "Admission Form",
+  //   href: "/admission-form",
+  // },
   {
     title: "Scholarship Schemes",
     href: "/scholarship-schemes",
@@ -101,9 +101,25 @@ export const admission = [
     href: "/computer-science",
   },
 ];
+export const downloads = [
+  {
+    title: "Book Lists",
+    href: "/admission-procedure",
+  },
 
-
-
+  {
+    title: "Class Schedules",
+    href: "/scholarship-schemes",
+  },
+  // {
+  //   title: "Lecture Notes",
+  //   href: "/hotel-management",
+  // },
+  // {
+  //   title: "Exam Schedules",
+  //   href: "/business-studies",
+  // },
+];
 export function NavigationMenuDemo() {
   const isMobile = useIsMobile();
   console.log("isMobile", isMobile);
@@ -124,15 +140,15 @@ export function NavigationMenuDemo() {
             <NavigationMenuContent>
               <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] z-10">
                 {components.map((component) => (
-                  <Link to={component.href} key={component.title}>
-                    <ListItem
-                      key={component.title}
-                      title={component.title}
-                      to={component.href}
-                    >
-                      {component.description}
-                    </ListItem>
-                  </Link>
+                  // <Link to={component.href} key={component.title}>
+                  <ListItem
+                    key={component.title}
+                    title={component.title}
+                    to={component.href}
+                  >
+                    {component.description}
+                  </ListItem>
+                  // </Link>
                 ))}
               </ul>
             </NavigationMenuContent>
@@ -144,15 +160,15 @@ export function NavigationMenuDemo() {
             <NavigationMenuContent>
               <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                 {academics.map((component) => (
-                  <Link to={component.href} key={component.title}>
-                    <ListItem
-                      key={component.title}
-                      title={component.title}
-                      to={component.href}
-                    >
-                      {component.description}
-                    </ListItem>
-                  </Link>
+                  // <Link to={component.href} key={component.title}>
+                  <ListItem
+                    key={component.title}
+                    title={component.title}
+                    to={component.href}
+                  >
+                    {component.description}
+                  </ListItem>
+                  // </Link>
                 ))}
               </ul>
             </NavigationMenuContent>
@@ -165,27 +181,28 @@ export function NavigationMenuDemo() {
             <NavigationMenuContent>
               <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                 {admission.map((component) => (
-                  <Link to={component.href} key={component.title}>
-                    <ListItem
-                      key={component.title}
-                      title={component.title}
-                      to={component.href}
-                    >
-                      {component.description}
-                    </ListItem>
-                  </Link>
+                  // <Link to={component.href} key={component.title}>
+                  <ListItem
+                    key={component.title}
+                    title={component.title}
+                    to={component.href}
+                  >
+                    {component.description}
+                  </ListItem>
+                  // </Link>
                 ))}
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link to="/alumni-committee">
-              <NavigationMenuLink
-                className={clsx(navigationMenuTriggerStyle(), "nav-button")}
-              >
-                Alumni committee
-              </NavigationMenuLink>
+            {/* <Link to="/alumni-committee"> */}
+            <Link
+              to="/alumni-committee"
+              className={clsx(navigationMenuTriggerStyle(), "nav-button")}
+            >
+              Alumni committee
             </Link>
+            {/* </Link> */}
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
@@ -197,48 +214,55 @@ export function NavigationMenuDemo() {
       <NavigationMenu className="hidden md:flex">
         <NavigationMenuList className="flex-wrap">
           <NavigationMenuItem>
-            <Link to="/notices">
-              <NavigationMenuLink
-                className={clsx(navigationMenuTriggerStyle(), "nav-button")}
-              >
-                Notices
-              </NavigationMenuLink>
+            <Link
+              to="/notices"
+              className={clsx(navigationMenuTriggerStyle(), "nav-button")}
+            >
+              Notices
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link to="#">
-              <NavigationMenuLink
-                className={clsx(navigationMenuTriggerStyle(), "nav-button")}
-              >
-                News
-              </NavigationMenuLink>
+            <Link
+              to="/news"
+              className={clsx(navigationMenuTriggerStyle(), "nav-button")}
+            >
+              News
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link to="#">
-              <NavigationMenuLink
-                className={clsx(navigationMenuTriggerStyle(), "nav-button")}
-              >
-                Gallery
-              </NavigationMenuLink>
+            <Link
+              to="#"
+              className={clsx(navigationMenuTriggerStyle(), "nav-button")}
+            >
+              Gallery
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link to="#">
-              <NavigationMenuLink
-                className={clsx(navigationMenuTriggerStyle(), "nav-button")}
-              >
-                Downloads
-              </NavigationMenuLink>
-            </Link>
+            <NavigationMenuTrigger className="nav-button flex-1">
+              Downloads
+            </NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                {downloads.map((component) => (
+                  // <Link to={component.href} key={component.title}>
+                  <ListItem
+                    key={component.title}
+                    title={component.title}
+                    to={component.href}
+                  >
+                    {component.description}
+                  </ListItem>
+                  // </Link>
+                ))}
+              </ul>
+            </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link to="contact-us">
-              <NavigationMenuLink
-                className={clsx(navigationMenuTriggerStyle(), "nav-button")}
-              >
-                Contact Us
-              </NavigationMenuLink>
+            <Link
+              to="contact-us"
+              className={clsx(navigationMenuTriggerStyle(), "nav-button")}
+            >
+              Contact Us
             </Link>
           </NavigationMenuItem>
         </NavigationMenuList>
@@ -248,28 +272,28 @@ export function NavigationMenuDemo() {
   );
 }
 
-const ListItem = React.forwardRef(
-  ({ className, title, children, ...props }, ref) => {
-    return (
-      <li>
-        <NavigationMenuLink asChild>
-          <a
-            ref={ref}
-            className={cn(
-              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-              className
-            )}
-            {...props}
-          >
-            <div className="text-sm font-medium leading-none">{title}</div>
-            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-              {children}
-            </p>
-          </a>
-        </NavigationMenuLink>
-      </li>
-    );
-  }
-);
+const ListItem = React.forwardRef(({ className, title, children, to }, ref) => {
+  return (
+    <li>
+      {/* <NavigationMenuLink asChild> */}
+      <Link
+        ref={ref}
+        to={to} // Ensure "to" is correctly passed down
+        className={cn(
+          "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+          className
+        )}
+      >
+        <div className="text-sm font-medium leading-none">{title}</div>
+        {children && (
+          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+            {children}
+          </p>
+        )}
+      </Link>
+      {/* </NavigationMenuLink> */}
+    </li>
+  );
+});
 
 ListItem.displayName = "ListItem";

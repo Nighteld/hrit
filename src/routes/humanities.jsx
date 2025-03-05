@@ -1,21 +1,14 @@
 import useEmblaCarousel from "embla-carousel-react";
 
-import "../../src/css/embla-full.css";
-import "../../src/css/base.css";
+import BreadCrumbs from "@/components/BreadCrumbs";
 import {
-  PrevButton,
   NextButton,
+  PrevButton,
   usePrevNextButtons,
 } from "@/components/EmblaCarouselArrowButtons";
 import {
-  SelectedSnapDisplay,
-  useSelectedSnapDisplay,
+  useSelectedSnapDisplay
 } from "@/components/EmblaCarouselSelectedSnapDisplay";
-import Autoplay from "embla-carousel-autoplay";
-import BreadCrumbs from "@/components/BreadCrumbs";
-import { academics, components } from "@/layouts/NavBarDemo";
-import { Link, NavLink } from "react-router";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Card,
   CardContent,
@@ -23,6 +16,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { academics } from "@/layouts/NavBarDemo";
+import Autoplay from "embla-carousel-autoplay";
+import "../../src/css/base.css";
+import "../../src/css/embla-full.css";
 
 
 export default function Humanities() {

@@ -384,11 +384,11 @@ h6 {
   display: block; /* Show when input is checked */
 }
 
- thead tr th{
+ /* thead tr th{
   background-color: var(--base-color-next);
   color: white;
   white-space: nowrap;
-}
+} */
 
 .bread-crumbs{
   color: var(--base-color);

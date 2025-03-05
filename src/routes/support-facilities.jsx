@@ -83,11 +83,11 @@ export default function SupportFacilities() {
         </div>
       </div>
 
-      <div className="">
+      <div className="col-span-4">
         <HoverEffect
           items={projects}
           className={cn(
-            "grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-4"
+            "grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-4"
           )}
         />
       </div>

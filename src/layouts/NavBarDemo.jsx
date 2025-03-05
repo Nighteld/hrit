@@ -104,12 +104,12 @@ export const admission = [
 export const downloads = [
   {
     title: "Book Lists",
-    href: "/admission-procedure",
+    href: "/book-lists",
   },
 
   {
     title: "Class Schedules",
-    href: "/scholarship-schemes",
+    href: "/class-schedules",
   },
   // {
   //   title: "Lecture Notes",
@@ -242,7 +242,7 @@ export function NavigationMenuDemo() {
               Downloads
             </NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+            <ul className="grid w-[200px] gap-3 p-4 md:w-[300px] md:grid-cols-2 lg:w-[400px]">
                 {downloads.map((component) => (
                   // <Link to={component.href} key={component.title}>
                   <ListItem

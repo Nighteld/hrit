@@ -9,6 +9,7 @@ import Home from "./routes/Home";
 import AlumniCommittee from "./routes/almuniee-comittee";
 import NoticesFeed from "./routes/notices-feed";
 import News from "./routes/news";
+import ClassSchedules from "./routes/class-schedules";
 const ScrollTop = lazy(() => import("./components/scroll-top"));
 const BookList = lazy(() => import("./routes/book-list"));
 const OurMission = lazy(() => import("./routes/our-mission"));
@@ -58,6 +59,8 @@ function App() {
           <Route path="alumni-committee" element={<AlumniCommittee />} />
           <Route path="notices" element={<NoticesFeed />} />
           <Route path="news" element={<News />} />
+          <Route path="book-lists" element={<BookList />} />
+          <Route path="class-schedules" element={<ClassSchedules />} />
           
           
           <Route path="*" element={<h1>Not Found ...</h1>} />

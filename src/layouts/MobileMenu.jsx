@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router";
 
-import { academics, admission, components } from "./NavBarDemo";
+import { academics, admission, components, downloads } from "./NavBarDemo";
 
 const MobileMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  console.log("isOpen", isOpen);
+  const handleClose = () => setIsOpen(false);
   return (
     <div className="flex md:hidden">
       <div
@@ -30,7 +30,7 @@ const MobileMenu = () => {
         />
       </div>
       {isOpen && (
-        <div className="absolute bg-color text-white left-0 top-20 w-full  bg-white flex flex-col  gap-8 font-medium text-xl z-10 p-5">
+        <div className="fixed top-20 left-0 w-full h-full bg-color text-white z-50 p-5 overflow-y-auto">
           <ul className="list-style-wrapper">
             <li className="">
               <div className="flex justify-between items-center">
@@ -40,9 +40,9 @@ const MobileMenu = () => {
                   {/* <Plus /> */}
                 </label>
               </div>
-              <ul className="ml-5 ease-in-out duration-500">
+              <ul className="ml-5 ease-in-out transition-all duration-500">
                 {components.map((component) => (
-                  <Link to={component.href} key={component.title}>
+                  <Link to={component.href} key={component.title} onClick={handleClose}>
                     <li>{component.title}</li>
                   </Link>
                 ))}
@@ -60,7 +60,7 @@ const MobileMenu = () => {
               </div>
               <ul className="ml-5">
                 {academics.map((component) => (
-                  <Link to={component.href} key={component.title}>
+                  <Link to={component.href} key={component.title} onClick={handleClose}>
                     <li>{component.title}</li>
                   </Link>
                 ))}
@@ -76,26 +76,41 @@ const MobileMenu = () => {
               </div>
               <ul className="ml-5 ease-in-out duration-500">
                 {admission.map((component) => (
-                  <Link to={component.href} key={component.title}>
+                  <Link to={component.href} key={component.title} onClick={handleClose}>
                     <li>{component.title}</li>
                   </Link>
                 ))}
               </ul>
             </li>
             <li>
-              <Link to="/alumni-committee">Alumni committee</Link>
+              <Link to="/alumni-committee" onClick={handleClose}>Alumni committee</Link>
             </li>
             <li>
-              <Link to="/notices">Notices </Link>
+              <Link to="/notices" onClick={handleClose}>Notices </Link>
             </li>
             <li>News</li>
             <li>Gallery</li>
 
-            <li>Downloads</li>
             <li>
-            <Link to="/contact-us"> Contact Us </Link>
-              
-             </li>
+              {" "}
+              <div className="flex justify-between items-center">
+                Downloads
+                <label>
+                  <input type="checkbox" hidden />
+                  {/* <Plus /> */}
+                </label>
+              </div>
+              <ul className="ml-5 ease-in-out duration-500">
+                {downloads.map((component) => (
+                  <Link to={component.href} key={component.title} onClick={handleClose}>
+                    <li>{component.title}</li>
+                  </Link>
+                ))}
+              </ul>
+            </li>
+            <li>
+              <Link to="/contact-us" onClick={handleClose}> Contact Us </Link>
+            </li>
           </ul>
 
           {/* <Link to="/">Friends</Link>
@@ -109,4 +124,3 @@ const MobileMenu = () => {
 };
 
 export default MobileMenu;
-

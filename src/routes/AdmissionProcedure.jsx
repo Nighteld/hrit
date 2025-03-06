@@ -30,7 +30,7 @@ const AdmissionProcedure = () => {
             <div className="mb-5">
               <div className="flex items-center gap-5">
                 <CheckCircle className="h-6 w-6 text-green-500 flex-shrink-0" />
-                <h3 className="text-lg font-medium text-gray-900 my-1">
+                <h3 className="text-lg font-medium text-gray-900 my-1 first-letter">
                   Eligibility
                 </h3>
               </div>
@@ -48,7 +48,7 @@ const AdmissionProcedure = () => {
               <div className="flex items-center gap-5">
                 <CheckCircle className="h-6 w-6 text-green-500 flex-shrink-0" />
                 <h3 className="text-lg font-medium text-gray-900 my-1">
-                  How to Apply ?
+                  <span className="bg-text-next">How </span>to Apply ?
                 </h3>
               </div>
 
@@ -61,7 +61,7 @@ const AdmissionProcedure = () => {
               <div className="flex items-center gap-5">
                 <CheckCircle className="h-6 w-6 text-green-500 flex-shrink-0" />
                 <h3 className="text-lg font-medium text-gray-900 my-1">
-                  When to Apply ?
+                <span className="bg-text-next">When</span> to Apply ?
                 </h3>
               </div>
 
@@ -75,7 +75,7 @@ const AdmissionProcedure = () => {
               <div className="flex items-center gap-5">
                 <CheckCircle className="h-6 w-6 text-green-500 flex-shrink-0" />
                 <h3 className="text-lg font-medium text-gray-900 my-1">
-                  Required Stuffs
+                <span className="bg-text-next"> Required</span> Stuffs
                 </h3>
               </div>
 

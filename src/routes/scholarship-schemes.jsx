@@ -34,7 +34,7 @@ export default function ScholarShipSchemes() {
             provide such scholarship for holistic development of child.
           </p>
           <div className="">
-      <h2 className="text-2xl font-bold text-center mb-6">Scholarship Criteria</h2>
+      <h2 className=" font-bold text-center mb-6">  <span className="bg-text-next">Scholarship </span>Criteria</h2>
       <div className="grid gap-4">
         {scholarships.map((scholarship, index) => (
           <Card key={index} className="shadow-lg border border-gray-200">
@@ -50,7 +50,7 @@ export default function ScholarShipSchemes() {
       </div>
     </div>
           <div className="mt-4">
-            <h3>Note:</h3>
+            <h3 className="first-letter">Note:</h3>
             <ol className="space-y-4 leading-relaxed list-disc p-6">
               <li className="leading-relaxed">
                 In case of repetition of scholarship to a single candidate under

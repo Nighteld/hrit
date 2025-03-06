@@ -83,14 +83,14 @@ export default function ClassSchedules() {
         <table className="w-full text-sm text-left">
           <thead className="text-white bg-[#016690] whitespace-nowrap">
             <tr>
-              <th className="border border-gray-300 p-2">SN</th>
+              <th className="py-3 px-6 font-semibold">SN</th>
 
-              <th className="border border-gray-300 p-2">Time</th>
-              <th className="border border-gray-300 p-2">12 LAW</th>
-              <th className="border border-gray-300 p-2">12 MGMT</th>
-              <th className="border border-gray-300 p-2">11 LAW</th>
-              <th className="border border-gray-300 p-2">11 MGMT A</th>
-              <th className="border border-gray-300 p-2">11 MGMT B</th>
+              <th className="py-3 px-6 font-semibold">Time</th>
+              <th className="py-3 px-6 font-semibold">12 LAW</th>
+              <th className="py-3 px-6 font-semibold">12 MGMT</th>
+              <th className="py-3 px-6 font-semibold">11 LAW</th>
+              <th className="py-3 px-6 font-semibold">11 MGMT A</th>
+              <th className="py-3 px-6 font-semibold">11 MGMT B</th>
             </tr>
           </thead>
           <tbody>

@@ -1,9 +1,8 @@
-import EmblaCarousel from "@/components/EmblaCarousel";
 import HRIT from "@/components/Hrit";
-import { ChevronRight, ChevronsDown, Volume2, VolumeX } from "lucide-react";
+import { ChevronRight, Volume2, VolumeX } from "lucide-react";
 import { useRef, useState } from "react";
-import Events from "../components/Events";
 import { Button } from "../components/ui/button";
+import EmblaCarousel from "@/components/EmblaCarousel";
 
 export default function Home() {
   const videoRef = useRef();
@@ -59,7 +58,12 @@ export default function Home() {
         <h1>
           <span className="bg-text-next">Experience</span> HRIT
         </h1>
-        <div className="leading-relaxed space-y-4 text-base">
+        <div className="leading-relaxed space-y-4 text-base"
+data-aos="fade-right"
+     data-aos-anchor-placement="top-bottom"
+     data-aos-duration="2000"
+         data-aos-delay="200"
+         >
           <p>
             At HRIT, we are committed to innovation and excellence. We have
             proudly introduced Special Law in +2 education, bringing legal
@@ -77,7 +81,7 @@ export default function Home() {
           </p>
         </div>
       </div>
-      {/* <EmblaCarousel  /> */}
+      <EmblaCarousel  />
 
       {/* <Events /> */}
     </>

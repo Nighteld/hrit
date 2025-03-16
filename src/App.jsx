@@ -1,6 +1,8 @@
 import { lazy } from "react";
 import "./App.css";
 import "./breakpoints.css";
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
 
 import { Route, Routes } from "react-router";
 import MainLayout from "./layouts/MainLayout";
@@ -10,6 +12,8 @@ import AlumniCommittee from "./routes/almuniee-comittee";
 import NoticesFeed from "./routes/notices-feed";
 import News from "./routes/news";
 import ClassSchedules from "./routes/class-schedules";
+import MainLayoutAuthenticated from "./layouts/MainLayoutLoggedIn";
+import Dashboard from "./routes/loggedInRoutes/dashboard";
 const ScrollTop = lazy(() => import("./components/scroll-top"));
 const BookList = lazy(() => import("./routes/book-list"));
 const OurMission = lazy(() => import("./routes/our-mission"));
@@ -30,6 +34,8 @@ const Science = lazy(() => import("./routes/science"));
 const Management = lazy(() => import("./routes/management"));
 const Law = lazy(() => import("./routes/law"));
 const TeachingApproach = lazy(() => import("./routes/teaching-approach"));
+
+AOS.init();
 function App() {
   return (
     <div>
@@ -54,7 +60,7 @@ function App() {
           <Route path="admission-procedure" element={<AdmissionProcedure />} />
           <Route path="scholarship-schemes" element={<ScholarShipSchemes />} />
           <Route path="hotel-management" element={<HotelManagement />} />
-          <Route path="business-studies" element={<BusinessStudies />} />
+          <Route path="business-studies" element={<BusinessStudies />} />\
           <Route path="computer-science" element={<ComputerScience />} />
           <Route path="alumni-committee" element={<AlumniCommittee />} />
           <Route path="notices" element={<NoticesFeed />} />
@@ -65,6 +71,10 @@ function App() {
           
           <Route path="*" element={<h1>Not Found ...</h1>} />
         </Route>
+        <Route path="/" element={<MainLayoutAuthenticated />}>
+        <Route path="dashboard" element={<Dashboard />} />
+
+</Route>
       </Routes>
       <ScrollTop />
     </div>

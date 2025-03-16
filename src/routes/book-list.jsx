@@ -238,7 +238,7 @@ const CourseTable = ({ courses }) => {
     <div className="overflow-x-auto">
       <div className="rounded-lg border border-gray-200 shadow-md">
         <table className="w-full text-sm text-left">
-          <thead className="text-white bg-[#016690] whitespace-nowrap">
+          <thead className="text-white bg-[#016690] md:whitespace-nowrap">
             <tr>
               <th className="py-3 px-6 font-semibold">SN</th>
               <th className="py-3 px-6 font-semibold">Subject</th>

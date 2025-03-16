@@ -1,4 +1,5 @@
 import useEmblaCarousel from "embla-carousel-react";
+import "../../src/css/base.css";
 import "../../src/css/embla.css";
 import {
   NextButton,
@@ -43,36 +44,36 @@ const EmblaCarousel = () => {
       image: "/banner/teacher0.jpg",
     },
     {
-      name: "Joseph Thompson",
+      name: "Nishesh Dangol",
       subject: "Math Teacher",
       image: "/banner/teacher1.jpg",
     },
     {
-      name: "James K. Levine",
+      name: "Savin Dhakal",
       subject: "Management Teacher",
       image: "/banner/teacher2.jpg",
     },
     {
-      name: "John Doe",
+      name: "Biraj Regmi",
       subject: "Law Teacher",
       image: "/banner/teacher3.jpg",
     },
     {
-      name: "Jane Smith",
+      name: "Sundar Sahukhala",
       subject: "Business Teacher",
       image: "/banner/teacher4.jpg",
     },
     {
-      name: "Michael Johnson",
+      name: "Srijana Chitrakar",
       subject: "Arts Teacher",
       image: "/banner/teacher5.jpg",
     },
   ];
   return (
-    <div className="container">
-      <div className="">
+    <div className="mb-5">
+      <div className="container">
         <h1>
-          <span className="bg-text-next">Our</span> Teacher
+          <span className="bg-text-next">Our</span> Teachers
         </h1>
       </div>
 
@@ -90,12 +91,14 @@ const EmblaCarousel = () => {
                     loading="lazy"
                   />
                 </div>
-                <div className="absolute left-10 bottom-10 text-white text-2xl">
-                  {item.name}
+                <div className="absolute left-10 bottom-5 text-white ">
+                <p className="font-semibold text-2xl"> {item.name}</p>
+                 <p>{item.subject}</p> 
+
                 </div>
-                <div className="absolute left-10 bottom-2 text-white text-xl font-semibold">
+                {/* <div className="absolute left-10 bottom-2 text-white text-xl font-semibold">
                   {item.subject}
-                </div>
+                </div> */}
               </div>
             ))}
           </div>
@@ -104,10 +107,12 @@ const EmblaCarousel = () => {
         <div className="flex items-center text-center justify-center embla__controls">
           <div className="embla__buttons">
             <PrevButton
+            className="embla__button text-white"
               onClick={onPrevButtonClick}
               disabled={prevBtnDisabled}
             />
             <NextButton
+            className="embla__button"
               onClick={onNextButtonClick}
               disabled={nextBtnDisabled}
             />

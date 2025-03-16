@@ -1,4 +1,4 @@
-import { ArrowRight, MoveRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export default function PrincipalMessage() {
   return (
@@ -14,15 +14,15 @@ export default function PrincipalMessage() {
           </div>
           <div className="mt-8 lg:mt-0 lg:w-2/3 lg:pl-12">
             <h2 className="text-3xl font-bold text-[#005B7F] mb-6">
-              Principal's <span>Message</span>{" "}
+              Principal&apos;s <span>Message</span>{" "}
             </h2>
             <p className="text-gray-600 leading-relaxed">
-              "Listening to our students and implementing their feedback is
+              Listening to our students and implementing their feedback is
               priority of ours. I feel delighted to inform you that HRIT ACADEMY
               is committed to advance learning with diverse range of
               opportunities for students. We believe in providing quality
               education that prepares students for their future careers and
-              personal growth."
+              personal growth.
             </p>
             {/* <button className="mt-6 text-[#005B7F] hover:outline-2 outline-offset-2 font-semibold cursor-pointer inline-flex items-center justify-center gap-1">
               Read More

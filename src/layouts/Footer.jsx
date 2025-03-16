@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { schoolDetails } from "@/utils/constant";
 import {
   Facebook,
   Instagram,
@@ -7,10 +7,9 @@ import {
   MapPin,
   Phone,
   Twitter,
-  Youtube,
-  YoutubeIcon,
+  Youtube
 } from "lucide-react";
-import { schoolDetails } from "@/utils/constant";
+import { Link } from "react-router";
 
 export default function Footer() {
   return (

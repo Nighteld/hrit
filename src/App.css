@@ -8,10 +8,13 @@ body {
   font-family: "Poppins", serif;
   /* font-weight: 400; */
   font-style: normal;
+  background-color: var(--background-color);
 }
 :root {
   --base-color: #016690;
-  --base-color-next: #f9a427;
+  /* --base-color-next: #f9a427; */
+  --base-color-next:#dab434;
+  --background-color:#756c6c1a;
   --dark-color: #000e67;
 }
 .poppins-thin {

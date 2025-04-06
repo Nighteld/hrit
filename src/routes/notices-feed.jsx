@@ -53,7 +53,7 @@ const notices = [
 
 export default function NoticesFeed() {
   return (
-    <div className="container">
+    <div className="container mx-auto py-16">
       <div className="space-y-8">
         {notices.map((notice, index) => (
           <motion.div

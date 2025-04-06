@@ -30,7 +30,7 @@ export default function HotelManagement() {
   } = usePrevNextButtons(emblaApi);
 
   return (
-    <div>
+    <div className="">
       <section className="about-embla relative">
         <div className="about-embla__viewport " ref={emblaRef}>
           <div className="about-embla__container">
@@ -69,7 +69,7 @@ export default function HotelManagement() {
                /> */}
         </div>
       </section>
-      <div className="section container">
+      <div className="section container mx-auto py-16">
         <div className="grid md:grid-cols-4 gap-2">
           <div className="">
             <BreadCrumbs menuLists={admission} />

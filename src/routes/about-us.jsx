@@ -91,7 +91,7 @@ export default function AboutUs() {
                /> */}
         </div>
       </section>
-      <div className="section container">
+      <div className="section container mx-auto py-16">
         <div className="grid md:grid-cols-4 gap-2">
           <div className="">
             <BreadCrumbs menuLists={components} />
@@ -101,24 +101,44 @@ export default function AboutUs() {
             <h1>
               <span className="bg-text-next">About</span> Hrit
             </h1>
+
+            <div className="p-6 bg-light border-l-4 border-primary rounded-r-lg mb-5">
+                <blockquote className="text-gray-700 italic">
+                “Empowering You, Transforming You”
+                </blockquote>
+              </div>
+            <div className="space-y-2 leading-relaxed">
             <p>
-              Collaboration and supports are central to college ethos. We, here
-              at HRIT are heading forward to create, integrate and impart the
-              quality and value based education.
+              HRIT Academy, situated at Basundhara Chauki, Kantimarg, Kathmandu,
+              Nepal, is a prestigious institution of learning with the mission
+              of fostering academic success and all-around growth.
+              <br />
+              Established with the vision of creating highly qualified,
+              professional, and disciplined students, HRIT Academy gives top
+              priority to the integration of latest technology, research, and
+              innovation in its teaching-learning process.
             </p>
-            <p className="section-text">
-              It is to develop highly potential, professional and disciplined
-              pupils to compete currents updates in their field. We desire to
-              train our students with current technology and motivate them to
-              take up research problems and innovation associated with
-              professional personality development programs to meet the
-              challenges in this competitive world in efficient manner. The
-              college equally encourages high standards of professional conducts
-              and ethics by providing quality education on par with global
-              standards. Thus imparting quality based value education is our
-              foresight and vision.
+            <p className="">
+              HRIT Academy is a well-known institution that is dedicated to
+              providing quality education in a friendly environment affiliated
+              with the National Examination Board (NEB), offering a wide range
+              of educational programs for students at the +2 level.
             </p>
             <p>
+              {" "}
+              Our modern facilities, experienced faculty, and commitment to
+              quality education make us a top choice for aspiring students. We
+              have diverse programs to cater to the multifaceted needs of our
+              students, including the +2 level in Law, Science, and Management.
+            </p>
+            <p>
+              {" "}
+              Our goal at HRIT College is to equip students with the skills,
+              knowledge, and confidence to excel in the classroom and in the
+              workplace.
+            </p>
+            </div>
+            {/* <p>
               {" "}
               The college located at the historical place with Academic Black at
               Bashundhara Chauki, Kantimarg, attaches utmost importance towards
@@ -127,7 +147,7 @@ export default function AboutUs() {
               devoting are key to success are turn individual into ideal being.
               So the students are expected to be well disciplined, cooperative
               and well behaved with decency and decorum.
-            </p>
+            </p> */}
           </div>
         </div>
       </div>

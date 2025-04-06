@@ -1,10 +1,9 @@
 import BreadCrumbs from "@/components/BreadCrumbs";
 import { components } from "@/layouts/NavBarDemo";
-import { CircleCheck } from "lucide-react";
 
 export default function WhyUs() {
   return (
-    <div className="section container">
+    <div className="section container mx-auto py-16">
       <div className="grid md:grid-cols-4 gap-2">
         <div>
           <BreadCrumbs menuLists={components} />
@@ -13,54 +12,54 @@ export default function WhyUs() {
           <h1>
             <span className="bg-text-next">Why</span> HRIT
           </h1>
-          <ul className="list-style-wrapper  text-base">
-            <li className="flex gap-2">
-              <CircleCheck className="w-6 h-6 flex-shrink-0" /> Internship will be provided to referred
-              academic fields after completion of academic years.
+          {/* <h1 className="text-4xl font-bold">
+            <span className="text-amber-500">Why </span>
+            <span className="text-primary">HRIT</span>
+          </h1> */}
+          <h2 className="text-2xl font-semibold text-primary border-l-4 border-amber-500 pl-3">
+            &quot;First Law School of Nepal with Topper&apos;s Best <br />
+            rChoice&quot;
+          </h2>
+          <h3>Academic Excellence</h3>
+          {/* <h3 className="text-xl font-semibold text-primary mb-4 inline-block relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-1 after:bg-amber-500/70">
+              Academic Excellence
+            </h3> */}
+          <ul className="space-y-2 list-item-before">
+            <li>
+              Our Students have outstanding academic excellence in Nepal’s Top
+              10 Universities.
             </li>
-            <li className="flex gap-2">
-              <CircleCheck className="w-6 h-6 flex-shrink-0" /> Scholars for rural, government schools
-              students, female, and students of outside valley and for
-              academically sound.
+            <li>
+              We are proud of our faculty with both academic backgrounds and
+              industry experience. They balance both old-school lectures, case
+              studies, and outside-the-box pedagogy to teach students.
             </li>
-            <li className="flex gap-2">
-              <CircleCheck className="w-6 h-6 flex-shrink-0" /> For professional education with the
-              blend of the information technology and managerial skill.
+            <li>
+              High success rate in government services with future
+              lawyers/attorneys, various hospitality and medical sectors,
+              engineering, banking, business, and freelancing.
             </li>
-            <li className="flex gap-2">
-              <CircleCheck className="w-6 h-6 flex-shrink-0" /> Various extracurricular activities based
-              on field work.
+          </ul>
+          <h3>State of the Art Facilities</h3>
+
+          <ul className="space-y-2 list-item-before">
+            <li>
+              We provide modern classrooms: Equipped with smart boards and
+              multimedia tools to enhance learning.
             </li>
-            <li className="flex gap-2">
-              <CircleCheck className="w-6 h-6 flex-shrink-0" /> Career counseling by experts,
-              scholarship available at the top colleges.
+            <li>
+              Fully Equipped Laboratories: Modern labs for science students to
+              carry out hands-on experiments.
             </li>
-            <li className="flex gap-2">
-              <CircleCheck className="w-6 h-6 flex-shrink-0" /> Earthquake Resistance Building.
+            <li>
+              Specialized labs for pre-engineering, pre-medical, and technology
+              courses.
             </li>
-            <li className="flex gap-2">
-              <CircleCheck className="w-6 h-6 flex-shrink-0" /> Modern teaching pedagogy with reliable
-              networking system and unlimited adventure at internet access.
+            <li>
+              Library: A well-equipped library with academic texts, journals,
+              and research articles for all subjects.
             </li>
-            <li className="flex gap-2">
-              <CircleCheck className="w-6 h-6 flex-shrink-0" /> Opportunities for innovation.
-            </li>
-            <li className="flex gap-2">
-              <CircleCheck className="w-6 h-6 flex-shrink-0" /> Excellent result with highly digitalized
-              classroom along with best faculties.
-            </li>
-            <li className="flex gap-2">
-              <CircleCheck className="w-6 h-6 flex-shrink-0" /> Well-stocked library with numerous
-              textbooks, reference materials, newspapers, and journals.
-            </li>
-            <li className="flex gap-2">
-              <CircleCheck className="w-6 h-6 flex-shrink-0" /> Classes like Salsa-Zumba dance, music,
-              and Jyotish will be on high priority.
-            </li>
-            <li className="flex gap-2">
-              <CircleCheck className="w-6 h-6 flex-shrink-0" /> Tai-chi, Meditation, Global Entrance
-              through games.
-            </li>
+            <li>Quiet study area with digital library access.</li>
           </ul>
         </div>
       </div>

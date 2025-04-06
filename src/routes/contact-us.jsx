@@ -173,7 +173,7 @@ export default function ContactPage() {
                 className="w-full"
                 allowfullscreen=""
                 loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
+                referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
             </div>
             <div className="mt-4 space-y-2">

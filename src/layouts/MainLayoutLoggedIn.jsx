@@ -1,4 +1,4 @@
-import { Outlet } from "react-router";
+import { Link, Outlet, useLocation } from "react-router";
 import { AppSidebar } from "@/components/app-sidebar";
 import {
   Breadcrumb,
@@ -16,6 +16,9 @@ import {
 } from "@/components/ui/sidebar";
 
 export default function MainLayoutAuthenticated() {
+  const location = useLocation();
+  const pathnames = location.pathname.split("/").filter((path) => path);
+  console.log("path", pathnames)
   return (
     <main>
       <SidebarProvider>
@@ -26,17 +29,31 @@ export default function MainLayoutAuthenticated() {
               <SidebarTrigger className="-ml-1" />
               <Separator orientation="vertical" className="mr-2 h-4" />
               <Breadcrumb>
-                <BreadcrumbList>
-                  <BreadcrumbItem className="hidden md:block">
-                    <BreadcrumbLink href="#">
-                      Building Your Application
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator className="hidden md:block" />
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                  </BreadcrumbItem>
-                </BreadcrumbList>
+              <BreadcrumbList>
+                <BreadcrumbItem className="hidden md:block">
+                  <BreadcrumbLink href="/admission">Home</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator className="hidden md:block" />
+                {pathnames.map((value, index) => {
+                  const to = `/${pathnames.slice(0, index + 1).join("/")}`;
+                  const isLast = index === pathnames.length - 1;
+
+                  return (
+                    <BreadcrumbItem key={to}>
+                      {!isLast ? (
+                        <BreadcrumbLink asChild>
+                          <Link to={to}>{decodeURIComponent(value)}</Link>
+                        </BreadcrumbLink>
+                      ) : (
+                        <span className="text-muted-foreground capitalize">
+                          {decodeURIComponent(value)}
+                        </span>
+                      )}
+                      {!isLast && <BreadcrumbSeparator />}
+                    </BreadcrumbItem>
+                  );
+                })}
+              </BreadcrumbList>
               </Breadcrumb>
 
               

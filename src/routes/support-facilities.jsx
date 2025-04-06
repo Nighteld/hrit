@@ -1,10 +1,9 @@
 import BreadCrumbs from "@/components/BreadCrumbs";
+import { HoverEffect } from "@/components/ui/card-hover-effect";
 import { components } from "@/layouts/NavBarDemo";
+import { cn } from "@/lib/utils";
 import "../../src/css/base.css";
 import "../../src/css/embla-full.css";
-import { HoverEffect } from "@/components/ui/card-hover-effect";
-import clsx from "clsx";
-import { cn } from "@/lib/utils";
 
 export default function SupportFacilities() {
   const projects = [
@@ -56,7 +55,7 @@ export default function SupportFacilities() {
   ];
 
   return (
-    <div className="section container">
+    <div className="section container mx-auto py-16">
       <div className="grid md:grid-cols-4 gap-2">
         <div className="">
           <BreadCrumbs menuLists={components} />

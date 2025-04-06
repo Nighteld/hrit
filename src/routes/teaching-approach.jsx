@@ -71,7 +71,7 @@ export default function TeachingApproach() {
   ];
 
   return (
-    <div className="section container">
+    <div className="section container mx-auto py-16">
       <div className="grid md:grid-cols-4 gap-2">
         <div className="">
           <BreadCrumbs menuLists={components} />

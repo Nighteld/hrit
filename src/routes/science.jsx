@@ -95,7 +95,7 @@ export default function Science() {
                /> */}
         </div>
       </section>
-      <div className="section container">
+      <div className="section container mx-auto py-16">
         <div className="grid md:grid-cols-4 gap-2">
           <div className="">
             <BreadCrumbs menuLists={academics} />
@@ -103,33 +103,31 @@ export default function Science() {
           <div className="col-span-3">
             {" "}
             <h1 className="first-letter">Science</h1>
+            <div className="p-6 bg-light border-l-4 border-primary rounded-r-lg mb-5">
+              <blockquote className="text-gray-700 italic">
+                “Discover the Secret of the Universe”
+              </blockquote>
+            </div>
             <div className="space-y-4">
               <p className="leading-relaxed">
-                The age where we live has direct concern with the fact “Demand
-                More”, an idea of discovery and exploration. It can only be
-                achieved through live and active stream like science. It paves
-                the way for innovation, observation, experiment and discovery.
-                The nature of the global youth is to see far above the sky and
-                deep inside at the same time.
+                The Science stream of HRIT College is for students who want to
+                become professionals in fields like engineering, medical
+                sciences, health care, research and technology. 
               </p>
 
               <p className="leading-relaxed">
-                The thirst for new thing and dream of innovation can only be
-                guaranteed through frequent experiments through science and
-                technology. The study of science is related with technology and
-                thus impels an individual for critical and creative thinking and
-                for problem solving. Education of Science prepares the
-                foundation for same insight.
+              The course is
+                designed to enhance the command of students over scientific
+                concepts and make them capable of pursuing higher studies in
+                various scientific streams.
               </p>
 
               <p className="leading-relaxed">
-                The education includes the systematic study of nature, behavior
-                and structure of natural and physical world. In grade eleven
-                students are provided the conceptual knowledge and fundamental
-                understanding of Physics, Biology, Chemistry, Mathematics along
-                with other compulsory subjects. Similarly, in the Grade XII,
-                they are free to choose among offered subjects like Physics,
-                biology and Chemistry.
+              The program emphasizes in-depth
+                learning in subjects like Physics, Chemistry, Biology and
+                Mathematics with a focus on hands-on learning and research, our
+                students are well-prepared to become the next generation of
+                scientists, innovators, and problem-solvers.
               </p>
             </div>
             <section className="">
@@ -198,7 +196,24 @@ export default function Science() {
                     </div>
                   </TabsContent>
                 </Tabs>
+              
               </div>
+            </section>
+
+            <section>
+            <h3 className="text-4xl font-semibold">Career Opportunities after Science +2</h3>
+
+            <ul className="section-text list-item-before space-y-1 leading-relaxed">
+                <li>Engineering (Mechanical, Civil, Electrical, IT) </li>
+                <li>Medicine (MBBS, BDS, Pharmacy)</li>
+                <li>Research and Development</li>
+                <li>
+                Environmental Science
+                </li>
+                <li>
+                Biotechnology
+                </li>
+              </ul>
             </section>
           </div>
         </div>

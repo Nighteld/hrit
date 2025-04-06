@@ -13,7 +13,7 @@ export default function ScholarShipSchemes() {
       ];
       
   return (
-    <div className="selection container">
+    <div className="selection container mx-auto py-16">
       <div className="grid md:grid-cols-4 gap-2">
         <div className="">
           <BreadCrumbs menuLists={admission} />

@@ -1,21 +1,14 @@
 import useEmblaCarousel from "embla-carousel-react";
 
-import "../../src/css/embla-full.css";
-import "../../src/css/base.css";
+import BreadCrumbs from "@/components/BreadCrumbs";
 import {
-  PrevButton,
   NextButton,
+  PrevButton,
   usePrevNextButtons,
 } from "@/components/EmblaCarouselArrowButtons";
 import {
-  SelectedSnapDisplay,
-  useSelectedSnapDisplay,
+  useSelectedSnapDisplay
 } from "@/components/EmblaCarouselSelectedSnapDisplay";
-import Autoplay from "embla-carousel-autoplay";
-import BreadCrumbs from "@/components/BreadCrumbs";
-import { academics, components } from "@/layouts/NavBarDemo";
-import { Link, NavLink } from "react-router";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Card,
   CardContent,
@@ -23,6 +16,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { academics } from "@/layouts/NavBarDemo";
+import Autoplay from "embla-carousel-autoplay";
+import "../../src/css/base.css";
+import "../../src/css/embla-full.css";
 
 export default function Management() {
   const OPTIONS = { dragFree: true };
@@ -74,7 +72,7 @@ export default function Management() {
           </div>
         </div>
       </section>
-      <div className="section container">
+      <div className="section container mx-auto py-16">
         <div className="grid md:grid-cols-4 gap-2">
           <div className="">
             <BreadCrumbs menuLists={academics} />
@@ -249,7 +247,30 @@ export default function Management() {
                     </div>
                   </TabsContent>
                 </Tabs>
+                
               </div>
+            </section>
+
+            <section>
+            <h3 className="text-4xl font-semibold">Career Opportunities after Management +2</h3>
+
+            <ul className="section-text list-item-before space-y-1 leading-relaxed">
+                <li>	Business Manger </li>
+                <li>	Banker</li>
+                <li>Entrepreneur or Start-up Founder</li>
+                <li>
+                Marketing manager
+                </li>
+                <li>
+                	Charter Accountant
+                </li>
+                <li>
+                	Financial Analyst
+                </li>
+                <li>
+                	Tour Manager
+                </li>
+              </ul>
             </section>
           </div>
         </div>

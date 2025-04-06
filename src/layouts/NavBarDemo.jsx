@@ -14,6 +14,7 @@ import clsx from "clsx";
 import React from "react";
 import { Link } from "react-router";
 import MobileMenu from "./MobileMenu";
+import { useAuth } from "@/context/AuthContext";
 
 export const components = [
   {
@@ -122,6 +123,8 @@ export const downloads = [
 ];
 export function NavigationMenuDemo() {
   const isMobile = useIsMobile();
+  const { user } = useAuth();
+
   console.log("isMobile", isMobile);
   return (
     <nav className="nav-menu bg-white flex justify-between h-[80px] w-full flex-wrap items-center px-2 sticky inset-0 z-50">
@@ -230,19 +233,21 @@ export function NavigationMenuDemo() {
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link
-              to="#"
+            <a
+              href="https://photos.app.goo.gl/mmKLfTUr4WXbusAr9"
+              target="_blank"
+              rel="noopener noreferrer"
               className={clsx(navigationMenuTriggerStyle(), "nav-button")}
             >
               Gallery
-            </Link>
+            </a>
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuTrigger className="nav-button flex-1">
               Downloads
             </NavigationMenuTrigger>
             <NavigationMenuContent>
-            <ul className="grid w-[200px] gap-3 p-4 md:w-[300px] md:grid-cols-2 lg:w-[400px]">
+              <ul className="grid w-[200px] gap-3 p-4 md:w-[300px] md:grid-cols-2 lg:w-[400px]">
                 {downloads.map((component) => (
                   // <Link to={component.href} key={component.title}>
                   <ListItem
@@ -257,12 +262,21 @@ export function NavigationMenuDemo() {
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
+
           <NavigationMenuItem>
             <Link
               to="contact-us"
               className={clsx(navigationMenuTriggerStyle(), "nav-button")}
             >
               Contact Us
+            </Link>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <Link
+              to={user ? "/dashboard" : "/login"}
+              className={clsx(navigationMenuTriggerStyle(), "nav-button")}
+            >
+              {user ? "Dashboard" : "Login"}
             </Link>
           </NavigationMenuItem>
         </NavigationMenuList>

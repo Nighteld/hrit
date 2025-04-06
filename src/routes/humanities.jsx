@@ -89,7 +89,7 @@ export default function Humanities() {
                /> */}
         </div>
       </section>
-      <div className="section container">
+      <div className="section container mx-auto py-16">
         <div className="grid md:grid-cols-4 gap-2">
           <div className="">
             <BreadCrumbs menuLists={academics} />

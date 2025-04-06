@@ -1,19 +1,31 @@
+import {
+  QueryClient,
+  QueryClientProvider
+} from '@tanstack/react-query';
+import AOS from "aos";
+import "aos/dist/aos.css"; // You can also use <link> for styles
 import { lazy } from "react";
-import "./App.css";
-import "./breakpoints.css";
-import AOS from 'aos';
-import 'aos/dist/aos.css'; // You can also use <link> for styles
-
 import { Route, Routes } from "react-router";
+import { ToastContainer } from "react-toastify";
+import "./App.css";
+// import "./breakpoints.css";
+import { AuthProvider } from "./context/AuthContext";
 import MainLayout from "./layouts/MainLayout";
-
-import Home from "./routes/Home";
 import AlumniCommittee from "./routes/almuniee-comittee";
-import NoticesFeed from "./routes/notices-feed";
-import News from "./routes/news";
 import ClassSchedules from "./routes/class-schedules";
-import MainLayoutAuthenticated from "./layouts/MainLayoutLoggedIn";
+import Home from "./routes/Home";
+import Admission from "./routes/loggedInRoutes/admission";
 import Dashboard from "./routes/loggedInRoutes/dashboard";
+import Login from "./routes/Login";
+import News from "./routes/news";
+import NoticesFeed from "./routes/notices-feed";
+import ProtectedRoute from './auth/middleware';
+import AgentRegistration from './routes/loggedInRoutes/agents/agent';
+import  { AgentGrid } from './routes/loggedInRoutes/agents';
+import ChangePassword from './routes/loggedInRoutes/profile/changePassword';
+
+// Create a client
+const queryClient = new QueryClient()
 const ScrollTop = lazy(() => import("./components/scroll-top"));
 const BookList = lazy(() => import("./routes/book-list"));
 const OurMission = lazy(() => import("./routes/our-mission"));
@@ -38,7 +50,9 @@ const TeachingApproach = lazy(() => import("./routes/teaching-approach"));
 AOS.init();
 function App() {
   return (
-    <div>
+    <QueryClientProvider client={queryClient}>
+    <AuthProvider>
+      <ToastContainer />
       <Routes>
         {/* Wrap all pages with the Layout component */}
         <Route path="/" element={<MainLayout />}>
@@ -67,17 +81,21 @@ function App() {
           <Route path="news" element={<News />} />
           <Route path="book-lists" element={<BookList />} />
           <Route path="class-schedules" element={<ClassSchedules />} />
-          
-          
+          <Route path="login" element={<Login />} />
           <Route path="*" element={<h1>Not Found ...</h1>} />
         </Route>
-        <Route path="/" element={<MainLayoutAuthenticated />}>
-        <Route path="dashboard" element={<Dashboard />} />
+        <Route element={<ProtectedRoute />}>
 
-</Route>
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="change-password" element={<ChangePassword />} />
+          <Route path="admission" element={<Admission />} />
+          <Route path="agent" element={<AgentGrid />} />
+          <Route path="agent/create" element={<AgentRegistration />} />
+        </Route>
       </Routes>
       <ScrollTop />
-    </div>
+    </AuthProvider>
+    </QueryClientProvider>
   );
 }
 

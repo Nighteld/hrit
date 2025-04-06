@@ -3,7 +3,7 @@ import { components } from "@/layouts/NavBarDemo";
 
 export default function OurDirector() {
   return (
-    <div className="section container">
+    <div className="section container mx-auto py-16">
       <div className="grid md:grid-cols-4 gap-4">
         <div>
           <BreadCrumbs menuLists={components} />

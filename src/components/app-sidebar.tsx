@@ -16,7 +16,6 @@ import {
 import { NavMain } from "@/components/nav-main"
 import { NavProjects } from "@/components/nav-projects"
 import { NavUser } from "@/components/nav-user"
-import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
   SidebarContent,
@@ -24,7 +23,8 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
-
+import { TeamSwitcher } from "./team-switcher"
+import {schoolDetails} from "@/utils/constant"
 // This is sample data.
 const data = {
   user: {
@@ -58,37 +58,37 @@ const data = {
       items: [
         {
           title: "Student Registration",
-          url: "/student-registration",
+          url: "/admission",
         },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
+        // {
+        //   title: "Starred",
+        //   url: "#",
+        // },
+        // {
+        //   title: "Settings",
+        //   url: "#",
+        // },
       ],
     },
-    // {
-    //   title: "Models",
-    //   url: "#",
-    //   icon: Bot,
-    //   items: [
-    //     {
-    //       title: "Genesis",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Explorer",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Quantum",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
+    {
+      title: "Agent",
+      url: "#",
+      icon: Bot,
+      items: [
+        {
+          title: "Agent",
+          url: "/agent/create",
+        },
+        {
+          title: "Agents",
+          url: "/agent",
+        },
+        // {
+        //   title: "Quantum",
+        //   url: "#",
+        // },
+      ],
+    },
     // {
     //   title: "Documentation",
     //   url: "#",
@@ -159,11 +159,13 @@ export function AppSidebar({ ...props }) {
   return (
     <Sidebar collapsible="icon" {...props} className="" variant="" >
       <SidebarHeader className="">
-        <TeamSwitcher teams={data.teams} />
+      <img src={schoolDetails.logo} alt="school-logo" className="cursor-pointer" />
+
+        {/* <TeamSwitcher teams={data.teams} /> */}
       </SidebarHeader>
       <SidebarContent className="">
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter className="">
         <NavUser user={data.user} />

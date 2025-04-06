@@ -1,30 +1,30 @@
 import { Link } from "react-router";
-
+export const schools = [
+  {
+    name: "HOTEL MANAGEMENT",
+    image: "/banner/mariot-bartenter-1.jpg",
+    // colSpan: "col-span-2",
+    link: "/hotel-management",
+  },
+  {
+    name: "SCIENCE",
+    image: "/courses/science.jpg",
+    link: "/science",
+  },
+  {
+    name: "FINE ARTS",
+    image: "/banner/mariot-counsil-1.jpg",
+    link: "/fine-arts",
+  },
+  {
+    name: "LAW",
+    image: "/courses/law.jpg",
+    // colSpan: "col-span-2",
+    link: "/law",
+  },
+];
 export default function HRIT() {
-  const schools = [
-    {
-      name: "HOTEL MANAGEMENT",
-      image: "/banner/mariot-bartenter-1.jpg",
-      colSpan: "col-span-2",
-      link: "/hotel-management",
-    },
-    {
-      name: "SCIENCE",
-      image: "/banner/mariot-counsil-1.jpg",
-      link: "/science",
-    },
-    {
-      name: "FINE ARTS",
-      image: "/banner/mariot-counsil-1.jpg",
-      link: "/fine-arts",
-    },
-    {
-      name: "LAW",
-      image: "/banner/mariot-counsil-1.jpg",
-      colSpan: "col-span-2",
-      link: "/law",
-    },
-  ];
+
   return (
     <div className="px-4 my-10">
       <div className="grid grid-cols-1 md:grid-cols-2 md:gap-5">
@@ -34,7 +34,7 @@ export default function HRIT() {
             {schools.map((school, index) => (
               <figure className="snip" key={index}>
                 <img
-                  className="snip__image"
+                  className="snip__image object-cover"
                   src={school.image}
                   alt={school.name}
                 />

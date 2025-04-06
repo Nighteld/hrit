@@ -1,4 +1,4 @@
-const schoolDetails={
+export const schoolDetails={
     schoolName:"HRIT ACADEMY",
     logo:"/hrit.png",
     socialLinks:{
@@ -10,4 +10,8 @@ const schoolDetails={
     }
 }
 
-export  {schoolDetails};
+export const ALLOWED_IMAGE_FILE_TYPE = ["jpg", "jpeg", "png"];
+export const ALLOWED_IMAGE_FILE_TYPE_KYC = ["jpg", "jpeg", "png", "pdf"];
+export const ALLOWED_VIDEO_FILE_TYPE = ["mp4", "hevc", "mov", "mkv"];
+export const ALLOWED_IMAGE_FILE_SIZE_MB = 4;
+export const IMAGE_FILE_SIZE_GREATER_THAN = 3;

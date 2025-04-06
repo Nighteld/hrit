@@ -95,7 +95,7 @@ export default function BookList() {
     tableTwelve.find((item) => item.id === 3) || {};
 
   return (
-    <div className="container">
+    <div className="container mx-auto">
       <h1 className="mb-6 text-2xl font-bold">
         <span className="bg-text-next">Book</span> Lists
       </h1>

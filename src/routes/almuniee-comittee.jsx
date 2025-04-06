@@ -86,7 +86,7 @@ const directors = [
 
 export default function AlumniCommittee() {
   return (
-    <div className="container">
+    <div className="container mx-auto py-16">
       <h1>
         <span className="bg-text-next">Alumni</span> Committee
       </h1>

@@ -75,7 +75,7 @@ export default function ClassSchedules() {
   ];
 
   return (
-    <div className="container">
+    <div className="container mx-auto">
       <h1 className="mb-6 text-2xl font-bold">
         <span className="bg-text-next">Class</span> Schedules
       </h1>

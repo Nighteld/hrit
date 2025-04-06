@@ -52,7 +52,7 @@ export default function News() {
     },
   ];
   return (
-    <div className="container">
+    <div className="container mx-auto py-16">
       <h1 className="first-letter">
         <span className="">News</span>
       </h1>

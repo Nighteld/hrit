@@ -17,6 +17,8 @@ const API_ENDPOINTS = {
   saveLeadsDetails: user + "InsertUpdateLeadDetails",
   getLeadsLists: user + "GetLeadDetails",
   getJsonFromExcel: utility + "GetJsonFromExcel",
+  registerStaff: adminUser + "RegisterStaff",
+  getStaff: adminUser + "GetStaffDetails",
 };
 
 export default API_ENDPOINTS;

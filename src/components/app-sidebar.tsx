@@ -1,5 +1,3 @@
-
-
 import {
   AudioWaveform,
   BookOpen,
@@ -11,20 +9,20 @@ import {
   PieChart,
   Settings2,
   SquareTerminal,
-} from "lucide-react"
+} from "lucide-react";
 
-import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
-import { NavUser } from "@/components/nav-user"
+import { NavMain } from "@/components/nav-main";
+import { NavProjects } from "@/components/nav-projects";
+import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from "@/components/ui/sidebar"
-import { TeamSwitcher } from "./team-switcher"
-import {schoolDetails} from "@/utils/constant"
+} from "@/components/ui/sidebar";
+import { TeamSwitcher } from "./team-switcher";
+import { schoolDetails } from "@/utils/constant";
 // This is sample data.
 const data = {
   user: {
@@ -82,7 +80,18 @@ const data = {
       icon: Bot,
       isActive: true,
     },
-
+    {
+      title: "Staff",
+      url: "staff",
+      icon: Bot,
+      isActive: true,
+    },
+    {
+      title: "Stake Holder",
+      url: "stake-holder",
+      icon: Bot,
+      isActive: true,
+    },
     // {
     //   title: "Documentation",
     //   url: "#",
@@ -148,13 +157,17 @@ const data = {
       icon: Map,
     },
   ],
-}
+};
 
 export function AppSidebar({ ...props }) {
   return (
-    <Sidebar collapsible="icon" {...props} className="" variant="" >
+    <Sidebar collapsible="icon" {...props} className="" variant="">
       <SidebarHeader className="">
-      <img src={schoolDetails.logo} alt="school-logo" className="cursor-pointer" />
+        <img
+          src={schoolDetails.logo}
+          alt="school-logo"
+          className="cursor-pointer"
+        />
 
         {/* <TeamSwitcher teams={data.teams} /> */}
       </SidebarHeader>
@@ -168,5 +181,5 @@ export function AppSidebar({ ...props }) {
       </SidebarFooter>
       <SidebarRail className="" />
     </Sidebar>
-  )
+  );
 }

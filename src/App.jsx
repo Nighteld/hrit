@@ -27,6 +27,10 @@ import AdmissionForm from './routes/admission-form';
 import { StudentsEnquiry } from './routes/loggedInRoutes/students/enquiry';
 import LeadsRegistration from './routes/loggedInRoutes/leads/leads';
 import { LeadsGrid } from './routes/loggedInRoutes/leads';
+import { StaffGrid } from './routes/loggedInRoutes/staff';
+import StaffRegistration from './routes/loggedInRoutes/staff/staffRegistration';
+import { StakeHolderGrid } from './routes/loggedInRoutes/stakeHolders';
+import StakeHolderRegistration from './routes/loggedInRoutes/stakeHolders/stakeHolderRegistration';
 
 // Create a client
 const queryClient = new QueryClient()
@@ -99,6 +103,10 @@ function App() {
           <Route path="student/enquiry" element={<StudentsEnquiry />} />
           <Route path="leads" element={<LeadsGrid />} />
           <Route path="leads/create" element={<LeadsRegistration />} />
+          <Route path="staff" element={<StaffGrid />} />
+          <Route path="staff/create" element={<StaffRegistration />} />
+          <Route path="stake-holder" element={<StakeHolderGrid />} />
+          <Route path="stake-holder/create" element={<StakeHolderRegistration />} />
         </Route>
       </Routes>
       <ScrollTop />

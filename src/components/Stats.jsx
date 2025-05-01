@@ -1,5 +1,5 @@
 import CountUp from "react-countup";
-import VisibilitySensor from 'react-visibility-sensor';
+// import VisibilitySensor from 'react-visibility-sensor';
 const Stats = () => {
   return (
     <section className="py-16 bg-primary text-white">
@@ -48,10 +48,8 @@ const Stats = () => {
 
           <div className="bg-white/10 backdrop-blur-sm rounded-lg p-8 text-center transform transition-transform hover:scale-105 duration-300">
             <div className="text-4xl md:text-5xl font-bold text-school-secondary mb-2">
-            <VisibilitySensor partialVisibility offset={{ bottom: 200 }}>
-  {({ isVisible }) => (
+
     <div className="number">
-      {isVisible && (
         <>
           <CountUp
             start={5}
@@ -61,10 +59,8 @@ const Stats = () => {
           />
           <span>+</span>
         </>
-      )}
     </div>
-  )}
-</VisibilitySensor>
+
 
             </div>
             <div className="text-xl font-semibold mb-2">Programs Offered</div>

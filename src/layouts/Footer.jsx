@@ -13,7 +13,7 @@ import { Link } from "react-router";
 
 export default function Footer() {
   return (
-    <footer className="bg-color text-white w-full py-16 mt-15">
+    <footer className="bg-color text-white w-full py-16 ">
       <div className="container  mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">

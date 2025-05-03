@@ -20,6 +20,7 @@ import Experience from "@/components/Experience";
 import Stats from "@/components/stats";
 import CenteredDialog from "@/components/dialog";
 import CountUp, { useCountUp } from "react-countup";
+import TestimonialCarousel from "@/components/testimonials-carousel";
 export default function Home() {
   const videoRef = useRef();
   const [isMuted, setIsMuted] = useState(true);
@@ -46,7 +47,7 @@ export default function Home() {
              preload="auto"
             id="video-background"
           >
-            <source src="/Hrti-Aerial-View.mp4" type="video/mp4" />
+            <source src="/Hrit-view.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>
@@ -72,12 +73,13 @@ export default function Home() {
         </div>
       </div>
       <CenteredDialog/>
+      <Stats/>
     
       {/* <HRIT /> */}
 
       <OurMission />
       <Experience/>
-      <Stats/>
+      <TestimonialCarousel/>
       {/* <section className="py-16 ">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center gap-12">

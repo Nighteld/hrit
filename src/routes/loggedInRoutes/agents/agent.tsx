@@ -32,6 +32,7 @@ import { handleImageValidation } from "@/utils/function";
 import FileUpload from "@/components/file-upload";
 import { GenerateToken } from "@/auth/authAction";
 import { getAppToken, toastError, toastSuccess } from "@/utils/helper";
+import { useNavigate } from "react-router";
 const validationSchema = () =>
   Yup.object({
     middleName: Yup.string().notRequired(),
@@ -143,6 +144,7 @@ export default function AgentRegistration() {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     handleInitialApi();
@@ -268,6 +270,7 @@ export default function AgentRegistration() {
       }
       toastSuccess(response.data.responseMessage);
       handleReset();
+      navigate('/agent');
       debugger;
     } catch (error: unknown) {
       const errorAsError = error as Error;
@@ -530,7 +533,7 @@ export default function AgentRegistration() {
                         <SelectGroup>
                           {occupation &&
                             occupation.map((item) => (
-                              <SelectItem value={item.id}>
+                              <SelectItem value={item.value}>
                                 {item.value}
                               </SelectItem>
                             ))}
@@ -559,7 +562,7 @@ export default function AgentRegistration() {
                         <SelectGroup>
                           {religion &&
                             religion.map((item) => (
-                              <SelectItem value={item.id}>
+                              <SelectItem value={item.value}>
                                 {item.value}
                               </SelectItem>
                             ))}
@@ -588,7 +591,7 @@ export default function AgentRegistration() {
                         <SelectGroup>
                           {nationality &&
                             nationality.map((item) => (
-                              <SelectItem value={item.id}>
+                              <SelectItem value={item.value}>
                                 {item.value}
                               </SelectItem>
                             ))}
@@ -617,7 +620,7 @@ export default function AgentRegistration() {
                         <SelectGroup>
                           {bloodGroup &&
                             bloodGroup.map((item) => (
-                              <SelectItem value={item.id}>
+                              <SelectItem value={item.value}>
                                 {item.value}
                               </SelectItem>
                             ))}

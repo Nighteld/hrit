@@ -388,7 +388,7 @@ export default function StaffRegistration() {
                         <SelectGroup>
                           {religion &&
                             religion.map((item) => (
-                              <SelectItem value={item.id}>
+                              <SelectItem value={item.value}>
                                 {item.value}
                               </SelectItem>
                             ))}
@@ -417,7 +417,7 @@ export default function StaffRegistration() {
                         <SelectGroup>
                           {nationality &&
                             nationality.map((item) => (
-                              <SelectItem value={item.id}>
+                              <SelectItem value={item.value}>
                                 {item.value}
                               </SelectItem>
                             ))}
@@ -446,7 +446,7 @@ export default function StaffRegistration() {
                         <SelectGroup>
                           {bloodGroup &&
                             bloodGroup.map((item) => (
-                              <SelectItem value={item.id}>
+                              <SelectItem value={item.value}>
                                 {item.value}
                               </SelectItem>
                             ))}

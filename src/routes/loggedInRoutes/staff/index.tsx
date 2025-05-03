@@ -65,72 +65,46 @@ export type Agent = {
 
 export const columns: ColumnDef<Agent>[] = [
   {
-    accessorKey: "FirstName",
+    accessorKey: "firstName",
     header: "First Name",
   },
-
   {
-    accessorKey: "LastName",
+    accessorKey: "middleName",
+    header: "Middle Name",
+  },
+  {
+    accessorKey: "lastName",
     header: "Last Name",
   },
-
   {
-    accessorKey: "PermanentAddress",
-    header: "Permanent Address",
+    accessorKey: "phoneNo",
+    header: "Phone No",
   },
   {
-    accessorKey: "CorrespondingAddress",
-    header: "Corresponding Address",
+    accessorKey: "dateOfBirth",
+    header: "DOB",
   },
   {
-    accessorKey: "StudentContactNo",
-    header: "Student Contact No",
-  },
-  {
-    accessorKey: "ParentContactNo",
-    header: "Parent Contact No",
-  },
-  {
-    accessorKey: "Email",
+    accessorKey: "emailID",
     header: "Email",
   },
-
   {
-    accessorKey: "SchoolName",
-    header: "School Name",
+    accessorKey: "bloodGroup",
+    header: "Blood Group",
   },
   {
-    accessorKey: "SchoolAddress",
-    header: "School Address",
+    accessorKey: "martialStatus",
+    header: "Martial Status",
   },
   {
-    accessorKey: "Category",
-    header: "Category",
+    accessorKey: "nationality",
+    header: "Nationality",
   },
   {
-    accessorKey: "CourseIntrested",
-    header: "Course Interested",
+    accessorKey: "religion",
+    header: "Religion",
   },
-  {
-    accessorKey: "Source",
-    header: "Source",
-  },
-  {
-    accessorKey: "KnowAbtCollege",
-    header: "Known From",
-  },
-  {
-    accessorKey: "Remarks",
-    header: "Remarks",
-  },
-  {
-    accessorKey: "CounselledDate",
-    header: "Counselled Date",
-  },
-  {
-    accessorKey: "FollowUpDate",
-    header: "Fallow up Date",
-  },
+  
 ];
 
 export function StaffGrid() {

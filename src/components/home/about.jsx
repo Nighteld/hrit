@@ -34,7 +34,7 @@ export default function AboutHritHome() {
 
   return (
     <div className="container mx-auto py-16">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid md:grid-cols-2 gap-4">
         <div>
           <h1>Welcome to HRIT College</h1>
 
@@ -53,8 +53,10 @@ export default function AboutHritHome() {
             <p>
               {" "}
               Our modern facilities, experienced faculty, and commitment to
-              quality education make us a top choice for aspiring students. We
-              have diverse programs to cater to the multifaceted needs of our
+              quality education make us a top choice for aspiring students.
+            </p>
+            <p>
+              We have diverse programs to cater to the multifaceted needs of our
               students, including the +2 level in Law, Science, and Management.
             </p>
             <p>
@@ -63,13 +65,14 @@ export default function AboutHritHome() {
               knowledge, and confidence to excel in the classroom and in the
               workplace.
             </p>
-            <Link to="/about-us">
-            <Button variant="outline" className="text-white bg-color">
-              About us
-              <ChevronsRight />
-            </Button>
+            <Link to="/about-us" >
+              <Button variant="outline" className="text-white bg-color mt-5">
+                About us
+                <ChevronsRight />
+              </Button>
             </Link>
           </div>
+          
         </div>
         <div className="">
           <section className="about-embla relative">

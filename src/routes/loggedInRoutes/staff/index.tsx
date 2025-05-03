@@ -47,6 +47,7 @@ import { fetchAgentLists } from "@/action/agentAction";
 import { dateFormatter } from "@/utils/function";
 import { Link } from "react-router";
 import { fetchLeadsLists } from "@/action/leadAction";
+import { fetchStaffLists } from "@/action/staffAction";
 
 export type Agent = {
   id: string;
@@ -140,7 +141,7 @@ export function StaffGrid() {
 
   const { isPending, error, data } = useQuery({
     queryKey: ["staffList"],
-    queryFn: () => fetchLeadsLists({}),
+    queryFn: () => fetchStaffLists({}),
     retry: true,
     refetchOnMount: false,
     refetchOnWindowFocus: false,

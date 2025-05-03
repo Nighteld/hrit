@@ -15,7 +15,7 @@ const Experience = () => {
 
         <div className="flex flex-col md:flex-row gap-12 items-center">
           <div className="md:w-1/2 order-2 md:order-1">
-            <h3 className="text-2xl font-semibold text-primary mb-4">Building Future Leaders</h3>
+            <h2 className="text-2xl font-semibold text-primary mb-4">Building Future Leaders</h2>
             <p className="text-gray-700 mb-6 leading-relaxed">
               We believe that advancing legal professionalism, serving the public, and upholding justice is a challenging yet rewarding journey.
             </p>

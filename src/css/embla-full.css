@@ -71,7 +71,7 @@
 .about-embla__button:disabled {
   color: var(--detail-high-contrast);
 }
-.about-embla__button__svg {
+.embla__button__svg {
   width: 35%;
   height: 35%;
 }

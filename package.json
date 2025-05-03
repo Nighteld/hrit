@@ -43,6 +43,7 @@
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.475.0",
     "moment": "^2.30.1",
+    "motion": "^12.9.4",
     "react": "^19.0.0",
     "react-countup": "^6.5.3",
     "react-day-picker": "^8.10.1",

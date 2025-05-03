@@ -26,14 +26,39 @@ const validationSchema = () =>
     firstName: Yup.string().required("This field is required"),
     middleName: Yup.string().notRequired(),
     lastName: Yup.string().required("This field is required"),
-    emailID: Yup.string().email().required("Email ID is required"),
-    mobileNo: Yup.string().required("This field is required"),
-    dateOfBirth: Yup.string().required("This field is required"),
     gender: Yup.string().required("This field is required"),
+    dateOfBirth: Yup.string().required("This field is required"),
+    mobileNo: Yup.string().required("This field is required"),
+    phoneNo: Yup.string().required("This field is required"),
+    emailID: Yup.string().email().required("Email ID is required"),
+    occupation: Yup.string().required("This field is required"),
     religion: Yup.string().required("This field is required"),
     nationality: Yup.string().required("This field is required"),
     bloodGroup: Yup.string().required("This field is required"),
     martialStatus: Yup.string().required("This field is required"),
+ pan: Yup.string()
+      .matches(/^\d{9}$/, "PAN must be exactly 9 digits")
+      .required("PAN is required"),
+    panAttachmentPath: Yup.string().required("PAN attachment is required"),
+    citizenshipNo: Yup.string().required("Citizenship number is required"),
+    citizenshipIssueDate: Yup.string()
+      .required("Citizenship issue date is required")
+      .matches(
+        /^\d{4}-\d{2}-\d{2}$/,
+        "Citizenship Issue Date must be in YYYY-MM-DD format"
+      )
+      .test(
+        "is-valid-date",
+        "Citizenship Issue Date must be a valid date",
+        (value) => !isNaN(new Date(value || "").getTime())
+      ),
+    citizenshipFrontAttachmentPath: Yup.string().required(
+      "Citizenship front attachment is required"
+    ),
+    citizenshipBackAttachmentPath: Yup.string().required(
+      "Citizenship back attachment is required"
+    ),
+
     password: Yup.string()
       .min(3, "Minimum 3 symbols")
       .max(50, "Maximum 50 symbols")
@@ -49,20 +74,27 @@ const validationSchema = () =>
   });
 
 const initialValues = {
-  //"agentUID": "string",
+  //"stakeholderUID": "string",
   firstName: " ",
   middleName: "",
   lastName: "",
   gender: "",
   dateOfBirth: "",
+  phoneNo: "",
   mobileNo: "",
   emailID: "",
+  occupation: "",
   religion: "",
   nationality: "",
-  bloodGroup: "",
+  bloodGroup: "+",
   martialStatus: "",
+  pan: "",
+  panAttachmentPath: "", //send Base64 string
+  citizenshipNo: "",
+  citizenshipIssueDate: "",
+  citizenshipFrontAttachmentPath: "", //send Base64 string
+  citizenshipBackAttachmentPath: "", //send Base64 string
   password: "",
-  passwordConfirmation: "",
 };
 const flag = [
   "BloodGroupDDL",
@@ -174,7 +206,9 @@ export default function StakeHolderRegistration() {
   };
   return (
     <div>
-      <h1 className="text-3xl font-bold text-dark mb-3">Stake Holder Registration</h1>
+      <h1 className="text-3xl font-bold text-dark mb-3">
+        Stake Holder Registration
+      </h1>
       <div className="mb-3">
         <p className="mb-3">
           Before you proceed with the form please read below topics:
@@ -367,8 +401,10 @@ export default function StakeHolderRegistration() {
                       }}
                       // max={maxDate}
                     />
-                
-                    <div className="text-red-500 text-sm">{errors?.dateOfBirth}</div>
+
+                    <div className="text-red-500 text-sm">
+                      {errors?.dateOfBirth}
+                    </div>
                   </div>
 
                   <div className="space-y-2">

@@ -27,14 +27,8 @@ const Stats = () => {
 
           <div className="bg-white/10 backdrop-blur-sm rounded-lg p-8 text-center transform transition-transform hover:scale-105 duration-300">
             <div className="text-4xl md:text-5xl font-bold text-school-secondary mb-2">
-              
               <div className="number">
-                <CountUp
-                  duration={15}
-                  className="counter"
-                  start={5}
-                  end={25}
-                />
+                <CountUp duration={15} className="counter" start={5} end={25} />
                 <span>+</span>
               </div>
             </div>
@@ -48,20 +42,17 @@ const Stats = () => {
 
           <div className="bg-white/10 backdrop-blur-sm rounded-lg p-8 text-center transform transition-transform hover:scale-105 duration-300">
             <div className="text-4xl md:text-5xl font-bold text-school-secondary mb-2">
-
-    <div className="number">
-        <>
-          <CountUp
-            start={5}
-            end={12}
-            duration={15}
-            className="counter"
-          />
-          <span>+</span>
-        </>
-    </div>
-
-
+              <div className="number">
+                <>
+                  <CountUp
+                    start={5}
+                    end={12}
+                    duration={15}
+                    className="counter"
+                  />
+                  <span>+</span>
+                </>
+              </div>
             </div>
             <div className="text-xl font-semibold mb-2">Programs Offered</div>
             <p className="text-white/80">
@@ -75,7 +66,7 @@ const Stats = () => {
                 <CountUp
                   duration={15}
                   className="counter"
-                  start={950}
+                  start={800}
                   end={1000}
                 />
                 <span>+</span>

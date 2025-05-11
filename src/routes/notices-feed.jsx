@@ -5,6 +5,8 @@ import { Calendar, Tag, ChevronRight, FileText, Trophy, Badge } from "lucide-rea
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
+import { useQuery } from "@tanstack/react-query"
+import { fetchEventLists } from "@/action/eventAction"
 
 
 
@@ -52,6 +54,13 @@ const notices = [
 ]
 
 export default function NoticesFeed() {
+      const { isPending, error, data } = useQuery({
+        queryKey: ["events"],
+        queryFn: () => fetchEventLists({}),
+        retry: true,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+      });
   return (
     <div className="container mx-auto py-16">
       <div className="space-y-8">

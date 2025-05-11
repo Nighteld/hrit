@@ -31,6 +31,8 @@ import { StaffGrid } from './routes/loggedInRoutes/staff';
 import StaffRegistration from './routes/loggedInRoutes/staff/staffRegistration';
 import { StakeHolderGrid } from './routes/loggedInRoutes/stakeHolders';
 import StakeHolderRegistration from './routes/loggedInRoutes/stakeHolders/stakeHolderRegistration';
+import EventsCreate from './routes/loggedInRoutes/events/eventsCreate';
+import Notice from './routes/notice';
 
 // Create a client
 const queryClient = new QueryClient()
@@ -87,6 +89,7 @@ function App() {
           <Route path="computer-science" element={<ComputerScience />} />
           <Route path="alumni-committee" element={<AlumniCommittee />} />
           <Route path="notices" element={<NoticesFeed />} />
+          <Route path="notices/:id" element={<Notice />} />
           <Route path="news" element={<News />} />
           <Route path="book-lists" element={<BookList />} />
           <Route path="class-schedules" element={<ClassSchedules />} />
@@ -107,6 +110,7 @@ function App() {
           <Route path="staff/create" element={<StaffRegistration />} />
           <Route path="stake-holder" element={<StakeHolderGrid />} />
           <Route path="stake-holder/create" element={<StakeHolderRegistration />} />
+          <Route path="event/create" element={<EventsCreate />} />
         </Route>
       </Routes>
       <ScrollTop />

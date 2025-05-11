@@ -19,6 +19,8 @@ const API_ENDPOINTS = {
   getJsonFromExcel: utility + "GetJsonFromExcel",
   registerStaff: adminUser + "RegisterStaff",
   getStaff: adminUser + "GetStaffDetails",
+  saveEvents: user + "InsertUpdateEvents",
+  getEvents: user + "GetEvents",
 };
 
 export default API_ENDPOINTS;

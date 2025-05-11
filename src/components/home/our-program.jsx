@@ -23,20 +23,20 @@ export default function OurProgram() {
       description:
         "The program emphasizes in-depth learning in subjects like Physics, Chemistry, Biology and Mathematics...",
     },
-    {
-      title: "Arts",
-      link: "/fine-arts",
+    // {
+    //   title: "Arts",
+    //   link: "/fine-arts",
 
-      description:
-        "Fine Art is art developed primary for aesthetic and intellectual purpose and judged for its beauty and meaningfulness...",
-    },
-    {
-        title: "Humanities",
-        link: "/humanities",
+    //   description:
+    //     "Fine Art is art developed primary for aesthetic and intellectual purpose and judged for its beauty and meaningfulness...",
+    // },
+    // {
+    //     title: "Humanities",
+    //     link: "/humanities",
   
-        description:
-          "Humanities at Hrit encourage students to understand what indeed the true essence of human endeavours and goal...",
-      },
+    //     description:
+    //       "Humanities at Hrit encourage students to understand what indeed the true essence of human endeavours and goal...",
+    //   },
   ];
   return (
     <section className="bg-slate-200">

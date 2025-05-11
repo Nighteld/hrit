@@ -195,7 +195,7 @@ h6 {
   background-color: var(--base-color);
 }
 .bg-text {
-  color: var(--base-color);
+  color: var(--base-color); 
 }
 .bg-color-next {
   background-color: var(--base-color-next);
@@ -465,10 +465,12 @@ select {
   transform: translate(-50%, -50%);
 }
 
-
 .table thead tr th {
-padding: 10px;
+  padding: 10px;
 }
 .table tbody tr td {
   padding: 10px;
-  }
+}
+.ck-powered-by {
+  display: none;
+}

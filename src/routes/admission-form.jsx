@@ -26,6 +26,7 @@ import api from "@/utils/api";
 import API_ENDPOINTS from "@/utils/apiList";
 import { GenerateToken } from "@/auth/authAction";
 import { phoneRegExp } from "@/utils/regexPattern";
+import apiPublic from "@/utils/apiPublic";
 
 const validationSchema = () =>
   Yup.object({
@@ -56,7 +57,7 @@ export default function AdmissionForm() {
     debugger;
     // await GenerateToken();
     try {
-      const response = await api.post(
+      const response = await apiPublic.post(
         API_ENDPOINTS.saveUser,
         {
           studentName: values.studentName,

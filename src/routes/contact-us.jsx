@@ -142,7 +142,7 @@ export default function ContactPage() {
                       id="firstName"
                       name="firstName"
                       // type="email"
-                      type="number"
+                      type="text"
                       placeholder="Enter your first name"
                       // required
                     />
@@ -159,7 +159,7 @@ export default function ContactPage() {
                       id="lastName"
                       name="lastName"
                       // type="email"
-                      type="number"
+                      type="text"
                       placeholder="Enter your last name"
                       // required
                     />
@@ -232,14 +232,14 @@ export default function ContactPage() {
                     as={Textarea}
                     id="message"
                     name="message"
-                    type="email"
+                    type="text"
                     placeholder="m@example.com"
                     className="min-h-[150px]"
 
                     // required
                   />
                   <ErrorMessage
-                    name="email"
+                    name="text"
                     component="div"
                     className="text-red-500 text-sm"
                   />

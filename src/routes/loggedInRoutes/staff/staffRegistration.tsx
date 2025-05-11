@@ -20,6 +20,23 @@ import { toastError, toastSuccess } from "@/utils/helper";
 import NepaliDatePicker, { NepaliDate } from "@zener/nepali-datepicker-react";
 import "@zener/nepali-datepicker-react/index.css";
 import { useNavigate } from "react-router";
+import { phoneRegExp } from "@/utils/regexPattern";
+
+interface StaffFormValues {
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  gender: string;
+  dateOfBirth: string;
+  mobileNo: string;
+  emailID: string;
+  religion: string;
+  nationality: string;
+  bloodGroup: string;
+  martialStatus: string;
+  password: string;
+  passwordConfirmation: string;
+}
 
 const validationSchema = () =>
   Yup.object({
@@ -27,7 +44,9 @@ const validationSchema = () =>
     middleName: Yup.string().notRequired(),
     lastName: Yup.string().required("This field is required"),
     emailID: Yup.string().email().required("Email ID is required"),
-    mobileNo: Yup.string().required("This field is required"),
+    mobileNo: Yup.string()
+      .required()
+      .matches(phoneRegExp, "Please Enter valid phone no."),
     dateOfBirth: Yup.string().required("This field is required"),
     gender: Yup.string().required("This field is required"),
     religion: Yup.string().required("This field is required"),
@@ -143,11 +162,15 @@ export default function StaffRegistration() {
 
   console.log("error", error);
 
-  const handleSubmit = async (values, handleReset) => {
+  const handleSubmit = async (values: StaffFormValues): Promise<void> => {
     debugger;
     setFormLoader(true);
     try {
-      const response = await api.post(API_ENDPOINTS.registerStaff, values, {
+      const payload = {
+        ...values,
+        mobileNo: values.mobileNo.toString(), // already string but safe
+      };
+      const response = await api.post(API_ENDPOINTS.registerStaff, payload, {
         headers: {
           "Access-Control-Allow-Origin": "*",
           "Content-type": "application/json; charset=UTF-8",
@@ -161,9 +184,7 @@ export default function StaffRegistration() {
       }
       toastSuccess(response.data.responseMessage);
       navigate("/staff");
-      if (handleReset) {
-        handleReset();
-      }
+
       debugger;
     } catch (error: unknown) {
       const errorAsError = error as Error;
@@ -205,7 +226,7 @@ export default function StaffRegistration() {
         validationSchema={validationSchema}
         validateOnMount
         // onSubmit={(values) => console.log("Form Submitted:", values)}
-        onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}
+        onSubmit={(values, { resetForm }) => handleSubmit(values)}
       >
         {({
           setFieldValue,
@@ -314,7 +335,7 @@ export default function StaffRegistration() {
                       id="mobileNo"
                       name="mobileNo"
                       // type="email"
-                      type="text"
+                      type="number"
                       // placeholder="m@example.com"
                       // required
                     />
@@ -367,8 +388,10 @@ export default function StaffRegistration() {
                       }}
                       // max={maxDate}
                     />
-                
-                    <div className="text-red-500 text-sm">{errors?.dateOfBirth}</div>
+
+                    <div className="text-red-500 text-sm">
+                      {errors?.dateOfBirth}
+                    </div>
                   </div>
 
                   <div className="space-y-2">

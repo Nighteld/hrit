@@ -102,6 +102,25 @@ export const admission = [
     href: "/computer-science",
   },
 ];
+
+export const events = [
+  {
+    title: "News",
+    href: "/news",
+  },
+
+  {
+    title: "Notice",
+    href: "/notices",
+  },
+  {
+    title: "Gallery",
+    href: "https://photos.app.goo.gl/mmKLfTUr4WXbusAr9",
+    target: "_blank",
+  },
+  
+];
+
 export const downloads = [
   {
     title: "Book Lists",
@@ -214,8 +233,32 @@ export function NavigationMenuDemo() {
           <img src="/hrit.png" alt="school-logo" height={80} width={250} />
         </Link>
       </div>
+      
       <NavigationMenu className="hidden md:flex">
         <NavigationMenuList className="flex-wrap">
+        <NavigationMenuItem>
+            <NavigationMenuTrigger className="nav-button flex-1">
+              Events
+            </NavigationMenuTrigger>
+            <NavigationMenuContent>
+            <ul className="grid w-[200px] gap-3 p-4 md:w-[300px] md:grid-cols-2 lg:w-[400px]">
+
+                {events.map((component) => (
+                  // <Link to={component.href} key={component.title}>
+                  <ListItem
+                    key={component.title}
+                    title={component.title}
+                    to={component.href}
+                    target={component.target}
+                  >
+                    {component.description}
+                  </ListItem>
+                  // </Link>
+                ))}
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+{/* 
           <NavigationMenuItem>
             <Link
               to="/notices"
@@ -241,7 +284,7 @@ export function NavigationMenuDemo() {
             >
               Gallery
             </a>
-          </NavigationMenuItem>
+          </NavigationMenuItem> */}
           <NavigationMenuItem>
             <NavigationMenuTrigger className="nav-button flex-1">
               Downloads
@@ -286,12 +329,14 @@ export function NavigationMenuDemo() {
   );
 }
 
-const ListItem = React.forwardRef(({ className, title, children, to }, ref) => {
+const ListItem = React.forwardRef(({ className, title, children, to ,target }, ref) => {
   return (
     <li>
       {/* <NavigationMenuLink asChild> */}
       <Link
         ref={ref}
+        target={target ? target : "_self"}
+        rel="noopener noreferrer"
         to={to} // Ensure "to" is correctly passed down
         className={cn(
           "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",

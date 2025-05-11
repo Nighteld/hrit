@@ -1,6 +1,16 @@
+import { fetchEventLists } from "@/action/eventAction";
 import { Button } from "@/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
 
 export default function News() {
+  
+    const { isPending, error, data } = useQuery({
+      queryKey: ["events"],
+      queryFn: () => fetchEventLists({}),
+      retry: true,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    });
   const news = [
     {
       id: 1,

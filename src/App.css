@@ -474,3 +474,12 @@ select {
 .ck-powered-by {
   display: none;
 }
+
+.events-multi-line {
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* Adjust based on how many lines fit in 100px */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 100px;
+}

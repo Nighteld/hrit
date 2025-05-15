@@ -1,4 +1,20 @@
 import React, { useMemo, useState } from "react";
+// LightGallery core
+import LightGallery from "lightgallery/react";
+
+// LightGallery core styles
+import "lightgallery/css/lightgallery.css";
+
+// Plugin styles
+import "lightgallery/css/lg-zoom.css";
+import "lightgallery/css/lg-video.css";
+import "lightgallery/css/lg-thumbnail.css";
+import "lightgallery/css/lg-rotate.css";
+// Plugins
+import lgZoom from "lightgallery/plugins/zoom";
+import lgVideo from "lightgallery/plugins/video";
+import lgThumbnail from "lightgallery/plugins/thumbnail";
+import lgRotate from "lightgallery/plugins/rotate";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -46,6 +62,7 @@ import { getAppToken, toastError, toastSuccess } from "@/utils/helper";
 import { fetchAgentLists } from "@/action/agentAction";
 import { dateFormatter } from "@/utils/function";
 import { Link } from "react-router";
+import { fetchEventLists } from "@/action/eventAction";
 
 export type Agent = {
   id: string;
@@ -63,73 +80,27 @@ export type Agent = {
 
 export const columns: ColumnDef<Agent>[] = [
   {
-    accessorKey: "firstName",
-    header: "First Name",
+    accessorKey: "eventTitle",
+    header: "Event Title",
   },
   {
-    accessorKey: "middleName",
-    header: "Middle Name",
+    accessorKey: "eventCategory",
+    header: "Event Category",
+  },
+    {
+    accessorKey: "eventAttachment",
+    header: "Image",
+        cell: ({ row }) => (
+          <div className="capitalize">
+            <img src={row.getValue("eventAttachment")} alt="" width={150} height={150}/>
+          </div>
+        ),
   },
   {
-    accessorKey: "lastName",
-    header: "Last Name",
-  },
-  {
-    accessorKey: "gender",
-    header: "Gender",
-  },
-  {
-    accessorKey: "dateOfBirth",
-    header: "DOB",
-    cell: ({ row }) => (
-      <div className="capitalize">
-        {dateFormatter(row.getValue("dateOfBirth"))}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "mobileNo",
-    header: "Mobile No",
-  },
-  {
-    accessorKey: "emailID",
-    header: "Email",
-  },
-  {
-    accessorKey: "emailID",
-    header: "Email",
-  },
-  {
-    accessorKey: "emailID",
-    header: "Email",
-  },
-  {
-    accessorKey: "emailID",
-    header: "Email",
-  },
-
-  {
-    accessorKey: "emailID",
-    header: "Email",
-  },
-  {
-    accessorKey: "emailID",
-    header: "Email",
-  },
-  {
-    accessorKey: "pan",
-    header: "Pan No",
-  },
-  {
-    accessorKey: "agentUID",
-    header: "Agent ID",
-  },
-  {
-    accessorKey: "occupation",
-    header: "Occupation",
+    accessorKey: "isActive",
+    header: "Status",
   },
 ];
-
 
 export function EventGrid() {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -139,13 +110,10 @@ export function EventGrid() {
 
   const { isPending, error, data } = useQuery({
     queryKey: ["agentList"],
-    queryFn: () =>
-      fetchAgentLists({
-        agentUID: "",
-      }),
-      retry: true,
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
+    queryFn: () => fetchEventLists({}),
+    retry: true,
+    // refetchOnMount: false,
+    // refetchOnWindowFocus: false,
   });
   console.log("isPending", isPending);
   console.log("data2", data);
@@ -174,7 +142,7 @@ export function EventGrid() {
     <section className="w-full">
       <Card className="shadow-none">
         <CardHeader>
-          <CardTitle>Agent Lists</CardTitle>
+          <CardTitle>Event Lists</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center py-4  justify-end">
@@ -188,117 +156,119 @@ export function EventGrid() {
                 }
                 className="max-w-sm"
               /> */}
-        <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="ml-auto">
+                    Columns <ChevronDown />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  {table
+                    .getAllColumns()
+                    .filter((column) => column.getCanHide())
+                    .map((column) => {
+                      return (
+                        <DropdownMenuCheckboxItem
+                          key={column.id}
+                          className="capitalize"
+                          checked={column.getIsVisible()}
+                          onCheckedChange={(value) =>
+                            column.toggleVisibility(!!value)
+                          }
+                        >
+                          {column.id}
+                        </DropdownMenuCheckboxItem>
+                      );
+                    })}
+                </DropdownMenuContent>
+              </DropdownMenu>
 
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="ml-auto">
-                  Columns <ChevronDown />
+              <Link to="/events/create">
+                <Button
+                  variant="outline"
+                  className="ml-auto bg-primary text-white"
+                >
+                  <Plus />
+                  Add Events
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                {table
-                  .getAllColumns()
-                  .filter((column) => column.getCanHide())
-                  .map((column) => {
-                    return (
-                      <DropdownMenuCheckboxItem
-                        key={column.id}
-                        className="capitalize"
-                        checked={column.getIsVisible()}
-                        onCheckedChange={(value) =>
-                          column.toggleVisibility(!!value)
-                        }
-                      >
-                        {column.id}
-                      </DropdownMenuCheckboxItem>
-                    );
-                  })}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <Link to="/agent/create">
-            <Button variant="outline" className="ml-auto bg-primary text-white">
-              <Plus />
-              Add Agents
-            </Button>
-          </Link>
+              </Link>
             </div>
           </div>
-              <div className="rounded-md border overflow-x-auto">
-                <Table className="">
-                  <TableHeader>
-                    {table.getHeaderGroups().map((headerGroup) => (
-                      <TableRow key={headerGroup.id}>
-                        {headerGroup.headers.map((header) => {
-                          return (
-                            <TableHead key={header.id}>
-                              {header.isPlaceholder
-                                ? null
-                                : flexRender(
-                                    header.column.columnDef.header,
-                                    header.getContext()
-                                  )}
-                            </TableHead>
-                          );
-                        })}
-                      </TableRow>
-                    ))}
-                  </TableHeader>
-                  <TableBody>
-                    {table.getRowModel().rows?.length ? (
-                      table.getRowModel().rows.map((row) => (
-                        <TableRow
-                          key={row.id}
-                          data-state={row.getIsSelected() && "selected"}
-                        >
-                          {row.getVisibleCells().map((cell) => (
-                            <TableCell key={cell.id}  >
-                              {flexRender(
-                                cell.column.columnDef.cell,
-                                cell.getContext()
+          <div className="rounded-md border overflow-x-auto">
+            <Table className="">
+              <TableHeader>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => {
+                      return (
+                        <TableHead key={header.id}>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
                               )}
-                            </TableCell>
-                          ))}
-                        </TableRow>
-                      ))
-                    ) : (
-                      <TableRow>
-                        <TableCell
-                          // colSpan={columns?.length}
-                          className="h-24 text-center"
-                        >
-                          No results.
+                        </TableHead>
+                      );
+                    })}
+                  </TableRow>
+                ))}
+              </TableHeader>
+              <TableBody>
+                {table.getRowModel().rows?.length ? (
+                  table.getRowModel().rows.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && "selected"}
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
                         </TableCell>
-                      </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
-              </div>
-              <div className="flex items-center justify-end space-x-2 py-4">
-                <div className="flex-1 text-sm text-muted-foreground">
-                  {table.getFilteredSelectedRowModel().rows.length} of{" "}
-                  {table.getFilteredRowModel().rows.length} row(s) selected.
-                </div>
-                <div className="space-x-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.previousPage()}
-                    disabled={!table.getCanPreviousPage()}
-                  >
-                    Previous
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.nextPage()}
-                    disabled={!table.getCanNextPage()}
-                  >
-                    Next
-                  </Button>
-                </div>
-              </div>
+                      ))}
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      // colSpan={columns?.length}
+                      className="h-24 text-center"
+                    >
+                      No results.
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+          <div className="flex items-center justify-end space-x-2 py-4">
+            <div className="flex-1 text-sm text-muted-foreground">
+              {table.getFilteredSelectedRowModel().rows.length} of{" "}
+              {table.getFilteredRowModel().rows.length} row(s) selected.
+            </div>
+            <div className="space-x-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+              >
+                Previous
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+              >
+                Next
+              </Button>
+            </div>
+          </div>
         </CardContent>
       </Card>
     </section>

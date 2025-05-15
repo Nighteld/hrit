@@ -66,14 +66,14 @@ export const academics = [
     title: "Science",
     href: "/science",
   },
-  {
-    title: "Fine Arts",
-    href: "/fine-arts",
-  },
-  {
-    title: "Humanities",
-    href: "/humanities",
-  },
+  // {
+  //   title: "Fine Arts",
+  //   href: "/fine-arts",
+  // },
+  // {
+  //   title: "Humanities",
+  //   href: "/humanities",
+  // },
 ];
 
 export const admission = [

@@ -33,6 +33,7 @@ import { StakeHolderGrid } from './routes/loggedInRoutes/stakeHolders';
 import StakeHolderRegistration from './routes/loggedInRoutes/stakeHolders/stakeHolderRegistration';
 import EventsCreate from './routes/loggedInRoutes/events/eventsCreate';
 import Notice from './routes/notice';
+import { EventGrid } from './routes/loggedInRoutes/events';
 
 // Create a client
 const queryClient = new QueryClient()
@@ -110,7 +111,8 @@ function App() {
           <Route path="staff/create" element={<StaffRegistration />} />
           <Route path="stake-holder" element={<StakeHolderGrid />} />
           <Route path="stake-holder/create" element={<StakeHolderRegistration />} />
-          <Route path="event/create" element={<EventsCreate />} />
+          <Route path="events" element={<EventGrid />} />
+          <Route path="events/create" element={<EventsCreate />} />
         </Route>
       </Routes>
       <ScrollTop />

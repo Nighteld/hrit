@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { useQuery } from "@tanstack/react-query"
 import { fetchEventLists } from "@/action/eventAction"
+import { Link } from "react-router"
 
 
 
@@ -111,10 +112,12 @@ export default function NoticesFeed() {
                   </CardContent>
 
                   <CardFooter className="p-0 mt-6">
+                    <Link to={`/event/${notice.slug}`} >
                     <Button variant="outline" className="group default-button text-white">
                       Read More
                       <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                     </Button>
+                    </Link>
                   </CardFooter>
                 </div>
               </div>

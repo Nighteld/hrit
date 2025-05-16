@@ -90,7 +90,7 @@ function App() {
           <Route path="computer-science" element={<ComputerScience />} />
           <Route path="alumni-committee" element={<AlumniCommittee />} />
           <Route path="notices" element={<NoticesFeed />} />
-          <Route path="notices/:id" element={<Notice />} />
+          <Route path="event/:id" element={<Notice />} />
           <Route path="news" element={<News />} />
           <Route path="book-lists" element={<BookList />} />
           <Route path="class-schedules" element={<ClassSchedules />} />

@@ -42,11 +42,17 @@ import {
 import { GenerateToken } from "@/auth/authAction";
 import api from "@/utils/api";
 import API_ENDPOINTS from "@/utils/apiList";
-import { getAccessToken, getAppToken, toastError, toastSuccess } from "@/utils/helper";
+import {
+  getAccessToken,
+  getAppToken,
+  toastError,
+  toastSuccess,
+} from "@/utils/helper";
 import { fetchAgentLists } from "@/action/agentAction";
 import { dateFormatter } from "@/utils/function";
 import { Link } from "react-router";
 import { fetchLeadsLists } from "@/action/leadAction";
+import { fetchStakeHolderLists } from "@/action/stakeHolderAction";
 
 export type Agent = {
   id: string;
@@ -64,71 +70,66 @@ export type Agent = {
 
 export const columns: ColumnDef<Agent>[] = [
   {
-    accessorKey: "FirstName",
-    header: "First Name",
-  },
-
-  {
-    accessorKey: "LastName",
-    header: "Last Name",
-  },
-
-  {
-    accessorKey: "PermanentAddress",
-    header: "Permanent Address",
-  },
-  {
-    accessorKey: "CorrespondingAddress",
-    header: "Corresponding Address",
+    accessorKey: "firstName",
+    header: "Full Name",
+    cell: ({ row }) => {
+      debugger;
+      return (
+        <div className="capitalize">
+          {row.original.firstName +
+            " " +
+            row.original?.middleName +
+            " " +
+            row.original.lastName}
+        </div>
+      );
+    },
   },
   {
-    accessorKey: "StudentContactNo",
-    header: "Student Contact No",
+    accessorKey: "dateOfBirth",
+    header: "DOB",
+    cell: ({ row }) => (
+      <div className="capitalize">
+        {dateFormatter(row.getValue("dateOfBirth"))}
+      </div>
+    ),
   },
   {
-    accessorKey: "ParentContactNo",
-    header: "Parent Contact No",
+    accessorKey: "mobileNo",
+    header: "Mobile No",
   },
   {
-    accessorKey: "Email",
+    accessorKey: "gender",
+    header: "Gender",
+  },
+  {
+    accessorKey: "emailID",
     header: "Email",
   },
+  {
+    accessorKey: "occupation",
+    header: "Occupation",
+  },
+  {
+    accessorKey: "stakeHolderUID",
+    header: "Stake Holder UID",
+  },
 
   {
-    accessorKey: "SchoolName",
-    header: "School Name",
+    accessorKey: "nationality",
+    header: "Nationality",
   },
   {
-    accessorKey: "SchoolAddress",
-    header: "School Address",
+    accessorKey: "bloodGroup",
+    header: "Blood Group",
   },
   {
-    accessorKey: "Category",
-    header: "Category",
+    accessorKey: "martialStatus",
+    header: "Martial Status",
   },
   {
-    accessorKey: "CourseIntrested",
-    header: "Course Interested",
-  },
-  {
-    accessorKey: "Source",
-    header: "Source",
-  },
-  {
-    accessorKey: "KnowAbtCollege",
-    header: "Known From",
-  },
-  {
-    accessorKey: "Remarks",
-    header: "Remarks",
-  },
-  {
-    accessorKey: "CounselledDate",
-    header: "Counselled Date",
-  },
-  {
-    accessorKey: "FollowUpDate",
-    header: "Fallow up Date",
+    accessorKey: "pan",
+    header: "Pan",
   },
 ];
 
@@ -139,11 +140,11 @@ export function StakeHolderGrid() {
   const [rowSelection, setRowSelection] = useState({});
 
   const { isPending, error, data } = useQuery({
-    queryKey: ["leadList"],
-    queryFn: () => fetchLeadsLists({}),
+    queryKey: ["stakeHolders"],
+    queryFn: () => fetchStakeHolderLists({}),
     retry: true,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
+    // refetchOnMount: false,
+    // refetchOnWindowFocus: false,
   });
   console.log("isPending", isPending);
   console.log("data2", data);

@@ -254,7 +254,6 @@ export default function AgentRegistration() {
     }
   };
   const handleSubmit = async (values, handleReset) => {
-    await GenerateToken();
     try {
       const response = await api.post(API_ENDPOINTS.registerAgent, values, {
         headers: {

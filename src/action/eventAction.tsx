@@ -6,7 +6,7 @@ import { getAppToken } from "@/utils/helper";
 
 export const fetchEventLists = async (param: any) => {
   try {
-    const response = await api.post(API_ENDPOINTS.getEvents, {}, {
+    const response = await api.post(API_ENDPOINTS.getEvents, param, {
       headers: {
         "Content-Type": "application/json; charset=UTF-8",
 

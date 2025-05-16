@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { ChangeEvent, useEffect, useMemo, useState } from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -11,9 +11,23 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal, Plus } from "lucide-react";
+import {
+  ArrowUpDown,
+  ChevronDown,
+  ChevronRight,
+  ChevronsDown,
+  MoreHorizontal,
+  Plus,
+} from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -42,113 +56,191 @@ import {
 import { GenerateToken } from "@/auth/authAction";
 import api from "@/utils/api";
 import API_ENDPOINTS from "@/utils/apiList";
-import { getAccessToken, getAppToken, toastError, toastSuccess } from "@/utils/helper";
+import {
+  getAccessToken,
+  getAppToken,
+  toastError,
+  toastSuccess,
+} from "@/utils/helper";
 import { fetchAgentLists } from "@/action/agentAction";
 import { dateFormatter } from "@/utils/function";
 import { Link } from "react-router";
-import { fetchLeadsLists } from "@/action/leadAction";
+import { fetchFallowupDetails, fetchLeadsLists } from "@/action/leadAction";
+import { CategoryList, CourseList } from "@/utils/constant";
 
-export type Agent = {
-  id: string;
-  firstName: string;
+export type Leads = {
+  ID: number;
+  FirstName: string;
   middleName?: string;
-  lastName: string;
-  gender: string;
-  dateOfBirth: string;
-  mobileNo: string;
-  emailID: string;
-  pan: string;
-  agentUID: string;
-  occupation: string;
+  LastName: string;
+  PermanentAddress: string;
+  CorrespondingAddress: string;
+  StudentContactNo: string;
+  ParentContactNo: string;
+  Email: string;
+  SessionId: string;
+  SchoolName: string;
+  SchoolAddress: string;
+  Category: string;
+  CourseIntrested: string;
+  Source: string;
+  KnowAbtCollege: string;
+  CounselledDate: string;
+  FollowUpDate: string;
+  OriginalLeadId: string;
+  LeadID: string;
 };
 
-export const columns: ColumnDef<Agent>[] = [
-  {
-    accessorKey: "FirstName",
-    header: "First Name",
-  },
-
-  {
-    accessorKey: "LastName",
-    header: "Last Name",
-  },
-
-  {
-    accessorKey: "PermanentAddress",
-    header: "Permanent Address",
-  },
-  {
-    accessorKey: "CorrespondingAddress",
-    header: "Corresponding Address",
-  },
-  {
-    accessorKey: "StudentContactNo",
-    header: "Student Contact No",
-  },
-  {
-    accessorKey: "ParentContactNo",
-    header: "Parent Contact No",
-  },
-  {
-    accessorKey: "Email",
-    header: "Email",
-  },
-
-  {
-    accessorKey: "SchoolName",
-    header: "School Name",
-  },
-  {
-    accessorKey: "SchoolAddress",
-    header: "School Address",
-  },
-  {
-    accessorKey: "Category",
-    header: "Category",
-  },
-  {
-    accessorKey: "CourseIntrested",
-    header: "Course Interested",
-  },
-  {
-    accessorKey: "Source",
-    header: "Source",
-  },
-  {
-    accessorKey: "KnowAbtCollege",
-    header: "Known From",
-  },
-  {
-    accessorKey: "Remarks",
-    header: "Remarks",
-  },
-  {
-    accessorKey: "CounselledDate",
-    header: "Counselled Date",
-  },
-  {
-    accessorKey: "FollowUpDate",
-    header: "Fallow up Date",
-  },
-];
+type initialValues = {
+  category: string;
+  source: string;
+  schoolName: string;
+  courseIntrested: string;
+};
 
 export function LeadsGrid() {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
-
-  const { isPending, error, data } = useQuery({
-    queryKey: ["leadList"],
-    queryFn: () => fetchLeadsLists({}),
-    retry: true,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
+  const [marketingOfficerId, setMarketingOfficerId] = useState("");
+  const [isAddingNew, setIsAddingNew] = useState(false);
+  const [formValues, setFormValues] = useState<initialValues>({
+    category: "",
+    source: "",
+    schoolName: "",
+    courseIntrested: "",
   });
+  const {
+    data: fallowUpLists,
+    isLoading: loadingFallowUpLists,
+    refetch,
+  } = useQuery({
+    queryKey: ["FallowUpLogs", marketingOfficerId],
+    // queryFn: fetchMarketingVisitLog,
+    queryFn: () =>
+      fetchFallowupDetails({
+        leadID: marketingOfficerId,
+      }),
+    enabled: !!marketingOfficerId,
+  });
+
+  const {
+    data,
+    error,
+    isLoading,
+    isFetching,
+    isPending,
+    refetch: refetchLeads,
+  } = useQuery({
+    queryKey: ["leadList"],
+    queryFn: () => fetchLeadsLists(formValues),
+    enabled: false,
+  });
+  useEffect(() => {
+    refetchLeads();
+  }, [formValues]);
+
   console.log("isPending", isPending);
   console.log("data2", data);
   console.log("error", error);
+  const columns: ColumnDef<Leads>[] = [
+    {
+      id: "expander",
+      header: () => null,
+      cell: ({ row }) => {
+        debugger;
+        return (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => {
+              setMarketingOfficerId((prev) => {
+                if (prev === row.original?.LeadID) {
+                  return "";
+                }
+                return row.original?.LeadID;
+              });
+              // setIsAddingNew(false);
+            }}
+          >
+            {row.original?.LeadID === marketingOfficerId ? (
+              <ChevronsDown className="h-4 w-4" />
+            ) : (
+              <ChevronRight className="h-4 w-4" />
+            )}
+          </Button>
+        );
+      },
+    },
+    {
+      accessorKey: "FirstName",
+      header: "First Name",
+    },
 
+    {
+      accessorKey: "LastName",
+      header: "Last Name",
+    },
+
+    {
+      accessorKey: "PermanentAddress",
+      header: "Permanent Address",
+    },
+    {
+      accessorKey: "CorrespondingAddress",
+      header: "Corresponding Address",
+    },
+    {
+      accessorKey: "StudentContactNo",
+      header: "Student Contact No",
+    },
+    {
+      accessorKey: "ParentContactNo",
+      header: "Parent Contact No",
+    },
+    {
+      accessorKey: "Email",
+      header: "Email",
+    },
+
+    {
+      accessorKey: "SchoolName",
+      header: "School Name",
+    },
+    {
+      accessorKey: "SchoolAddress",
+      header: "School Address",
+    },
+    {
+      accessorKey: "Category",
+      header: "Category",
+    },
+    {
+      accessorKey: "CourseIntrested",
+      header: "Course Interested",
+    },
+    {
+      accessorKey: "Source",
+      header: "Source",
+    },
+    {
+      accessorKey: "KnowAbtCollege",
+      header: "Known From",
+    },
+    {
+      accessorKey: "Remarks",
+      header: "Remarks",
+    },
+    {
+      accessorKey: "CounselledDate",
+      header: "Counselled Date",
+    },
+    {
+      accessorKey: "FollowUpDate",
+      header: "Fallow up Date",
+    },
+  ];
   const table = useReactTable({
     data: data ?? [],
     columns,
@@ -167,7 +259,21 @@ export function LeadsGrid() {
       rowSelection,
     },
   });
-
+  // const RenderSkeletonRows = () => (
+  //   <React.Fragment>
+  //     {/* Render 10 skeleton rows as a placeholder while loading */}
+  //     {Array.from(new Array(10)).map((_, index) => (
+  //       <TableRow key={index}>
+  //         {/* Render skeleton cells for each visible column */}
+  //         {table.getVisibleLeafColumns().map((column) => (
+  //           <TableCell key={column.id}>
+  //             <Skeleton className="h-4 w-full" />
+  //           </TableCell>
+  //         ))}
+  //       </TableRow>
+  //     ))}
+  //   </React.Fragment>
+  // );
   return (
     <section className="w-full">
       <Card className="shadow-none">
@@ -175,17 +281,66 @@ export function LeadsGrid() {
           <CardTitle>Lead Lists</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center py-4  justify-end">
-            {/* <Input
-                placeholder="Filter emails..."
-                value={
-                  (table.getColumn("emailId")?.getFilterValue() as string) ?? ""
-                }
-                onChange={(event) =>
-                  table.getColumn("emailId")?.setFilterValue(event.target.value)
-                }
+          <div className="flex items-center py-4  justify-between">
+            <div className="flex items-center gap-2">
+              <Input
+                placeholder="Filter Schools..."
+                // value={formValues.schoolName}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                  setTimeout(() => {
+                    setFormValues((prev) => ({
+                      ...prev,
+                      schoolName: event.target.value,
+                    }))
+                  }, 1000);
+                }}
                 className="max-w-sm"
-              /> */}
+              />
+
+              <Select
+                onValueChange={(value: string) =>
+                  setFormValues((prev) => ({
+                    ...prev,
+                    courseIntrested: value,
+                  }))
+                }
+                value={formValues.courseIntrested}
+                name="courseIntrested"
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Filter Courses..." />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {CourseList.map((item) => (
+                      <SelectItem value={item}>{item}</SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+
+              <Select
+                onValueChange={(value: string) =>
+                  setFormValues((prev) => ({
+                    ...prev,
+                    category: value,
+                  }))
+                }
+                value={formValues.category}
+                name="category"
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Filter Category..." />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {CategoryList.map((item) => (
+                      <SelectItem value={item}>{item}</SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
             <div className="flex items-center gap-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -248,19 +403,49 @@ export function LeadsGrid() {
               <TableBody>
                 {table.getRowModel().rows?.length ? (
                   table.getRowModel().rows.map((row) => (
-                    <TableRow
-                      key={row.id}
-                      data-state={row.getIsSelected() && "selected"}
-                    >
-                      {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </TableCell>
-                      ))}
-                    </TableRow>
+                    <React.Fragment key={row.id}>
+                      <TableRow
+                        key={row.id}
+                        data-state={row.getIsSelected() && "selected"}
+                      >
+                        {row.getVisibleCells().map((cell) => (
+                          <TableCell key={cell.id}>
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                      {row.original.LeadID === marketingOfficerId && (
+                        <TableRow>
+                          <TableCell colSpan={columns.length} className="p-0">
+                            <div className="p-4 bg-muted/50">
+                              <Card>
+                                <CardContent className="p-4">
+                                  <div className="flex  items-center gap-5 py-2 mb-2">
+                                    <Button
+                                      variant="outline"
+                                      className=""
+                                      onClick={() => {
+                                        setIsAddingNew(true);
+                                      }}
+                                    >
+                                      <Plus />
+                                      Add Log
+                                    </Button>
+                                    {/* <h3 className="font-semibold text-lg mb-2 ">
+                                  Fallow up History
+                                </h3> */}
+                                  </div>
+                                  <div className=""></div>
+                                </CardContent>
+                              </Card>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </React.Fragment>
                   ))
                 ) : (
                   <TableRow>

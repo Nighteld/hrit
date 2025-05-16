@@ -6,7 +6,9 @@ export default function News() {
   
     const { isPending, error, data } = useQuery({
       queryKey: ["events"],
-      queryFn: () => fetchEventLists({}),
+      queryFn: () => fetchEventLists({
+        eventCategory:"News"
+      }),
       retry: true,
       refetchOnMount: false,
       refetchOnWindowFocus: false,

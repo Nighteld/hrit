@@ -16,10 +16,12 @@ import * as Yup from "yup";
 
 import api from "@/utils/api";
 import API_ENDPOINTS from "@/utils/apiList";
-import { toastError, toastSuccess } from "@/utils/helper";
+import { getAppToken, toastError, toastSuccess } from "@/utils/helper";
 import NepaliDatePicker, { NepaliDate } from "@zener/nepali-datepicker-react";
 import "@zener/nepali-datepicker-react/index.css";
 import { useNavigate } from "react-router";
+import FileUpload from "@/components/file-upload";
+import { handleImageValidation } from "@/utils/function";
 
 const validationSchema = () =>
   Yup.object({
@@ -29,14 +31,14 @@ const validationSchema = () =>
     gender: Yup.string().required("This field is required"),
     dateOfBirth: Yup.string().required("This field is required"),
     mobileNo: Yup.string().required("This field is required"),
-    phoneNo: Yup.string().required("This field is required"),
+    // phoneNo: Yup.string().required("This field is required"),
     emailID: Yup.string().email().required("Email ID is required"),
     occupation: Yup.string().required("This field is required"),
     religion: Yup.string().required("This field is required"),
     nationality: Yup.string().required("This field is required"),
     bloodGroup: Yup.string().required("This field is required"),
     martialStatus: Yup.string().required("This field is required"),
- pan: Yup.string()
+    pan: Yup.string()
       .matches(/^\d{9}$/, "PAN must be exactly 9 digits")
       .required("PAN is required"),
     panAttachmentPath: Yup.string().required("PAN attachment is required"),
@@ -90,11 +92,15 @@ const initialValues = {
   martialStatus: "",
   pan: "",
   panAttachmentPath: "", //send Base64 string
+  panAttachmentPathFileName: "", //send Base64 string
   citizenshipNo: "",
   citizenshipIssueDate: "",
   citizenshipFrontAttachmentPath: "", //send Base64 string
+  citizenshipFrontAttachmentPathFileName: "",
   citizenshipBackAttachmentPath: "", //send Base64 string
+  citizenshipBackAttachmentPathFileName: "",
   password: "",
+  passwordConfirmation: "",
 };
 const flag = [
   "BloodGroupDDL",
@@ -175,33 +181,59 @@ export default function StakeHolderRegistration() {
 
   console.log("error", error);
 
-  const handleSubmit = async (values, handleReset) => {
+  const handleImageUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setFieldValue: (name: string, value: any) => void
+  ) => {
     debugger;
-    setFormLoader(true);
-    try {
-      const response = await api.post(API_ENDPOINTS.registerStaff, values, {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      });
+
+    const { name, files } = e.target || {};
+    if (!files) return;
+    if (files.length > 0) {
+      let { size } = files[0];
       debugger;
-      setFormLoader(false);
+      let validation = handleImageValidation(files[0]);
+      if (validation) {
+        const reader = new FileReader();
+        reader.readAsDataURL(files[0]);
+        reader.onload = function () {
+          if (reader.result !== null) {
+            let imageBase64 = (reader.result as string).replace(/^.+,/, "");
+            setFieldValue(name, imageBase64);
+            setFieldValue(name + "FileName", files[0].name);
+          }
+        };
+        reader.onerror = function (error) {
+          // console.log(error);
+        };
+      }
+    }
+  };
+  const handleSubmit = async (values) => {
+    try {
+      const response = await api.post(
+        API_ENDPOINTS.RegisterStakeHolder,
+        values,
+        {
+          headers: {
+            Authorization: "Bearer " + getAppToken(),
+            "Access-Control-Allow-Origin": "*",
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        }
+      );
+      debugger;
 
       if (response.data.responseCode !== "0") {
         return toastError(response.data.responseMessage);
       }
       toastSuccess(response.data.responseMessage);
-      navigate("/staff");
-      if (handleReset) {
-        handleReset();
-      }
+      navigate("/stake-holder");
       debugger;
     } catch (error: unknown) {
       const errorAsError = error as Error;
       console.error("Error in login API:", errorAsError);
       toastError(errorAsError.message);
-      setFormLoader(false);
     }
   };
   return (
@@ -359,33 +391,22 @@ export default function StakeHolderRegistration() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>
-                      Gender
-                      {/* <span className="text-red-500">*</span> */}
-                    </Label>
-                    <Select
-                      onValueChange={(value: string) =>
-                        setFieldValue("gender", value)
-                      }
-                      value={values.gender}
-                      name="gender"
-                    >
-                      <SelectTrigger
-                        className={errors.gender ? "validation-error" : ""}
-                      >
-                        <SelectValue placeholder="Select Your Gender" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectItem value="Male">Male</SelectItem>
-                          <SelectItem value="Female">Female</SelectItem>
-                          <SelectItem value="Others">Others</SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                    <div className="text-red-500 text-sm">{errors?.gender}</div>
+                    <Label htmlFor="pan">Pan</Label>
+                    <Field
+                      as={Input}
+                      id="pan"
+                      name="pan"
+                      // type="email"
+                      type="text"
+                      // placeholder="m@example.com"
+                      // required
+                    />
+                    <ErrorMessage
+                      name="pan"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
                   </div>
-
                   <div className="space-y-2">
                     <Label htmlFor="dateOfBirth">Date of Birth</Label>
 
@@ -424,7 +445,7 @@ export default function StakeHolderRegistration() {
                         <SelectGroup>
                           {religion &&
                             religion.map((item) => (
-                              <SelectItem value={item.id}>
+                              <SelectItem value={item.value}>
                                 {item.value}
                               </SelectItem>
                             ))}
@@ -453,7 +474,7 @@ export default function StakeHolderRegistration() {
                         <SelectGroup>
                           {nationality &&
                             nationality.map((item) => (
-                              <SelectItem value={item.id}>
+                              <SelectItem value={item.value}>
                                 {item.value}
                               </SelectItem>
                             ))}
@@ -461,7 +482,34 @@ export default function StakeHolderRegistration() {
                       </SelectContent>
                     </Select>
                   </div>
-
+                  <div className="space-y-2">
+                    <Label>
+                      Occupation
+                      {/* <span className="text-red-500">*</span> */}
+                    </Label>
+                    <Select
+                      onValueChange={(value: string) =>
+                        setFieldValue("occupation", value)
+                      }
+                      name="bloodGroup"
+                    >
+                      <SelectTrigger
+                        className={errors.occupation ? "validation-error" : ""}
+                      >
+                        <SelectValue placeholder="Click to select" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          {occupation &&
+                            occupation.map((item) => (
+                              <SelectItem value={item.value}>
+                                {item.value}
+                              </SelectItem>
+                            ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
                   <div className="space-y-2">
                     <Label>
                       Blood Group
@@ -482,7 +530,7 @@ export default function StakeHolderRegistration() {
                         <SelectGroup>
                           {bloodGroup &&
                             bloodGroup.map((item) => (
-                              <SelectItem value={item.id}>
+                              <SelectItem value={item.value}>
                                 {item.value}
                               </SelectItem>
                             ))}
@@ -518,6 +566,77 @@ export default function StakeHolderRegistration() {
                       </SelectContent>
                     </Select>
                   </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="citizenshipNo">
+                      Citizenship No
+                      {/* <span className="text-red-500">*</span> */}
+                    </Label>
+                    <Field
+                      as={Input}
+                      id="citizenshipNo"
+                      name="citizenshipNo"
+                      // type="email"
+                      type="text"
+                      className={errors.citizenshipNo ? "validation-error" : ""}
+                      // placeholder="m@example.com"
+                      // required
+                    />
+                    <ErrorMessage
+                      name="citizenshipNo"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="dobNepali">
+                      Citizenship Issued Date{" "}
+                      {/* <span className="text-red-500">*</span> */}
+                    </Label>
+                    <NepaliDatePicker
+                      // value={value}
+                      lang="en"
+                      placeholder="Select date"
+                      onChange={(value) => {
+                        setFieldValue(
+                          "citizenshipIssueDate",
+                          value?.toString()
+                        );
+
+                        // setValue(e);
+                      }}
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      Format: YYYY-MM-DD
+                    </p>
+                  </div>
+                  <div className="space-y-2">
+                    <Label>
+                      Gender
+                      {/* <span className="text-red-500">*</span> */}
+                    </Label>
+                    <Select
+                      onValueChange={(value: string) =>
+                        setFieldValue("gender", value)
+                      }
+                      value={values.gender}
+                      name="gender"
+                    >
+                      <SelectTrigger
+                        className={errors.gender ? "validation-error" : ""}
+                      >
+                        <SelectValue placeholder="Select Your Gender" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="Male">Male</SelectItem>
+                          <SelectItem value="Female">Female</SelectItem>
+                          <SelectItem value="Others">Others</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                    <div className="text-red-500 text-sm">{errors?.gender}</div>
+                  </div>
+
                   <div className="space-y-2">
                     <Label htmlFor="email">
                       Password
@@ -560,6 +679,47 @@ export default function StakeHolderRegistration() {
                       name="passwordConfirmation"
                       component="div"
                       className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div className="space-y-2 "></div>
+
+                  <div className="space-y-2">
+                    <FileUpload
+                      previewUrl={values.panAttachmentPath}
+                      name="panAttachmentPath"
+                      imageName={values.panAttachmentPath}
+                      fileName={values.panAttachmentPathFileName}
+                      error={error}
+                      handleFileUpload={(e) =>
+                        handleImageUpload(e, setFieldValue)
+                      }
+                      title="Pan"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <FileUpload
+                      previewUrl={values.citizenshipFrontAttachmentPath}
+                      name="citizenshipFrontAttachmentPath"
+                      imageName={values.citizenshipFrontAttachmentPath}
+                      fileName={values.citizenshipFrontAttachmentPathFileName}
+                      error={error}
+                      handleFileUpload={(e) =>
+                        handleImageUpload(e, setFieldValue)
+                      }
+                      title="Citizenship Front"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <FileUpload
+                      previewUrl={values.citizenshipBackAttachmentPath}
+                      name="citizenshipBackAttachmentPath"
+                      imageName={values.citizenshipBackAttachmentPath}
+                      fileName={values.citizenshipBackAttachmentPathFileName}
+                      error={error}
+                      handleFileUpload={(e) =>
+                        handleImageUpload(e, setFieldValue)
+                      }
+                      title="Citizenship Back"
                     />
                   </div>
                 </div>

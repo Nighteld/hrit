@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator"
 import { useQuery } from "@tanstack/react-query"
 import { fetchEventLists } from "@/action/eventAction"
 import { Link } from "react-router"
+import { fetchEventsCMS } from "@/action/crmAction"
 
 
 
@@ -56,8 +57,8 @@ import { Link } from "react-router"
 
 export default function NoticesFeed() {
       const { isPending, error, data:notices } = useQuery({
-        queryKey: ["events"],
-        queryFn: () => fetchEventLists({}),
+        queryKey: ["eventsCMS"],
+        queryFn: () => fetchEventsCMS({}),
         retry: true,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
@@ -80,7 +81,7 @@ export default function NoticesFeed() {
                     <img
                       src={notice.eventAttachment || "/placeholder.svg"}
                       alt={notice.title}
-                      className="object-cover w-full h-[100px] transform hover:scale-105 transition-transform duration-500"
+                      className="object-cover w-full h-full transform hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                   </div>
@@ -108,7 +109,10 @@ export default function NoticesFeed() {
                   </CardHeader>
 
                   <CardContent className="p-0">
-                    <CardDescription className="text-base leading-relaxed events-multi-line">{notice.eventDescription}</CardDescription>
+                    <CardDescription className="text-base leading-relaxed events-multi-line" >
+
+                      <div dangerouslySetInnerHTML={{ __html:(notice.eventDescription) }}></div>
+                    </CardDescription>
                   </CardContent>
 
                   <CardFooter className="p-0 mt-6">

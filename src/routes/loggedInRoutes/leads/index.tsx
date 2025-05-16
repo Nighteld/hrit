@@ -13,11 +13,13 @@ import {
 } from "@tanstack/react-table";
 import {
   ArrowUpDown,
+  Check,
   ChevronDown,
   ChevronRight,
   ChevronsDown,
   MoreHorizontal,
   Plus,
+  X,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -43,6 +45,7 @@ import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -67,6 +70,9 @@ import { dateFormatter } from "@/utils/function";
 import { Link } from "react-router";
 import { fetchFallowupDetails, fetchLeadsLists } from "@/action/leadAction";
 import { CategoryList, CourseList } from "@/utils/constant";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import NepaliDatePicker from "@zener/nepali-datepicker-react";
+import * as Yup from "yup";
 
 export type Leads = {
   ID: number;
@@ -97,6 +103,12 @@ type initialValues = {
   schoolName: string;
   courseIntrested: string;
 };
+const validationSchema = () =>
+  Yup.object({
+    FollowUpDate: Yup.string().required("This field is required"),
+    NextFollowUpDate: Yup.string().required("This field is required"),
+    // FollowUpRemarks: Yup.string().required("This field is required"),
+  });
 
 export function LeadsGrid() {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -111,6 +123,12 @@ export function LeadsGrid() {
     schoolName: "",
     courseIntrested: "",
   });
+  const newFallowUp = {
+  FollowUpDate: new Date(),
+  Category:"",
+  remarks: "",
+};
+
   const {
     data: fallowUpLists,
     isLoading: loadingFallowUpLists,
@@ -423,10 +441,10 @@ export function LeadsGrid() {
                             <div className="p-4 bg-muted/50">
                               <Card>
                                 <CardContent className="p-4">
-                                  <div className="flex  items-center gap-5 py-2 mb-2">
+                                  <div className="  items-center gap-5 py-2 mb-2">
                                     <Button
                                       variant="outline"
-                                      className=""
+                                      className="mb-2"
                                       onClick={() => {
                                         setIsAddingNew(true);
                                       }}
@@ -437,6 +455,202 @@ export function LeadsGrid() {
                                     {/* <h3 className="font-semibold text-lg mb-2 ">
                                   Fallow up History
                                 </h3> */}
+
+                                  <div className="w-[1024px]">
+                                  <Formik
+                                    initialValues={newFallowUp}
+                                    validationSchema={validationSchema}
+                                    // validateOnMount
+                                    onSubmit={(values, { resetForm }) =>
+                                      handleSubmit(values, resetForm)
+                                    }
+                                  >
+                                    {({
+                                      setFieldValue,
+                                      errors,
+                                      touched,
+                                      isValidating,
+                                      isSubmitting,
+                                      values,
+                                    }) => (
+                                      <Form className="space-y-4">
+                                        <Table>
+                                          <TableCaption className="font-bold py-4">
+                                            {" "}
+                                            Fallow up History.
+                                          </TableCaption>
+                                          <TableHeader>
+                                            <TableRow>
+                                              <TableHead className="w-[100px]">
+                                                SN
+                                              </TableHead>
+                                              <TableHead>
+                                                Fallow up Date
+                                              </TableHead>
+                                              <TableHead>
+                                               Category
+                                              </TableHead>
+                                                <TableHead>
+                                               Fallowup Type
+                                              </TableHead>
+                                              <TableHead className="">
+                                                Remarks
+                                              </TableHead>
+                                              <TableHead className="">
+                                                Action
+                                              </TableHead>
+                                            </TableRow>
+                                          </TableHeader>
+                                          <TableBody>
+                                            {fallowUpLists &&
+                                              fallowUpLists.map((item,index) => (
+                                                <TableRow key={index}>
+                                                  <TableCell className="font-medium">
+                                                    {index+1}
+                                                  </TableCell>
+                                                  <TableCell>
+                                                    {dateFormatter(
+                                                      item.FollowUpDate
+                                                    )}
+                                                  </TableCell>
+                                                  <TableCell>
+                                                 {item.Category}
+                                                  </TableCell>
+                                                          <TableCell>
+                                                    {dateFormatter(
+                                                      item.nextFollowUpDate
+                                                    )}{" "}
+                                                  </TableCell>
+                                                  <TableCell className="">
+                                                    {item.Remarks}
+                                                  </TableCell>
+                                                </TableRow>
+                                              ))}
+                                            {console.log("errors", errors)}
+                                            {console.log("values", values)}
+                                            {isAddingNew && (
+                                              <>
+                                                <TableRow>
+                                                  <TableCell>
+                                                    {fallowUpLists.length + 1}
+                                                  </TableCell>
+                                                  <TableCell>
+                                                    <NepaliDatePicker
+                                                      className="date-picker"
+                                                      value={
+                                                        values.FollowUpDate
+                                                      }
+                                                      lang="en"
+                                                      type="AD"
+                                                      placeholder="Select date"
+                                                      onChange={(e: Date) => {
+                                                        setFieldValue(
+                                                          "FollowUpDate",
+                                                          dateFormatter(e)
+                                                        );
+                                                      }}
+                                                    />
+                                                  </TableCell>
+                                                  <TableCell>
+                                                    <NepaliDatePicker
+                                                      className="date-picker"
+                                                      value={
+                                                        values.NextFollowUpDate
+                                                      }
+                                                      lang="en"
+                                                      type="AD"
+                                                      placeholder="Select date"
+                                                      onChange={(e: Date) => {
+                                                        setFieldValue(
+                                                          "NextFollowUpDate",
+                                                          dateFormatter(e)
+                                                        );
+                                                      }}
+                                                    />
+                                                  </TableCell>
+                                                      <TableCell>
+                                                           <Select
+                      name="FollowupTypeId"
+                      value={values.FollowupTypeId}
+                      onValueChange={(value) => {
+                        setFieldValue("ProductTypeId", value);
+                      }}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select Fallowup Type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {fallowUpTypeLists &&
+                          fallowUpTypeLists.map((item) => (
+                            <SelectItem
+                              value={item.id.toString()}
+                              key={item.id}
+                            >
+                              {item.followupType}
+                            </SelectItem>
+                          ))}
+                      </SelectContent>
+                    </Select>
+                    {/* {touched.ProductTypeId && errors.ProductTypeId && (
+                      <p className="text-red-500 text-sm">
+                        {errors.ProductTypeId}
+                      </p>
+                    )} */}
+                                                   
+                                                  </TableCell>
+
+                                                  <TableCell>
+                                                    <Field
+                                                      as={Input}
+                                                      id="FollowUpRemarks"
+                                                      name="FollowUpRemarks"
+                                                      value={
+                                                        values.FollowUpRemarks
+                                                      }
+                                                      type="text"
+                                                      // placeholder="m@example.com"
+                                                    />
+                                                    <ErrorMessage
+                                                      name="FollowUpRemarks"
+                                                      component="div"
+                                                      className="text-red-500 text-sm"
+                                                    />
+                                                   
+                                                  </TableCell>
+                                                  <TableCell>
+                                                    <div className="flex items-center gap-2">
+                                                      <Button
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        type="submit"
+                                                      >
+                                                        <div className="bg-blue-500 text-white p-1 rounded-sm">
+                                                          <Check className="h-4 w-4" />
+                                                        </div>
+                                                      </Button>
+                                                      <Button
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        type="button"
+                                                        onClick={() =>
+                                                          setIsAddingNew(false)
+                                                        }
+                                                      >
+                                                        <div className="bg-red-500 text-white p-1 rounded-sm">
+                                                          <X className="h-4 w-4" />
+                                                        </div>
+                                                      </Button>
+                                                    </div>
+                                                  </TableCell>
+                                                </TableRow>
+                                              </>
+                                            )}
+                                          </TableBody>
+                                        </Table>
+                                      </Form>
+                                    )}
+                                  </Formik>
+                                </div>
                                   </div>
                                   <div className=""></div>
                                 </CardContent>

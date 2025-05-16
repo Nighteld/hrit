@@ -2,6 +2,7 @@ const userManagement = "/api/UserManagement/";
 const utility = "/api/Utility/";
 const adminUser = "/api/AdminUser/";
 const user = "/api/User/";
+const cms = "/api/CMS/";
 const API_ENDPOINTS = {
   registerUser: userManagement + "RegisterUser",
   login: userManagement + "Login",
@@ -24,6 +25,7 @@ const API_ENDPOINTS = {
   saveEvents: user + "InsertUpdateEvents",
   getEvents: user + "GetEvents",
   GetLeadFollowUpDetails: user + "GetLeadFollowUpDetails",
+  getEventsCMS:cms + "GetEvents",
 };
 
 export default API_ENDPOINTS;

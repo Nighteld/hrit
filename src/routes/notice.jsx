@@ -1,3 +1,4 @@
+import { fetchEventsCMS } from "@/action/crmAction";
 import { fetchEventLists } from "@/action/eventAction";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,9 +15,9 @@ import { useParams } from "react-router";
 export default function Notice() {
   const {id} = useParams();
   const { isPending, error, data } = useQuery({
-    queryKey: ["agentList"],
+    queryKey: ["eventsCMS"],
     queryFn: () =>
-      fetchEventLists({
+      fetchEventsCMS({
         eventCategory: "", //send empty to fetch all
         slug: id, //send empty to fetch all
       }),

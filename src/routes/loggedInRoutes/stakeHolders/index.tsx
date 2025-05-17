@@ -45,6 +45,7 @@ import API_ENDPOINTS from "@/utils/apiList";
 import {
   getAccessToken,
   getAppToken,
+  isAuthorizedUser,
   toastError,
   toastSuccess,
 } from "@/utils/helper";
@@ -214,6 +215,7 @@ export function StakeHolderGrid() {
                     })}
                 </DropdownMenuContent>
               </DropdownMenu>
+{isAuthorizedUser() && (
 
               <Link to="/stake-holder/create">
                 <Button
@@ -224,6 +226,7 @@ export function StakeHolderGrid() {
                   Add Stake Holder
                 </Button>
               </Link>
+)}
             </div>
           </div>
           <div className="rounded-md border overflow-x-auto">

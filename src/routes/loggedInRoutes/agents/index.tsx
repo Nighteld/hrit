@@ -42,7 +42,7 @@ import {
 import { GenerateToken } from "@/auth/authAction";
 import api from "@/utils/api";
 import API_ENDPOINTS from "@/utils/apiList";
-import { getAppToken, toastError, toastSuccess } from "@/utils/helper";
+import { getAppToken, isAuthorizedUser, toastError, toastSuccess } from "@/utils/helper";
 import { fetchAgentLists } from "@/action/agentAction";
 import { dateFormatter } from "@/utils/function";
 import { Link } from "react-router";
@@ -216,13 +216,14 @@ export function AgentGrid() {
                   })}
               </DropdownMenuContent>
             </DropdownMenu>
-
+{isAuthorizedUser() && (
             <Link to="/agent/create">
             <Button variant="outline" className="ml-auto bg-primary text-white">
               <Plus />
               Add Agents
             </Button>
           </Link>
+          )}
             </div>
           </div>
               <div className="rounded-md border overflow-x-auto">

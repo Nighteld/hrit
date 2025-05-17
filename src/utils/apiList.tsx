@@ -10,22 +10,28 @@ const API_ENDPOINTS = {
   changeUserPassword: userManagement + "ChangeUserPassword",
   uploadProfileImage: userManagement + "UploadProfileImage",
   getUserDetails: userManagement + "GetUserDetail",
+
   getDdl: utility + "GetDDLList",
+  getJsonFromExcel: utility + "GetJsonFromExcel",
+
   registerAgent: adminUser + "RegisterAgent",
   getAgents: adminUser + "GetAgentDetails",
+  registerStaff: adminUser + "RegisterStaff",
+  getStaff: adminUser + "GetStaffDetails",
+  GetStakeHolderDetails: adminUser + "GetStakeHolderDetails",
+  RegisterStakeHolder: adminUser + "RegisterStakeHolder",
+
   saveUser: user + "InsertPreRegistration",
   getUsers: user + "GetPreRegistration",
   saveLeadsDetails: user + "InsertUpdateLeadDetails",
   getLeadsLists: user + "GetLeadDetails",
-  getJsonFromExcel: utility + "GetJsonFromExcel",
-  registerStaff: adminUser + "RegisterStaff",
-  getStaff: adminUser + "GetStaffDetails",
-  GetStakeHolderDetails:adminUser + "GetStakeHolderDetails",
-  RegisterStakeHolder:adminUser + "RegisterStakeHolder",
   saveEvents: user + "InsertUpdateEvents",
   getEvents: user + "GetEvents",
   GetLeadFollowUpDetails: user + "GetLeadFollowUpDetails",
-  getEventsCMS:cms + "GetEvents",
+  InsertUpdateFollowUp: user + "InsertUpdateFollowUp",
+  GetFollowupDetails: user + "GetFollowupDetails",
+
+  getEventsCMS: cms + "GetEvents",
 };
 
 export default API_ENDPOINTS;

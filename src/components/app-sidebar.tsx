@@ -23,8 +23,9 @@ import {
 } from "@/components/ui/sidebar";
 import { TeamSwitcher } from "./team-switcher";
 import { schoolDetails } from "@/utils/constant";
+import { getLoggedInUser, getLoggedInUserCategory } from "@/utils/helper";
 // This is sample data.
-const data = {
+let data = {
   user: {
     name: "Admin",
     email: "m@example.com",
@@ -158,7 +159,48 @@ const data = {
     },
   ],
 };
+console.log("data", data);
+console.log("getLoggedInUserCategory", getLoggedInUserCategory());
+console.log("getLoggedInUser", getLoggedInUser());
+if (getLoggedInUserCategory() === "STAFF") {
+  debugger;
+  const user = getLoggedInUser();
+  if (typeof user === "object" && user !== null && "allowEvent" in user) {
+    if (Number(user.allowEvent)) {
+      // Your code here
+      data = {
+        ...data,
+        navMain: [
+          {
+            title: "Leads",
+            url: "leads",
+            icon: Bot,
+            isActive: true,
+          },
+        ],
+      };
+    } else {
+      data = {
+        ...data,
+        navMain: [
+           {
+      title: "Settings",
+      url: "#",
+      icon: Settings2,
+      items: [
+        {
+          title: "Event",
+          url: "events",
+        },
 
+      ],
+    },
+        ],
+      };
+    }
+  }
+}
+console.log("updatedData", data);
 export function AppSidebar({ ...props }) {
   return (
     <Sidebar collapsible="icon" {...props} className="" variant="">

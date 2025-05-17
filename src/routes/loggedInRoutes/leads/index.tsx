@@ -62,6 +62,7 @@ import API_ENDPOINTS from "@/utils/apiList";
 import {
   getAccessToken,
   getAppToken,
+  isAuthorizedUser,
   toastError,
   toastSuccess,
 } from "@/utils/helper";
@@ -105,8 +106,8 @@ type initialValues = {
 };
 const validationSchema = () =>
   Yup.object({
-    FollowUpDate: Yup.string().required("This field is required"),
-    NextFollowUpDate: Yup.string().required("This field is required"),
+    followUpDate: Yup.string().required("This field is required"),
+    category: Yup.string().required("This field is required"),
     // FollowUpRemarks: Yup.string().required("This field is required"),
   });
 
@@ -124,10 +125,11 @@ export function LeadsGrid() {
     courseIntrested: "",
   });
   const newFallowUp = {
-  FollowUpDate: new Date(),
-  Category:"",
-  remarks: "",
-};
+    followUpDate: new Date(),
+    category: "",
+    remarks: "",
+    counselledDate: "",
+  };
 
   const {
     data: fallowUpLists,
@@ -292,6 +294,43 @@ export function LeadsGrid() {
   //     ))}
   //   </React.Fragment>
   // );
+
+  const handleSubmit = async (values, resetForm) => {
+    try {
+      const response = await api.post(
+        API_ENDPOINTS.InsertUpdateFollowUp,
+        {
+          leadID: marketingOfficerId,
+          category: values.category,
+          remarks: values.remarks,
+          followUpDate: values.followUpDate,
+          // counselledDate:values.counselledDate
+          
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + getAppToken(),
+
+            "Access-Control-Allow-Origin": "*",
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        }
+      );
+      debugger;
+      if (response.data.responseCode !== "0") {
+        return toastError(response.data.responseMessage);
+      }
+      toastSuccess(response.data.responseMessage);
+      refetch();
+      resetForm();
+      setIsAddingNew(false);
+    } catch (error: unknown) {
+      const errorAsError = error as Error;
+      console.error("Error while Saving API:", errorAsError);
+      toastError(errorAsError.message);
+    }
+  };
+
   return (
     <section className="w-full">
       <Card className="shadow-none">
@@ -309,7 +348,7 @@ export function LeadsGrid() {
                     setFormValues((prev) => ({
                       ...prev,
                       schoolName: event.target.value,
-                    }))
+                    }));
                   }, 1000);
                 }}
                 className="max-w-sm"
@@ -386,16 +425,17 @@ export function LeadsGrid() {
                     })}
                 </DropdownMenuContent>
               </DropdownMenu>
-
-              <Link to="/leads/create">
-                <Button
-                  variant="outline"
-                  className="ml-auto bg-primary text-white"
-                >
-                  <Plus />
-                  Add Leads
-                </Button>
-              </Link>
+              {isAuthorizedUser() && (
+                <Link to="/leads/create">
+                  <Button
+                    variant="outline"
+                    className="ml-auto bg-primary text-white"
+                  >
+                    <Plus />
+                    Add Leads
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
           <div className="rounded-md border overflow-x-auto">
@@ -439,7 +479,7 @@ export function LeadsGrid() {
                         <TableRow>
                           <TableCell colSpan={columns.length} className="p-0">
                             <div className="p-4 bg-muted/50">
-                              <Card>
+                              <Card className="w-[1024px]">
                                 <CardContent className="p-4">
                                   <div className="  items-center gap-5 py-2 mb-2">
                                     <Button
@@ -456,201 +496,221 @@ export function LeadsGrid() {
                                   Fallow up History
                                 </h3> */}
 
-                                  <div className="w-[1024px]">
-                                  <Formik
-                                    initialValues={newFallowUp}
-                                    validationSchema={validationSchema}
-                                    // validateOnMount
-                                    onSubmit={(values, { resetForm }) =>
-                                      handleSubmit(values, resetForm)
-                                    }
-                                  >
-                                    {({
-                                      setFieldValue,
-                                      errors,
-                                      touched,
-                                      isValidating,
-                                      isSubmitting,
-                                      values,
-                                    }) => (
-                                      <Form className="space-y-4">
-                                        <Table>
-                                          <TableCaption className="font-bold py-4">
-                                            {" "}
-                                            Fallow up History.
-                                          </TableCaption>
-                                          <TableHeader>
-                                            <TableRow>
-                                              <TableHead className="w-[100px]">
-                                                SN
-                                              </TableHead>
-                                              <TableHead>
-                                                Fallow up Date
-                                              </TableHead>
-                                              <TableHead>
-                                               Category
-                                              </TableHead>
-                                                <TableHead>
+                                    <div className="">
+                                      <Formik
+                                        initialValues={newFallowUp}
+                                        validationSchema={validationSchema}
+                                        // validateOnMount
+                                        onSubmit={(values, { resetForm }) =>
+                                          handleSubmit(values, resetForm)
+                                        }
+                                      >
+                                        {({
+                                          setFieldValue,
+                                          errors,
+                                          touched,
+                                          isValidating,
+                                          isSubmitting,
+                                          values,
+                                        }) => (
+                                          <Form className="space-y-4">
+                                            <Table>
+                                              <TableCaption className="font-bold py-4">
+                                                {" "}
+                                                Fallow up History.
+                                              </TableCaption>
+                                              <TableHeader>
+                                                <TableRow>
+                                                  <TableHead className="w-[100px]">
+                                                    SN
+                                                  </TableHead>
+                                                  <TableHead>
+                                                    Fallow up Date
+                                                  </TableHead>
+                                                  <TableHead>
+                                                    Category
+                                                  </TableHead>
+                                                  {/* <TableHead>
                                                Fallowup Type
-                                              </TableHead>
-                                              <TableHead className="">
-                                                Remarks
-                                              </TableHead>
-                                              <TableHead className="">
-                                                Action
-                                              </TableHead>
-                                            </TableRow>
-                                          </TableHeader>
-                                          <TableBody>
-                                            {fallowUpLists &&
-                                              fallowUpLists.map((item,index) => (
-                                                <TableRow key={index}>
-                                                  <TableCell className="font-medium">
-                                                    {index+1}
-                                                  </TableCell>
-                                                  <TableCell>
-                                                    {dateFormatter(
-                                                      item.FollowUpDate
-                                                    )}
-                                                  </TableCell>
-                                                  <TableCell>
-                                                 {item.Category}
-                                                  </TableCell>
-                                                          <TableCell>
+                                              </TableHead> */}
+                                                  <TableHead className="">
+                                                    Remarks
+                                                  </TableHead>
+                                                  <TableHead className="">
+                                                    Action
+                                                  </TableHead>
+                                                </TableRow>
+                                              </TableHeader>
+                                              <TableBody>
+                                                {fallowUpLists &&
+                                                  fallowUpLists.map(
+                                                    (item, index) => (
+                                                      <TableRow key={index}>
+                                                        <TableCell className="font-medium">
+                                                          {index + 1}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                          {dateFormatter(
+                                                            item.CounselledDate
+                                                          )}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                          {item.Category}
+                                                        </TableCell>
+                                                        {/* <TableCell>
                                                     {dateFormatter(
                                                       item.nextFollowUpDate
                                                     )}{" "}
-                                                  </TableCell>
-                                                  <TableCell className="">
-                                                    {item.Remarks}
-                                                  </TableCell>
-                                                </TableRow>
-                                              ))}
-                                            {console.log("errors", errors)}
-                                            {console.log("values", values)}
-                                            {isAddingNew && (
-                                              <>
-                                                <TableRow>
-                                                  <TableCell>
-                                                    {fallowUpLists.length + 1}
-                                                  </TableCell>
-                                                  <TableCell>
-                                                    <NepaliDatePicker
-                                                      className="date-picker"
-                                                      value={
-                                                        values.FollowUpDate
-                                                      }
-                                                      lang="en"
-                                                      type="AD"
-                                                      placeholder="Select date"
-                                                      onChange={(e: Date) => {
-                                                        setFieldValue(
-                                                          "FollowUpDate",
-                                                          dateFormatter(e)
-                                                        );
-                                                      }}
-                                                    />
-                                                  </TableCell>
-                                                  <TableCell>
-                                                    <NepaliDatePicker
-                                                      className="date-picker"
-                                                      value={
-                                                        values.NextFollowUpDate
-                                                      }
-                                                      lang="en"
-                                                      type="AD"
-                                                      placeholder="Select date"
-                                                      onChange={(e: Date) => {
-                                                        setFieldValue(
-                                                          "NextFollowUpDate",
-                                                          dateFormatter(e)
-                                                        );
-                                                      }}
-                                                    />
-                                                  </TableCell>
+                                                  </TableCell> */}
+                                                        <TableCell className="">
+                                                          {item.Remarks}
+                                                        </TableCell>
+                                                      </TableRow>
+                                                    )
+                                                  )}
+                                                {console.log("errors", errors)}
+                                                {console.log("values", values)}
+                                                {isAddingNew && (
+                                                  <>
+                                                    <TableRow>
                                                       <TableCell>
-                                                           <Select
-                      name="FollowupTypeId"
-                      value={values.FollowupTypeId}
-                      onValueChange={(value) => {
-                        setFieldValue("ProductTypeId", value);
-                      }}
-                    >
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select Fallowup Type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {fallowUpTypeLists &&
-                          fallowUpTypeLists.map((item) => (
-                            <SelectItem
-                              value={item.id.toString()}
-                              key={item.id}
-                            >
-                              {item.followupType}
-                            </SelectItem>
-                          ))}
-                      </SelectContent>
-                    </Select>
-                    {/* {touched.ProductTypeId && errors.ProductTypeId && (
+                                                        {fallowUpLists.length +
+                                                          1}
+                                                      </TableCell>
+                                                      <TableCell>
+                                                        <NepaliDatePicker
+                                                          className="date-picker"
+                                                          value={
+                                                            values.followUpDate
+                                                          }
+                                                          lang="en"
+                                                          type="AD"
+                                                          placeholder="Select date"
+                                                          onChange={(
+                                                            e: Date
+                                                          ) => {
+                                                            setFieldValue(
+                                                              "followUpDate",
+                                                              dateFormatter(e)
+                                                            );
+                                                          }}
+                                                        />
+                                                      </TableCell>
+                                                      {/* <TableCell>
+                                                        <NepaliDatePicker
+                                                          className="date-picker"
+                                                          value={
+                                                            values.counselledDate
+                                                          }
+                                                          lang="en"
+                                                          type="AD"
+                                                          placeholder="Select date"
+                                                          onChange={(
+                                                            e: Date
+                                                          ) => {
+                                                            setFieldValue(
+                                                              "counselledDate",
+                                                              dateFormatter(e)
+                                                            );
+                                                          }}
+                                                        />
+                                                      </TableCell> */}
+                                                      <TableCell>
+                                                        <Select
+                                                          onValueChange={(
+                                                            value: string
+                                                          ) =>
+                                                            setFieldValue(
+                                                              "category",
+                                                              value
+                                                            )
+                                                          }
+                                                          value={
+                                                            values.category
+                                                          }
+                                                          name="category"
+                                                        >
+                                                          <SelectTrigger
+                                                            className={
+                                                              errors.category
+                                                                ? "validation-error"
+                                                                : ""
+                                                            }
+                                                          >
+                                                            <SelectValue placeholder="Select Category" />
+                                                          </SelectTrigger>
+                                                          <SelectContent>
+                                                            <SelectGroup>
+                                                              {CategoryList.map(
+                                                                (item) => (
+                                                                  <SelectItem
+                                                                    value={item}
+                                                                  >
+                                                                    {item}
+                                                                  </SelectItem>
+                                                                )
+                                                              )}
+                                                            </SelectGroup>
+                                                          </SelectContent>
+                                                        </Select>
+                                                        {/* {touched.ProductTypeId && errors.ProductTypeId && (
                       <p className="text-red-500 text-sm">
                         {errors.ProductTypeId}
                       </p>
                     )} */}
-                                                   
-                                                  </TableCell>
+                                                      </TableCell>
 
-                                                  <TableCell>
-                                                    <Field
-                                                      as={Input}
-                                                      id="FollowUpRemarks"
-                                                      name="FollowUpRemarks"
-                                                      value={
-                                                        values.FollowUpRemarks
-                                                      }
-                                                      type="text"
-                                                      // placeholder="m@example.com"
-                                                    />
-                                                    <ErrorMessage
-                                                      name="FollowUpRemarks"
-                                                      component="div"
-                                                      className="text-red-500 text-sm"
-                                                    />
-                                                   
-                                                  </TableCell>
-                                                  <TableCell>
-                                                    <div className="flex items-center gap-2">
-                                                      <Button
-                                                        variant="ghost"
-                                                        size="icon"
-                                                        type="submit"
-                                                      >
-                                                        <div className="bg-blue-500 text-white p-1 rounded-sm">
-                                                          <Check className="h-4 w-4" />
+                                                      <TableCell>
+                                                        <Field
+                                                          as={Input}
+                                                          id="remarks"
+                                                          name="remarks"
+                                                          value={values.remarks}
+                                                          type="text"
+                                                          // placeholder="m@example.com"
+                                                        />
+                                                        <ErrorMessage
+                                                          name="remarks"
+                                                          component="div"
+                                                          className="text-red-500 text-sm"
+                                                        />
+                                                      </TableCell>
+                                                      <TableCell>
+                                                        <div className="flex items-center gap-2">
+                                                          <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            type="submit"
+                                                          >
+                                                            <div className="bg-blue-500 text-white p-1 rounded-sm">
+                                                              <Check className="h-4 w-4" />
+                                                            </div>
+                                                          </Button>
+                                                          <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            type="button"
+                                                            onClick={() =>
+                                                              setIsAddingNew(
+                                                                false
+                                                              )
+                                                            }
+                                                          >
+                                                            <div className="bg-red-500 text-white p-1 rounded-sm">
+                                                              <X className="h-4 w-4" />
+                                                            </div>
+                                                          </Button>
                                                         </div>
-                                                      </Button>
-                                                      <Button
-                                                        variant="ghost"
-                                                        size="icon"
-                                                        type="button"
-                                                        onClick={() =>
-                                                          setIsAddingNew(false)
-                                                        }
-                                                      >
-                                                        <div className="bg-red-500 text-white p-1 rounded-sm">
-                                                          <X className="h-4 w-4" />
-                                                        </div>
-                                                      </Button>
-                                                    </div>
-                                                  </TableCell>
-                                                </TableRow>
-                                              </>
-                                            )}
-                                          </TableBody>
-                                        </Table>
-                                      </Form>
-                                    )}
-                                  </Formik>
-                                </div>
+                                                      </TableCell>
+                                                    </TableRow>
+                                                  </>
+                                                )}
+                                              </TableBody>
+                                            </Table>
+                                          </Form>
+                                        )}
+                                      </Formik>
+                                    </div>
                                   </div>
                                   <div className=""></div>
                                 </CardContent>

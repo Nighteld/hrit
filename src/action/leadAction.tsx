@@ -23,7 +23,7 @@ export const fetchLeadsLists = async (param: any) => {
 export const fetchFallowupDetails = async (param: any) => {
   debugger;
   try {
-    const response = await api.post(API_ENDPOINTS.GetLeadFollowUpDetails, param, {
+    const response = await api.post(API_ENDPOINTS.GetFollowupDetails, param, {
       headers: {
         "Content-Type": "application/json; charset=UTF-8",
       },

@@ -58,7 +58,7 @@ import {
 import { GenerateToken } from "@/auth/authAction";
 import api from "@/utils/api";
 import API_ENDPOINTS from "@/utils/apiList";
-import { getAppToken, toastError, toastSuccess } from "@/utils/helper";
+import { getAppToken, isAuthorizedUser, toastError, toastSuccess } from "@/utils/helper";
 import { fetchAgentLists } from "@/action/agentAction";
 import { dateFormatter } from "@/utils/function";
 import { Link } from "react-router";
@@ -183,6 +183,7 @@ export function EventGrid() {
                     })}
                 </DropdownMenuContent>
               </DropdownMenu>
+{isAuthorizedUser() && (
 
               <Link to="/events/create">
                 <Button
@@ -193,6 +194,8 @@ export function EventGrid() {
                   Add Events
                 </Button>
               </Link>
+
+)}
             </div>
           </div>
           <div className="rounded-md border overflow-x-auto">

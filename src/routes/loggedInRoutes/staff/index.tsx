@@ -42,7 +42,7 @@ import {
 import { GenerateToken } from "@/auth/authAction";
 import api from "@/utils/api";
 import API_ENDPOINTS from "@/utils/apiList";
-import { getAccessToken, getAppToken, toastError, toastSuccess } from "@/utils/helper";
+import { getAccessToken, getAppToken, isAuthorizedUser, toastError, toastSuccess } from "@/utils/helper";
 import { fetchAgentLists } from "@/action/agentAction";
 import { dateFormatter } from "@/utils/function";
 import { Link } from "react-router";
@@ -188,6 +188,7 @@ export function StaffGrid() {
                     })}
                 </DropdownMenuContent>
               </DropdownMenu>
+{isAuthorizedUser() && (
 
               <Link to="/staff/create">
                 <Button
@@ -198,6 +199,7 @@ export function StaffGrid() {
                   Add Staffs
                 </Button>
               </Link>
+)}
             </div>
           </div>
           <div className="rounded-md border overflow-x-auto">

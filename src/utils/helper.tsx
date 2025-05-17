@@ -96,6 +96,32 @@ export const getLoggedInUser = (): Record<string, any> | string => {
     return "";
   }
 };
+export const getLoggedInUserCategory = (): Record<string, any> | string => {
+  const userLogin = localStorage.getItem("USER_LOGIN");
+
+  // Check if the userLogin exists and decrypt it
+  const decrypted = userLogin ? decrypt(userLogin) : null;
+
+  // If decryption fails or returns null, return an empty string or handle as needed
+  if (!decrypted) {
+    return "";
+  }
+
+  try {
+    // Parse the decrypted string into JSON
+    return JSON.parse(decrypted)?.userCategory?.toUpperCase();
+  } catch (error) {
+    console.error("Error parsing user data:", error);
+    return "";
+  }
+};
+
+export const isAuthorizedUser =() =>{
+  if(getLoggedInUserCategory() === "STAKEHOLDER"){
+    return false
+  }
+  return true;
+}
 
 export const IsUserLogin = () => {
   return Cookies.get("ACCESS_TOKEN") && getLoggedInUser()

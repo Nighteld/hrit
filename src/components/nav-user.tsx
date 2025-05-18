@@ -5,6 +5,7 @@ import {
   CreditCard,
   LogOut,
   Sparkles,
+  UserPen,
 } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -88,6 +89,11 @@ export function NavUser({
             </DropdownMenuGroup>
             <DropdownMenuSeparator /> */}
             <DropdownMenuGroup>
+                      <DropdownMenuItem>
+        <UserPen />
+                <Link to="/profile">Profile</Link>
+              </DropdownMenuItem>
+
               <DropdownMenuItem>
                 <BadgeCheck />
                 <Link to="/change-password">Change Password</Link>

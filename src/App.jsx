@@ -34,6 +34,9 @@ import StakeHolderRegistration from './routes/loggedInRoutes/stakeHolders/stakeH
 import EventsCreate from './routes/loggedInRoutes/events/eventsCreate';
 import Notice from './routes/notice';
 import { EventGrid } from './routes/loggedInRoutes/events';
+import ProfilePage from './routes/loggedInRoutes/profile';
+import StaffDashboard from './routes/loggedInRoutes/staff/dashboard';
+import StakeHolderDashboard from './routes/loggedInRoutes/stakeHolders/dashboard';
 
 // Create a client
 const queryClient = new QueryClient()
@@ -101,6 +104,7 @@ function App() {
 
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="change-password" element={<ChangePassword />} />
+          <Route path="profile" element={<ProfilePage />} />
           <Route path="admission" element={<Admission />} />
           <Route path="agent" element={<AgentGrid />} />
           <Route path="agent/create" element={<AgentRegistration />} />
@@ -108,7 +112,9 @@ function App() {
           <Route path="leads" element={<LeadsGrid />} />
           <Route path="leads/create" element={<LeadsRegistration />} />
           <Route path="staff" element={<StaffGrid />} />
+          <Route path="staff/dashboard" element={<StaffDashboard />} />
           <Route path="staff/create" element={<StaffRegistration />} />
+          <Route path="stake-holder/dashboard" element={<StakeHolderDashboard />} />
           <Route path="stake-holder" element={<StakeHolderGrid />} />
           <Route path="stake-holder/create" element={<StakeHolderRegistration />} />
           <Route path="events" element={<EventGrid />} />

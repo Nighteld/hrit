@@ -116,9 +116,9 @@ export function StaffGrid() {
   const { isPending, error, data } = useQuery({
     queryKey: ["staffList"],
     queryFn: () => fetchStaffLists({}),
-    retry: true,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
+    retry: false,
+    // refetchOnMount: false,
+    // refetchOnWindowFocus: false,
   });
   console.log("isPending", isPending);
   console.log("data2", data);

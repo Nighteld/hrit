@@ -8,8 +8,9 @@ const API_ENDPOINTS = {
   login: userManagement + "Login",
   generateToken: userManagement + "GenerateToken",
   changeUserPassword: userManagement + "ChangeUserPassword",
-  uploadProfileImage: userManagement + "UploadProfileImage",
+  UploadProfileImage: userManagement + "UploadProfileImage",
   getUserDetails: userManagement + "GetUserDetail",
+  GetUserDetail: userManagement + "GetUserDetail",
 
   getDdl: utility + "GetDDLList",
   getJsonFromExcel: utility + "GetJsonFromExcel",
@@ -30,7 +31,8 @@ const API_ENDPOINTS = {
   GetLeadFollowUpDetails: user + "GetLeadFollowUpDetails",
   InsertUpdateFollowUp: user + "InsertUpdateFollowUp",
   GetFollowupDetails: user + "GetFollowupDetails",
-
+  StaffDashboard: user + "StaffDashboard",
+  StakeholderDashboard: user + "StakeholderDashboard",
   getEventsCMS: cms + "GetEvents",
 };
 

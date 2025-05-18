@@ -19,3 +19,23 @@ export const fetchJsonFromExcel = async (param: any) => {
     throw error; // Let TanStack Query handle the error
   }
 };
+export const fetchUserProfileDetails = async (param: any) => {
+  try {
+    const response = await api.post(API_ENDPOINTS.GetUserDetail, param, {
+      headers: {
+        Authorization: "Bearer " + getAppToken(),
+
+        "Access-Control-Allow-Origin": "*",
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
+
+    if (response.data.responseCode !== "0") {
+      return [];
+    }
+
+    return response.data.data;
+  } catch (error) {
+    throw error; // Let TanStack Query handle the error
+  }
+};

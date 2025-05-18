@@ -33,7 +33,7 @@ export default function AboutHritHome() {
   } = usePrevNextButtons(emblaApi);
 
   return (
-    <div className="container mx-auto py-16">
+    <div className="container mx-auto py-16 px-4">
       <div className="grid md:grid-cols-2 gap-4">
         <div>
           <h1>Welcome to HRIT College</h1>

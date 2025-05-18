@@ -36,7 +36,6 @@ const initialValues = {
 
 export default function ChangePassword() {
     const handleSubmit = async (values,handleReset) => {
-        await GenerateToken();
         try {
           const response = await api.post(API_ENDPOINTS.changeUserPassword, values, {
             headers: {

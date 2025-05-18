@@ -24,8 +24,12 @@ import {
 import { TeamSwitcher } from "./team-switcher";
 import { schoolDetails } from "@/utils/constant";
 import { getLoggedInUser, getLoggedInUserCategory } from "@/utils/helper";
+import { useAuth } from "@/context/AuthContext";
 // This is sample data.
-let data = {
+
+export function AppSidebar({ ...props }) {
+    const { user } = useAuth();
+  let data = {
   user: {
     name: "Admin",
     email: "m@example.com",
@@ -63,10 +67,7 @@ let data = {
           title: "Student Enquiry",
           url: "/student/enquiry",
         },
-        // {
-        //   title: "Settings",
-        //   url: "#",
-        // },
+      
       ],
     },
     {
@@ -93,29 +94,7 @@ let data = {
       icon: Bot,
       isActive: true,
     },
-    // {
-    //   title: "Documentation",
-    //   url: "#",
-    //   icon: BookOpen,
-    //   items: [
-    //     {
-    //       title: "Introduction",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Get Started",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Tutorials",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Changelog",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
+    
     {
       title: "Settings",
       url: "#",
@@ -125,18 +104,7 @@ let data = {
           title: "Event",
           url: "events",
         },
-        // {
-        //   title: "Team",
-        //   url: "#",
-        // },
-        // {
-        //   title: "Billing",
-        //   url: "#",
-        // },
-        // {
-        //   title: "Limits",
-        //   url: "#",
-        // },
+       
       ],
     },
   ],
@@ -160,8 +128,10 @@ let data = {
   ],
 };
 console.log("data", data);
-console.log("getLoggedInUserCategory", getLoggedInUserCategory());
+console.log("user", user);
 console.log("getLoggedInUser", getLoggedInUser());
+console.log("updatedData", data);
+
 if (getLoggedInUserCategory() === "STAFF") {
   debugger;
   const user = getLoggedInUser();
@@ -200,8 +170,6 @@ if (getLoggedInUserCategory() === "STAFF") {
     }
   }
 }
-console.log("updatedData", data);
-export function AppSidebar({ ...props }) {
   return (
     <Sidebar collapsible="icon" {...props} className="" variant="">
       <SidebarHeader className="">

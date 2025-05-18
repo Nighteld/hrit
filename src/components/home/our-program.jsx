@@ -40,7 +40,7 @@ export default function OurProgram() {
   ];
   return (
     <section className="bg-slate-200">
-    <div className="container mx-auto py-16">
+    <div className="container mx-auto py-16 px-4">
       <div className="text-center mb-5">
         <h1 className="">Our Programs</h1>
         <div className="border-primary rounded-r-lg mb-5 -mt-6">

@@ -94,7 +94,18 @@ export function AppSidebar({ ...props }) {
       icon: Bot,
       isActive: true,
     },
-    
+       {
+      title: "Users",
+      url: "users",
+      icon: Bot,
+      isActive: true,
+    },
+    {
+      title: "Menus",
+      url: "menus",
+      icon: Bot,
+      isActive: true,
+    },
     {
       title: "Settings",
       url: "#",
@@ -104,6 +115,7 @@ export function AppSidebar({ ...props }) {
           title: "Event",
           url: "events",
         },
+
        
       ],
     },

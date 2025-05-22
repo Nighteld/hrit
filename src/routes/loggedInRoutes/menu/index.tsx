@@ -132,7 +132,9 @@ export function MenuGrid() {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
   const [marketingOfficerId, setMarketingOfficerId] = useState("");
-  const [isAddingNew, setIsAddingNew] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [loader, setLoader] = useState(false);
+
   const [formValues, setFormValues] = useState<initialValues>({
     roleId: "3",
   });
@@ -166,19 +168,18 @@ export function MenuGrid() {
     enabled: false,
   });
 
-    const {
-      data: userLists,
-      isLoading: loadingUserLists,
-      refetch: refetchUserLists,
-    } = useQuery({
-      queryKey: ["userLists"],
-      // queryFn: fetchMarketingVisitLog,
-      queryFn: () =>
-        fetchUsersLists({
-          
-        }),
-      // enabled: !!marketingOfficerId,
-    });
+  const {
+    data: userLists,
+    isLoading: loadingUserLists,
+    refetch: refetchUserLists,
+  } = useQuery({
+    queryKey: ["userLists"],
+    retry: 2,
+
+    // queryFn: fetchMarketingVisitLog,
+    queryFn: () => fetchUsersLists({}),
+    // enabled: !!marketingOfficerId,
+  });
   console.log("roleLists", roleLists);
   console.log("userLists", userLists);
   console.log("data", data);
@@ -226,12 +227,13 @@ export function MenuGrid() {
   });
 
   const handleSubmit = async (values, resetForm) => {
+    setLoader(true);
     try {
       const response = await api.post(
         API_ENDPOINTS.InsertUpdateUserRoleMapping,
         {
-         ...formData,
-         ...formValues
+          ...formData,
+          ...formValues,
         },
         {
           headers: {
@@ -243,28 +245,92 @@ export function MenuGrid() {
         }
       );
       debugger;
+      setLoader(false);
+
       if (response.data.responseCode !== "0") {
         return toastError(response.data.responseMessage);
       }
       toastSuccess(response.data.responseMessage);
       refetchMappedMenuLists();
-      handleClear();
+      handleClose();
     } catch (error: unknown) {
+      setLoader(false);
+
       const errorAsError = error as Error;
       console.error("Error while Saving API:", errorAsError);
       toastError(errorAsError.message);
     }
   };
 
-  const handleClear = () =>{
+  const handleClear = () => {
     setFormData({
       userUID: "",
-      roleMappingID: 0
+      roleMappingID: 0,
     });
-  }
+  };
+  const handleClose = () => {
+    handleClear();
+    setOpen(false);
+  };
 
   return (
     <section className="w-full">
+      <Dialog open={open} onOpenChange={handleClose}>
+
+        <DialogContent className="dialog fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
+          <DialogHeader>
+            <DialogTitle>User Role Add</DialogTitle>
+            <DialogDescription>
+              Make changes to your profile here. Click save when you're done.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="name" className="text-right">
+                User Lists
+              </Label>
+
+              <div className="col-span-3">
+                <Select
+                  onValueChange={(value) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      userUID: value,
+                    }))
+                  }
+                  value={formData.userUID}
+                  name="userUID"
+                >
+                  <SelectTrigger
+                  // className={
+                  //   errors.gender && touched.gender ? "validation-error" : ""
+                  // }
+                  >
+                    <SelectValue placeholder="Click to select" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {userLists &&
+                        userLists.map((item) => (
+                          <SelectItem
+                            value={item.UserID}
+                          >{`${item.FirstName}  ${item?.MiddleName} ${item.LastName} (${item.UserName})`}</SelectItem>
+                        ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button type="button" onClick={handleSubmit} disabled={loader}>
+              {loader ? "Saving..." : "Save Changes"}
+            </Button>
+
+            {/* <Button type="submit">Save changes</Button> */}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       <Card className="shadow-none">
         <CardHeader>
           <CardTitle>User Role Mapped</CardTitle>
@@ -325,68 +391,14 @@ export function MenuGrid() {
                 </DropdownMenuContent>
               </DropdownMenu>
               {isAuthorizedUser() && (
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button variant="outline" className="bg-color text-white">
-                      Add Users
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="dialog fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
-                    <DialogHeader>
-                      <DialogTitle>User Role Add</DialogTitle>
-                      <DialogDescription>
-                        Make changes to your profile here. Click save when
-                        you're done.
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="grid gap-4 py-4">
-                      <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="name" className="text-right">
-                          User Lists
-                        </Label>
-
-                        <div  className="col-span-3">
-                        <Select
-                          onValueChange={(value) =>
-                            setFormData((prev) => ({
-                              ...prev,
-                              userUID: value,
-                            }))
-                          }
-                         
-                          value={formData.userUID}
-                          name="userUID"
-                        >
-                          <SelectTrigger
-                          // className={
-                          //   errors.gender && touched.gender ? "validation-error" : ""
-                          // }
-                          >
-                            <SelectValue placeholder="Click to select" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              {userLists && userLists.map((item)=>(
-
-                              <SelectItem value={item.UserID}>{`${item.FirstName}  ${item?.MiddleName} ${item.LastName} (${item.UserName})`}</SelectItem>
-                              ))}
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                        </div>
-
-                      </div>
-                    </div>
-                    <DialogFooter>
-                           <DialogClose asChild>
-            <Button type="button" onClick={handleSubmit}>
-         Save changes
-            </Button>
-          </DialogClose>
-                      {/* <Button type="submit">Save changes</Button> */}
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
+                <Button
+                  variant="outline"
+                  className="ml-auto bg-primary text-white"
+                  onClick={() => setOpen(true)}
+                >
+                  <Plus />
+                  Add Users
+                </Button>
               )}
             </div>
           </div>
@@ -427,7 +439,6 @@ export function MenuGrid() {
                           </TableCell>
                         ))}
                       </TableRow>
-                   
                     </React.Fragment>
                   ))
                 ) : (

@@ -37,6 +37,8 @@ import { EventGrid } from './routes/loggedInRoutes/events';
 import ProfilePage from './routes/loggedInRoutes/profile';
 import StaffDashboard from './routes/loggedInRoutes/staff/dashboard';
 import StakeHolderDashboard from './routes/loggedInRoutes/stakeHolders/dashboard';
+import { UserGrid } from './routes/loggedInRoutes/users';
+import { MenuGrid } from './routes/loggedInRoutes/menu';
 
 // Create a client
 const queryClient = new QueryClient()
@@ -119,6 +121,8 @@ function App() {
           <Route path="stake-holder/create" element={<StakeHolderRegistration />} />
           <Route path="events" element={<EventGrid />} />
           <Route path="events/create" element={<EventsCreate />} />
+          <Route path="users" element={<UserGrid />} />
+          <Route path="menus" element={<MenuGrid />} />
         </Route>
       </Routes>
       <ScrollTop />

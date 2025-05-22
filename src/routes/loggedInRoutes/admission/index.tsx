@@ -6,6 +6,8 @@ import BasicDetails from "./BasicDetails";
 import ParentGuardianDetail from "./ParentGuardianDetail";
 import PersonalHealthInformation from "./PersonalHealthInformation";
 import { useEffect, useRef } from "react";
+import api from "@/utils/api";
+import API_ENDPOINTS from "@/utils/apiList";
 
 const validationSchema = () =>
   Yup.object({
@@ -51,46 +53,79 @@ const validationSchema = () =>
   });
 
 const initialValues = {
-  first_name: "",
-  middle_name: "",
-  last_name: "",
-  class: "",
-  dob: "",
+  //StudentInfo
+  firstName: "",
+  middleName: "",
+  lastName: "",
+  //"familyMemberValue": 0,
   gender: "",
-  email: "",
-  mobile_number: "",
-  password: "",
-  password_confirmation: "",
-  address: "",
+  dateOfBirth: "",
+  phoneNo: "",
+  mobileNo: "",
+  emailID: "",
+  occupation: "",
+  religion: "",
+  nationality: "",
   bloodGroup: "",
-  height: "",
-  weight: "",
-  medicalHistory: "",
-  fatherName: "",
-  fatherContactNumber: "",
-  fatherOccupation: "",
-  fatherImage: "",
-  motherName: "",
-  motherContactNumber: "",
-  motherOccupation: "",
-  motherPhoto: "",
-  guardianName: "",
-  guardianContactNumber: "",
-  guardianOccupation: "",
-  guardianImage: "",
+  martialStatus: "",
+  firstLanguage: "",
+  secondLanguage: "",
+  otherLanguage: "",
+
+  //AddressInfo
+  addressType: "",
+  country: "",
+  countryCode: "",
+  zipCode: "",
+  administrativeArea_State: "",
+  subAdministrativeArea_District: "",
+  locality_Municipility: "",
+  city: "",
+  wardNo: "",
+  tole: "",
+  street: "",
+  blockNo: "",
+  houseNo: "",
+  addressLine: "",
+  locationMap: "",
+  latLong: "",
+
+  //Achievement ECA Info
+  //"studentAchievementsECAID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  //"studentAchievementsECAGID": "",
+  achievementECA: "",
+  achievementECAArea: "",
+  achievementECADesc: "",
+  //"achievementECADate": "2025-03-27T18:47:58.982Z",
+
+  //RewardInfo
+  //"studentRewardsID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  //"studentRewardsGID": "",
+  reward: "",
+  rewardedArea: "",
+  rewardDesc: "",
+  //"rewardedDate": "2025-03-27T18:47:58.982Z",
+
+  //Qualification Info
+  //"studentQualificationInfoID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  //"studentQualificationInfoUID": "",
+  startYear: "",
+  passedYear: "",
+  boardUniversityName: "",
+  boardUniversityTitle: "",
+  boardUniversityRank: "",
+  institutionName: "",
+  educationDegree: "",
+  scoreMarks: "",
+  scorePercentage: "",
+  gpa: "",
+  grade: "",
+  division: "",
+  certifiedDate: "",
 };
 
 export default function AdmissionForm() {
   const ref = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    if (ref.current) {
-      console.log('====================================');
-      console.log("here");
-      console.log('====================================');
-      ref.current.click();
-    }
-  }, []);
 
   return (
     <div>
@@ -123,11 +158,11 @@ export default function AdmissionForm() {
               setFieldValue={setFieldValue}
             />
 
-            <PersonalHealthInformation
+            {/* <PersonalHealthInformation
               errors={errors}
               touched={touched}
               setFieldValue={setFieldValue}
-            />
+            /> */}
 
             <ParentGuardianDetail
               errors={errors}

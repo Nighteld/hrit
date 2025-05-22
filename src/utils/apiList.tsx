@@ -21,6 +21,11 @@ const API_ENDPOINTS = {
   getStaff: adminUser + "GetStaffDetails",
   GetStakeHolderDetails: adminUser + "GetStakeHolderDetails",
   RegisterStakeHolder: adminUser + "RegisterStakeHolder",
+  GetUserDetails: adminUser + "GetUserDetails",
+  UpdateUserStatus: adminUser + "UpdateUserStatus",
+  GetUserRoleMapping: adminUser + "GetUserRoleMapping",
+  GetRoleList: adminUser + "GetRoleList",
+  InsertUpdateUserRoleMapping: adminUser + "InsertUpdateUserRoleMapping",
 
   saveUser: user + "InsertPreRegistration",
   getUsers: user + "GetPreRegistration",

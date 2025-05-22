@@ -9,11 +9,63 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import api from "@/utils/api";
+import API_ENDPOINTS from "@/utils/apiList";
+import NepaliDatePicker from "@zener/nepali-datepicker-react";
 import { ErrorMessage, Field } from "formik";
-
+import { useEffect, useState } from "react";
+const flag = [
+  "BloodGroupDDL",
+  "OccupationDDL",
+  "ReligionDDL",
+  "NationalityDDL",
+];
 export default function BasicDetails(props: any) {
   const { errors, touched, setFieldValue } = props;
+  const [bloodGroup, setBloodGroup] = useState<DropDown[] | null>(null);
+  const [occupation, setOccupation] = useState<DropDown[] | null>(null);
+  const [religion, setReligion] = useState<DropDown[] | null>(null);
+  const [nationality, setNationality] = useState<DropDown[] | null>(null);
+  useEffect(() => {
+    handleInitialApi();
+  }, []);
+  const handleInitialApi = async () => {
+    try {
+      // Create an array of promises by mapping over the flag array and making axios calls
+      const promises = flag.map((endpoint) =>
+        api.post(API_ENDPOINTS.getDdl, {
+          flag: endpoint,
+        })
+      );
+      // Wait for all requests to complete
+      const responses = await Promise.all(promises);
+      responses.forEach((response, index) => {
+        // Check the index and set state accordingly
+        switch (flag[index]) {
+          case "BloodGroupDDL":
+            setBloodGroup(response.data.data);
+            break;
+          case "OccupationDDL":
+            setOccupation(response.data.data);
+            break;
+          case "ReligionDDL":
+            setReligion(response.data.data);
+            break;
+          case "NationalityDDL":
+            setNationality(response.data.data);
+            break;
+          default:
+            break;
+        }
+      });
+      // Extract data from the responses
+      // const values = responses.map((response) => response.data.data);
 
+      // console.log(values); // Logs an array with the data from each endpoint
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   return (
     <Card className="shadow-none">
       <CardHeader>
@@ -21,124 +73,43 @@ export default function BasicDetails(props: any) {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-      <div className="space-y-2">
-        <Label htmlFor="firstName">First Name</Label>
-        <Field as={Input} id="firstName" name="firstName" type="text" />
-        <ErrorMessage name="firstName" component="div" className="text-red-500 text-sm" />
-      </div>
-      
-      <div className="space-y-2">
-        <Label htmlFor="middleName">Middle Name</Label>
-        <Field as={Input} id="middleName" name="middleName" type="text" />
-        <ErrorMessage name="middleName" component="div" className="text-red-500 text-sm" />
-      </div>
-      
-      <div className="space-y-2">
-        <Label htmlFor="lastName">Last Name</Label>
-        <Field as={Input} id="lastName" name="lastName" type="text" />
-        <ErrorMessage name="lastName" component="div" className="text-red-500 text-sm" />
-      </div>
-      
-      <div className="space-y-2">
-        <Label htmlFor="familyMemberValue">Family Member Value</Label>
-        <Field as={Input} id="familyMemberValue" name="familyMemberValue" type="text" />
-        <ErrorMessage name="familyMemberValue" component="div" className="text-red-500 text-sm" />
-      </div>
-      
-      <div className="space-y-2">
-        <Label htmlFor="gender">Gender</Label>
-        <Field as={Input} id="gender" name="gender" type="text" />
-        <ErrorMessage name="gender" component="div" className="text-red-500 text-sm" />
-      </div>
-      
-      <div className="space-y-2">
-        <Label htmlFor="dateOfBirth">Date of Birth</Label>
-        <Field as={Input} id="dateOfBirth" name="dateOfBirth" type="date" />
-        <ErrorMessage name="dateOfBirth" component="div" className="text-red-500 text-sm" />
-      </div>
-      
-      <div className="space-y-2">
-        <Label htmlFor="phoneNo">Phone Number</Label>
-        <Field as={Input} id="phoneNo" name="phoneNo" type="text" />
-        <ErrorMessage name="phoneNo" component="div" className="text-red-500 text-sm" />
-      </div>
-      
-      <div className="space-y-2">
-        <Label htmlFor="emailID">Email ID</Label>
-        <Field as={Input} id="emailID" name="emailID" type="email" />
-        <ErrorMessage name="emailID" component="div" className="text-red-500 text-sm" />
-      </div>
-      
-      <div className="space-y-2">
-        <Label htmlFor="occupation">Occupation</Label>
-        <Field as={Input} id="occupation" name="occupation" type="text" />
-        <ErrorMessage name="occupation" component="div" className="text-red-500 text-sm" />
-      </div>
-      
-      <div className="space-y-2">
-        <Label htmlFor="religion">Religion</Label>
-        <Field as={Input} id="religion" name="religion" type="text" />
-        <ErrorMessage name="religion" component="div" className="text-red-500 text-sm" />
-      </div>
-      
-      <div className="space-y-2">
-        <Label htmlFor="nationality">Nationality</Label>
-        <Field as={Input} id="nationality" name="nationality" type="text" />
-        <ErrorMessage name="nationality" component="div" className="text-red-500 text-sm" />
-      </div>
-      
-      <div className="space-y-2">
-        <Label htmlFor="bloodGroup">Blood Group</Label>
-        <Field as={Input} id="bloodGroup" name="bloodGroup" type="text" />
-        <ErrorMessage name="bloodGroup" component="div" className="text-red-500 text-sm" />
-      </div>
-      
-      <div className="space-y-2">
-        <Label htmlFor="martialStatus">Marital Status</Label>
-        <Field as={Input} id="martialStatus" name="martialStatus" type="text" />
-        <ErrorMessage name="martialStatus" component="div" className="text-red-500 text-sm" />
-      </div>
-      
-      <div className="space-y-2">
-        <Label htmlFor="firstLanguage">First Language</Label>
-        <Field as={Input} id="firstLanguage" name="firstLanguage" type="text" />
-        <ErrorMessage name="firstLanguage" component="div" className="text-red-500 text-sm" />
-      </div>
-      
-      <div className="space-y-2">
-        <Label htmlFor="secondLanguage">Second Language</Label>
-        <Field as={Input} id="secondLanguage" name="secondLanguage" type="text" />
-        <ErrorMessage name="secondLanguage" component="div" className="text-red-500 text-sm" />
-      </div>
-      
-      <div className="space-y-2">
-        <Label htmlFor="otherLanguage">Other Language</Label>
-        <Field as={Input} id="otherLanguage" name="otherLanguage" type="text" />
-        <ErrorMessage name="otherLanguage" component="div" className="text-red-500 text-sm" />
-      </div>
-          <div className="space-y-1">
-            <Label>Class</Label>
-            <Select onValueChange={(value) => setFieldValue("class", value)}>
-              <SelectTrigger
-                className={
-                  errors.class && touched.class ? "validation-error" : ""
-                }
-              >
-                <SelectValue placeholder="Click to select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="1">1</SelectItem>
-                  <SelectItem value="2">2</SelectItem>
-                  <SelectItem value="3">3</SelectItem>
-                  <SelectItem value="4">4</SelectItem>
-                  <SelectItem value="5">5</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+          <div className="space-y-2">
+            <Label htmlFor="firstName">First Name</Label>
+            <Field as={Input} id="firstName" name="firstName" type="text" />
+            <ErrorMessage
+              name="firstName"
+              component="div"
+              className="text-red-500 text-sm"
+            />
           </div>
-
-          <div className="space-y-1">
+          <div className="space-y-2">
+            <Label htmlFor="middleName">Middle Name</Label>
+            <Field as={Input} id="middleName" name="middleName" type="text" />
+            <ErrorMessage
+              name="middleName"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="lastName">Last Name</Label>
+            <Field as={Input} id="lastName" name="lastName" type="text" />
+            <ErrorMessage
+              name="lastName"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="lastName">Stream</Label>
+            <Field as={Input} id="lastName" name="lastName" type="text" />
+            <ErrorMessage
+              name="lastName"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>
+           <div className="space-y-1">
             <Label>Gender</Label>
             <Select onValueChange={(value) => setFieldValue("gender", value)}>
               <SelectTrigger
@@ -156,114 +127,216 @@ export default function BasicDetails(props: any) {
               </SelectContent>
             </Select>
           </div>
+          {/* <div className="space-y-2">
+        <Label htmlFor="familyMemberValue">Family Member Value</Label>
+        <Field as={Input} id="familyMemberValue" name="familyMemberValue" type="text" />
+        <ErrorMessage name="familyMemberValue" component="div" className="text-red-500 text-sm" />
+      </div> */}
+          <div className="space-y-2">
+             <Label htmlFor="dateOfBirth">Date of Birth</Label>
 
-          <div className="space-y-1">
-            <Label>DOB</Label>
-            <Field
-              as={Input}
-              name="dob"
-              placeholder="YYYY-MM-DD"
-              className={errors.dob && touched.dob ? "validation-error" : ""}
-            />
+                    <NepaliDatePicker
+                      // value={value}
+
+                      lang="en"
+                      placeholder="Select date"
+                      onChange={(value) => {
+                        setFieldValue("dateOfBirth", value?.toString());
+
+                        // setValue(e);
+                      }}
+                      // max={maxDate}
+                    />
+
+                    <div className="text-red-500 text-sm">
+                      {errors?.dateOfBirth}
+                    </div>
           </div>
-
-          <div className="space-y-1">
-            <Label className="font-medium text-sm mb-2 required">
-              First Name
+          <div className="space-y-2">
+            <Label>
+              Nationality
+              {/* <span className="text-red-500">*</span> */}
             </Label>
-            <Field
-              as={Input}
-              id="name"
-              name="first_name"
-              className={
-                errors.first_name && touched.first_name
-                  ? "validation-error"
-                  : ""
+            <Select
+              onValueChange={(value: string) =>
+                setFieldValue("nationality", value)
               }
-            />
+              name="nationality"
+            >
+              <SelectTrigger
+                className={errors.nationality ? "validation-error" : ""}
+              >
+                <SelectValue placeholder="Click to select" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {nationality &&
+                    nationality.map((item) => (
+                      <SelectItem value={item.value}>{item.value}</SelectItem>
+                    ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
 
-          <div className="space-y-1">
-            <Label className="font-medium text-sm mb-2">Middle Name</Label>
-            <Field as={Input} name="middle_name" />
-          </div>
-
-          <div className="space-y-1">
-            <Label>Last Name</Label>
+      
+            <div className="space-y-2">
+            <Label htmlFor="firstLanguage">First Language</Label>
             <Field
               as={Input}
-              name="last_name"
-              className={
-                errors.last_name && touched.last_name ? "validation-error" : ""
-              }
+              id="firstLanguage"
+              name="firstLanguage"
+              type="text"
             />
-            {/* <ErrorMessage
-              name="last_name"
+            <ErrorMessage
+              name="firstLanguage"
               component="div"
-              className="text-red-500 text-sm mt-1"
-            /> */}
+              className="text-red-500 text-sm"
+            />
           </div>
-
-          <div className="space-y-1">
-            <Label>Mobile Number</Label>
+          <div className="space-y-2">
+            <Label htmlFor="secondLanguage">Second Language</Label>
             <Field
               as={Input}
-              name="mobile_number"
-              className={
-                errors.mobile_number && touched.mobile_number
-                  ? "validation-error"
-                  : ""
-              }
+              id="secondLanguage"
+              name="secondLanguage"
+              type="text"
             />
-            {/* <ErrorMessage
-              name="mobile_number"
+            <ErrorMessage
+              name="secondLanguage"
               component="div"
-              className="text-red-500 text-sm mt-1"
-            /> */}
+              className="text-red-500 text-sm"
+            />
           </div>
-
-          <div className="space-y-1">
-            <Label>Email</Label>
+          <div className="space-y-2">
+            <Label htmlFor="otherLanguage">Other Language</Label>
             <Field
               as={Input}
-              name="email"
-              className={
-                errors.email && touched.email ? "validation-error" : ""
-              }
-              autocomplete="new-email"
+              id="otherLanguage"
+              name="otherLanguage"
+              type="text"
             />
-            {/* <ErrorMessage
-              name="email"
+            <ErrorMessage
+              name="otherLanguage"
               component="div"
-              className="text-red-500 text-sm mt-1"
-            /> */}
-          </div>
-
-          <div className="space-y-1">
-            <Label>Address</Label>
-            <Field
-              as={Input}
-              name="address"
-              className={
-                errors.address && touched.address ? "validation-error" : ""
-              }
+              className="text-red-500 text-sm"
             />
-            {/* <ErrorMessage
-              name="address"
-              component="div"
-              className="text-red-500 text-sm mt-1"
-            /> */}
           </div>
-
-          <div className="space-y-1">
+             <div className="space-y-2">
+            <Label htmlFor="phoneNo">Contact Addres</Label>
+            <Field as={Input} id="phoneNo" name="phoneNo" type="text" />
+            <ErrorMessage
+              name="phoneNo"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>{" "}
+          <div className="space-y-2">
+            <Label htmlFor="mobileNo">Mobile Number</Label>
+            <Field as={Input} id="mobileNo" name="mobileNo" type="text" />
+            <ErrorMessage
+              name="mobileNo"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>{" "}
+          <div className="space-y-2">
+            <Label htmlFor="emailID">Email ID</Label>
+            <Field as={Input} id="emailID" name="emailID" type="email" />
+            <ErrorMessage
+              name="emailID"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>
+             <div className="space-y-2">
+            <Label htmlFor="emailID">Permanent Address</Label>
+            <Field as={Input} id="emailID" name="emailID" type="email" />
+            <ErrorMessage
+              name="emailID"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>
+             <div className="space-y-2">
+            <Label htmlFor="emailID">Last school Name</Label>
+            <Field as={Input} id="emailID" name="emailID" type="email" />
+            <ErrorMessage
+              name="emailID"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>
+           <div className="space-y-2">
+            <Label htmlFor="emailID">Last school Address</Label>
+            <Field as={Input} id="emailID" name="emailID" type="email" />
+            <ErrorMessage
+              name="emailID"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>
+             <div className="space-y-2">
+            <Label htmlFor="emailID">Have you already decided on a courses for higher studies or a carrer ? if so, give details</Label>
+            <Field as={Input} id="emailID" name="emailID" type="email" />
+            <ErrorMessage
+              name="emailID"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>
+           <div className="space-y-2">
+            <Label htmlFor="emailID">What extracurricular activities have you been involved in ? (Social service, sports, arts, music ,club activities etc...)</Label>
+            <Field as={Input} id="emailID" name="emailID" type="email" />
+            <ErrorMessage
+              name="emailID"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>
+         
+         <div className="space-y-2">
+            <Label htmlFor="emailID">Have you been evaluated for any learning difficulties? if so, please describe and attach report.</Label>
+            <Field as={Input} id="emailID" name="emailID" type="email" />
+            <ErrorMessage
+              name="emailID"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="emailID">Have you had any academic or other problem in school? if so, please describe it.</Label>
+            <Field as={Input} id="emailID" name="emailID" type="email" />
+            <ErrorMessage
+              name="emailID"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>
+         <div className="space-y-2">
+            <Label htmlFor="emailID">What are your weakness ? Please decribe.</Label>
+            <Field as={Input} id="emailID" name="emailID" type="email" />
+            <ErrorMessage
+              name="emailID"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>
+         <div className="space-y-2">
+            <Label htmlFor="emailID">What are your strengths ? Please decribe.</Label>
+            <Field as={Input} id="emailID" name="emailID" type="email" />
+            <ErrorMessage
+              name="emailID"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>
+       
+        
+          {/* <div className="space-y-1">
             <Label htmlFor="picture">Photo</Label>
-            <Field
-              name="picture"
-              as={Input}
-              type="file"
-              accept="image/*"
-            />
-          </div>
+            <Field name="picture" as={Input} type="file" accept="image/*" />
+          </div> */}
         </div>
       </CardContent>
     </Card>

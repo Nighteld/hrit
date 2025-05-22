@@ -46,11 +46,14 @@ export function LoginForm({
       if (response.data.responseCode !== "0") {
         return toastError(response.data.responseMessage);
       }
-      const { data } = response.data;
-      const newData = { ...data };
+      const { userDetails } = response.data.data;
+      debugger;
+
+      const newData = { ...userDetails };
       delete newData.userToken;
       const encrypted = encrypt(JSON.stringify(newData));
-      const encryptedToken = encrypt(data.userToken);
+      const encryptedToken = encrypt(userDetails.userToken);
+      debugger;
       login({
         encrypted: encrypted,
         encryptedToken: encryptedToken,

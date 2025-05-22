@@ -28,6 +28,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   });
 
   const login = ({ encrypted, encryptedToken }: LoginData) => {
+    debugger;
     setUser(encrypted);
     updateLocalStorage({ key: "USER_LOGIN", value: encrypted });
     updateCookieStorage({ key: "ACCESS_TOKEN", value: encryptedToken });

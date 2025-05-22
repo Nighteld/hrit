@@ -15,6 +15,7 @@ const api = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
 });
 export const fetchToken = async () => {
+  console.log("getAccessToken",getAccessToken());
   try {
     const response = await axios.post(
       import.meta.env.VITE_BASE_URL + API_ENDPOINTS.generateToken,

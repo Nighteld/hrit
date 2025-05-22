@@ -40,13 +40,26 @@ export default function ParentGuardianDetail(props: any) {
               }
             />
           </div>
+            <div className="space-y-1">
+            <Label>Father Email</Label>
+            <Field
+              as={Input}
+              name="fatherContactNumber"
+              className={
+                errors.fatherContactNumber && touched.fatherContactNumber
+                  ? "validation-error"
+                  : ""
+              }
+            />
+          </div>
+
 
           <div className="space-y-1">
             <Label>Father Occupation</Label>
             <Field as={Input} name="fatherOccupation" />
           </div>
 
-          <div className="space-y-1">
+          {/* <div className="space-y-1">
             <Label htmlFor="fatherImage">Father Photo</Label>
             <Input
               id="fatherImage"
@@ -54,7 +67,7 @@ export default function ParentGuardianDetail(props: any) {
               type="file"
               accept="image/*"
             />
-          </div>
+          </div> */}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mb-8">
@@ -83,13 +96,25 @@ export default function ParentGuardianDetail(props: any) {
               }
             />
           </div>
+            <div className="space-y-1">
+            <Label>Mother Email</Label>
+            <Field
+              as={Input}
+              name="fatherContactNumber"
+              className={
+                errors.fatherContactNumber && touched.fatherContactNumber
+                  ? "validation-error"
+                  : ""
+              }
+            />
+          </div>
 
           <div className="space-y-1">
             <Label>Mother Occupation</Label>
             <Field as={Input} name="motherOccupation" />
           </div>
 
-          <div className="space-y-1">
+          {/* <div className="space-y-1">
             <Label htmlFor="motherPhoto">Mother Photo</Label>
             <Input
               id="motherPhoto"
@@ -97,7 +122,7 @@ export default function ParentGuardianDetail(props: any) {
               type="file"
               accept="image/*"
             />
-          </div>
+          </div> */}
         </div>
 
         <div className="border-dashed border-2 border-gray-300 rounded-lg p-5">
@@ -147,13 +172,36 @@ export default function ParentGuardianDetail(props: any) {
                 }
               />
             </div>
-
+ <div className="space-y-1">
+            <Label>Guardian Email</Label>
+            <Field
+              as={Input}
+              name="fatherContactNumber"
+              className={
+                errors.fatherContactNumber && touched.fatherContactNumber
+                  ? "validation-error"
+                  : ""
+              }
+            />
+          </div>
+           <div className="space-y-1">
+            <Label>Guardian Relationship With Student</Label>
+            <Field
+              as={Input}
+              name="fatherContactNumber"
+              className={
+                errors.fatherContactNumber && touched.fatherContactNumber
+                  ? "validation-error"
+                  : ""
+              }
+            />
+          </div>
             <div className="space-y-1">
               <Label>Guardian Occupation</Label>
               <Field as={Input} name="guardianOccupation" />
             </div>
 
-            <div className="space-y-1">
+            {/* <div className="space-y-1">
               <Label htmlFor="guardianImage">Guardian Photo</Label>
               <Input
                 id="guardianImage"
@@ -161,7 +209,7 @@ export default function ParentGuardianDetail(props: any) {
                 type="file"
                 accept="image/*"
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </CardContent>

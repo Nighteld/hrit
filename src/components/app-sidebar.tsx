@@ -106,6 +106,12 @@ export function AppSidebar({ ...props }) {
       icon: Bot,
       isActive: true,
     },
+        {
+      title: "Role Permission",
+      url: "role/permission",
+      icon: Bot,
+      isActive: true,
+    },
     {
       title: "Settings",
       url: "#",

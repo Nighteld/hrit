@@ -26,6 +26,7 @@ const API_ENDPOINTS = {
   GetUserRoleMapping: adminUser + "GetUserRoleMapping",
   GetRoleList: adminUser + "GetRoleList",
   InsertUpdateUserRoleMapping: adminUser + "InsertUpdateUserRoleMapping",
+  GetMenuPermission: adminUser + "GetMenuPermission",
 
   saveUser: user + "InsertPreRegistration",
   getUsers: user + "GetPreRegistration",

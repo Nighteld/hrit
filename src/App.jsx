@@ -39,6 +39,7 @@ import StaffDashboard from './routes/loggedInRoutes/staff/dashboard';
 import StakeHolderDashboard from './routes/loggedInRoutes/stakeHolders/dashboard';
 import { UserGrid } from './routes/loggedInRoutes/users';
 import { MenuGrid } from './routes/loggedInRoutes/menu';
+import RolePermission from './routes/loggedInRoutes/roleManagement';
 
 // Create a client
 const queryClient = new QueryClient()
@@ -123,6 +124,7 @@ function App() {
           <Route path="events/create" element={<EventsCreate />} />
           <Route path="users" element={<UserGrid />} />
           <Route path="menus" element={<MenuGrid />} />
+          <Route path="role/permission" element={<RolePermission />} />
         </Route>
       </Routes>
       <ScrollTop />

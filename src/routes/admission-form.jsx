@@ -95,7 +95,7 @@ export default function AdmissionForm() {
       <div className="text-center mb-12">
         {/* <h1 className="text-4xl font-bold text-primary mb-4">Contact Us</h1> */}
         <h1 className="mb-4 text-2xl font-bold">
-          <span className="bg-text-next">Admission </span>Form
+          <span className="bg-text-next">Enquiry </span>Form
         </h1>
 
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">

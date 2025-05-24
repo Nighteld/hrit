@@ -19,7 +19,7 @@ export default function CenteredDialog() {
     <Dialog open={open} onOpenChange={setOpen} >
       <DialogContent className="dialog fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
         <DialogHeader>
-          <DialogTitle>Admission Open</DialogTitle>
+          <DialogTitle>Enquiry Open</DialogTitle>
           <DialogDescription>
             Enroll Now to Book Your Seat Earlier.
           </DialogDescription>

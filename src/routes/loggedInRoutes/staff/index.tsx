@@ -77,8 +77,8 @@ export const columns: ColumnDef<Agent>[] = [
     header: "Last Name",
   },
   {
-    accessorKey: "phoneNo",
-    header: "Phone No",
+    accessorKey: "mobileNo",
+    header: "Mobile No",
   },
   {
     accessorKey: "dateOfBirth",

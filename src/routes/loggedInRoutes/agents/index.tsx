@@ -87,6 +87,10 @@ export const columns: ColumnDef<Agent>[] = [
       </div>
     ),
   },
+    {
+    accessorKey: "phoneNo",
+    header: "Phone No",
+  },
   {
     accessorKey: "mobileNo",
     header: "Mobile No",
@@ -96,25 +100,22 @@ export const columns: ColumnDef<Agent>[] = [
     header: "Email",
   },
   {
-    accessorKey: "emailID",
-    header: "Email",
+    accessorKey: "instituteName",
+    header: "Institue Name",
   },
   {
-    accessorKey: "emailID",
-    header: "Email",
+    accessorKey: "instituteAddress",
+    header: "Institue Address",
   },
   {
-    accessorKey: "emailID",
-    header: "Email",
+    accessorKey: "occupation",
+    header: "Occupation",
   },
 
+
   {
-    accessorKey: "emailID",
-    header: "Email",
-  },
-  {
-    accessorKey: "emailID",
-    header: "Email",
+    accessorKey: "religion",
+    header: "Religion",
   },
   {
     accessorKey: "pan",
@@ -124,10 +125,7 @@ export const columns: ColumnDef<Agent>[] = [
     accessorKey: "agentUID",
     header: "Agent ID",
   },
-  {
-    accessorKey: "occupation",
-    header: "Occupation",
-  },
+
 ];
 
 

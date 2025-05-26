@@ -87,7 +87,7 @@ export default function RolePermission() {
     debugger;
     try {
       const response = await api.post(
-        API_ENDPOINTS.InsertUpdateUserRoleMapping,
+        API_ENDPOINTS.InsertUpdateMenuPermission,
         finalData,
         {
           headers: {
@@ -100,9 +100,9 @@ export default function RolePermission() {
       );
       debugger;
 
-      if (response.data.responseCode !== "0") {
-        return toastError(response.data.responseMessage);
-      }
+      // if (response.data.responseCode !== "0") {
+      //   return toastError(response.data.responseMessage);
+      // }
       toastSuccess(response.data.responseMessage);
       refetchRolePermission();
     } catch (error: unknown) {

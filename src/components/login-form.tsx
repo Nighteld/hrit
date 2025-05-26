@@ -46,17 +46,19 @@ export function LoginForm({
       if (response.data.responseCode !== "0") {
         return toastError(response.data.responseMessage);
       }
-      const { userDetails } = response.data.data;
+      const { userDetails,menuList } = response.data.data;
       debugger;
 
       const newData = { ...userDetails };
       delete newData.userToken;
       const encrypted = encrypt(JSON.stringify(newData));
       const encryptedToken = encrypt(userDetails.userToken);
+      const encryptedMenu = encrypt(JSON.stringify(menuList));
       debugger;
       login({
         encrypted: encrypted,
         encryptedToken: encryptedToken,
+        encryptedMenu:encryptedMenu,
       });
       // updateLocalStorage({ key: "USER_LOGIN", value: encrypted });
       // updateCookieStorage({ key: "ACCESS_TOKEN", value: encryptedToken });

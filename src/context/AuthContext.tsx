@@ -15,6 +15,7 @@ interface AuthContextType {
 type LoginData = {
   encrypted: string;
   encryptedToken: string;
+  encryptedMenu: string;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -27,17 +28,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     return storedUser ? storedUser : null; // Convert boolean to string or null
   });
 
-  const login = ({ encrypted, encryptedToken }: LoginData) => {
+  const login = ({ encrypted, encryptedToken ,encryptedMenu}: LoginData) => {
     debugger;
     setUser(encrypted);
     updateLocalStorage({ key: "USER_LOGIN", value: encrypted });
     updateCookieStorage({ key: "ACCESS_TOKEN", value: encryptedToken });
+    updateLocalStorage({ key: "USER_MENU", value: encryptedMenu });
   };
 
   const logout = () => {
     setUser(null);
     removeLocalStorage("USER_LOGIN");
     removeLocalStorage("EXPIRY_DATE");
+    removeLocalStorage("USER_MENU");
     removeCookieStorage("APP_TOKEN");
     removeCookieStorage("ACCESS_TOKEN");
   };

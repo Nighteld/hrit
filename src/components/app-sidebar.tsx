@@ -23,12 +23,16 @@ import {
 } from "@/components/ui/sidebar";
 import { TeamSwitcher } from "./team-switcher";
 import { schoolDetails } from "@/utils/constant";
-import { getLoggedInUser, getLoggedInUserCategory } from "@/utils/helper";
+import { getLoggedInMenuLists, getLoggedInUser, getLoggedInUserCategory } from "@/utils/helper";
 import { useAuth } from "@/context/AuthContext";
 // This is sample data.
 
 export function AppSidebar({ ...props }) {
     const { user } = useAuth();
+
+    const menuLists = getLoggedInMenuLists();
+    console.log("menuLists",menuLists);
+    console.log("user",user);
   let data = {
   user: {
     name: "Admin",
@@ -52,80 +56,85 @@ export function AppSidebar({ ...props }) {
       plan: "Free",
     },
   ],
-  navMain: [
-    {
-      title: "Enquiry",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "Student Registration",
-          url: "/admission",
-        },
-        {
-          title: "Student Enquiry",
-          url: "/student/enquiry",
-        },
+  navMain: menuLists && menuLists.map((item)=>({
+    title: item.MenuName,
+    url: item.Url,
+ 
+  })),
+  // navMain: [
+  //   {
+  //     title: "Enquiry",
+  //     url: "#",
+  //     icon: SquareTerminal,
+  //     isActive: true,
+  //     items: [
+  //       {
+  //         title: "Student Registration",
+  //         url: "/admission",
+  //       },
+  //       {
+  //         title: "Student Enquiry",
+  //         url: "/student/enquiry",
+  //       },
       
-      ],
-    },
-    {
-      title: "Agent",
-      url: "agent",
-      icon: Bot,
-      isActive: true,
-    },
-    {
-      title: "Leads",
-      url: "leads",
-      icon: Bot,
-      isActive: true,
-    },
-    {
-      title: "Staff",
-      url: "staff",
-      icon: Bot,
-      isActive: true,
-    },
-    {
-      title: "Stake Holder",
-      url: "stake-holder",
-      icon: Bot,
-      isActive: true,
-    },
-       {
-      title: "Users",
-      url: "users",
-      icon: Bot,
-      isActive: true,
-    },
-    {
-      title: "Menus",
-      url: "menus",
-      icon: Bot,
-      isActive: true,
-    },
-        {
-      title: "Role Permission",
-      url: "role/permission",
-      icon: Bot,
-      isActive: true,
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "Event",
-          url: "events",
-        },
+  //     ],
+  //   },
+  //   {
+  //     title: "Agent",
+  //     url: "agent",
+  //     icon: Bot,
+  //     isActive: true,
+  //   },
+  //   {
+  //     title: "Leads",
+  //     url: "leads",
+  //     icon: Bot,
+  //     isActive: true,
+  //   },
+  //   {
+  //     title: "Staff",
+  //     url: "staff",
+  //     icon: Bot,
+  //     isActive: true,
+  //   },
+  //   {
+  //     title: "Stake Holder",
+  //     url: "stake-holder",
+  //     icon: Bot,
+  //     isActive: true,
+  //   },
+  //      {
+  //     title: "Users",
+  //     url: "users",
+  //     icon: Bot,
+  //     isActive: true,
+  //   },
+  //   {
+  //     title: "Menus",
+  //     url: "menus",
+  //     icon: Bot,
+  //     isActive: true,
+  //   },
+  //       {
+  //     title: "Role Permission",
+  //     url: "role/permission",
+  //     icon: Bot,
+  //     isActive: true,
+  //   },
+  //   {
+  //     title: "Settings",
+  //     url: "#",
+  //     icon: Settings2,
+  //     items: [
+  //       {
+  //         title: "Event",
+  //         url: "events",
+  //       },
 
        
-      ],
-    },
-  ],
+  //     ],
+  //   },
+  // ],
 
   projects: [
     {
@@ -145,49 +154,50 @@ export function AppSidebar({ ...props }) {
     },
   ],
 };
+
 console.log("data", data);
 console.log("user", user);
 console.log("getLoggedInUser", getLoggedInUser());
 console.log("updatedData", data);
 
-if (getLoggedInUserCategory() === "STAFF") {
-  debugger;
-  const user = getLoggedInUser();
-  if (typeof user === "object" && user !== null && "allowEvent" in user) {
-    if (Number(user.allowEvent)) {
-      // Your code here
-      data = {
-        ...data,
-        navMain: [
-          {
-            title: "Leads",
-            url: "leads",
-            icon: Bot,
-            isActive: true,
-          },
-        ],
-      };
-    } else {
-      data = {
-        ...data,
-        navMain: [
-           {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "Event",
-          url: "events",
-        },
+// if (getLoggedInUserCategory() === "STAFF") {
+//   debugger;
+//   const user = getLoggedInUser();
+//   if (typeof user === "object" && user !== null && "allowEvent" in user) {
+//     if (Number(user.allowEvent)) {
+//       // Your code here
+//       data = {
+//         ...data,
+//         navMain: [
+//           {
+//             title: "Leads",
+//             url: "leads",
+//             icon: Bot,
+//             isActive: true,
+//           },
+//         ],
+//       };
+//     } else {
+//       data = {
+//         ...data,
+//         navMain: [
+//            {
+//       title: "Settings",
+//       url: "#",
+//       icon: Settings2,
+//       items: [
+//         {
+//           title: "Event",
+//           url: "events",
+//         },
 
-      ],
-    },
-        ],
-      };
-    }
-  }
-}
+//       ],
+//     },
+//         ],
+//       };
+//     }
+//   }
+// }
   return (
     <Sidebar collapsible="icon" {...props} className="" variant="">
       <SidebarHeader className="">

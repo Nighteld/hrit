@@ -65,6 +65,7 @@ const validationSchema = () =>
     category: Yup.string().required("This field is required"),
     courseIntrested: Yup.string().required("This field is required"),
     source: Yup.string().required("This field is required"),
+    instituteName: Yup.string().required("This field is required"),
     knowAbtCollege: Yup.string().required("This field is required"),
     counselledDate: Yup.string().required("This field is required"),
     followUpDate: Yup.string().required("This field is required"),
@@ -89,6 +90,7 @@ const initialValues = {
   sourceDescription: "",
   knowAbtCollege: "",
   knowAbtCollegeDescription: "",
+  instituteName:"",
   remarks: "",
   counselledDate: "",
   followUpDate: "",
@@ -282,6 +284,7 @@ export default function LeadsRegistration() {
         source: member.source,
         // sourceDescription: member.sourceDescription,
         knowAbtCollege: member.knowAbtCollege,
+        instituteName: member.instituteName,
         // knowAbtCollegeDescription: member.,
         remarks: member.remarks,
         counselledDate: member.counselledDate,
@@ -795,7 +798,25 @@ export default function LeadsRegistration() {
                           className="text-red-500 text-sm"
                         />
                       </div>
-                      <div></div>
+                                            <div className="space-y-2">
+     <Label htmlFor="schoolAinstituteNameddress">Institue Name</Label>
+                        <Field
+                          as={Input}
+                          id="instituteName"
+                          name="instituteName"
+                          type="text"
+                          className={
+                            errors.instituteName ? "validation-error" : ""
+                          }
+                        />
+                        <ErrorMessage
+                          name="instituteName"
+                          component="div"
+                          className="text-red-500 text-sm"
+                        />
+
+
+                      </div>
 
                       <div className="space-y-2">
                         <Label htmlFor="remarks">Remarks</Label>
@@ -914,6 +935,7 @@ export default function LeadsRegistration() {
                           <td>{item.source}</td>
                           {/* <td>{item.sourceDescription}</td> */}
                           <td>{item.knowAbtCollege}</td>
+                          <td>{item.instituteName}</td>
                           {/* <td>{item.knowAbtCollegeDescription}</td> */}
                           <td>{item.remarks}</td>
                           <td>{item.counselledDate}</td>

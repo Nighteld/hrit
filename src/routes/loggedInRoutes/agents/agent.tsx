@@ -64,6 +64,8 @@ const validationSchema = () =>
       .required("PAN is required"),
     panAttachmentPath: Yup.string().required("PAN attachment is required"),
     citizenshipNo: Yup.string().required("Citizenship number is required"),
+    instituteName: Yup.string().required("This field is Required!."),
+    instituteAddress: Yup.string().required("This field is Required!."),
     citizenshipIssueDate: Yup.string()
       .required("Citizenship issue date is required")
       .matches(
@@ -114,6 +116,8 @@ const initialValues = {
   panAttachmentPath: "", //send Base64 string
   panAttachmentPathFileName: "",
   citizenshipNo: "",
+  instituteName:"",
+  instituteAddress:"",
   citizenshipIssueDate: "",
   citizenshipFrontAttachmentPath: "", //send Base64 string
   citizenshipFrontAttachmentPathFileName: "",
@@ -695,6 +699,48 @@ export default function AgentRegistration() {
                       className="text-red-500 text-sm"
                     />
                   </div>
+                    <div className="space-y-2">
+                    <Label htmlFor="instituteName">
+                      Institue Name
+                      {/* <span className="text-red-500">*</span> */}
+                    </Label>
+                    <Field
+                      as={Input}
+                      id="instituteName"
+                      name="instituteName"
+                      // type="email"
+                      type="text"
+                      className={errors.instituteName ? "validation-error" : ""}
+                      // placeholder="m@example.com"
+                      // required
+                    />
+                    <ErrorMessage
+                      name="instituteName"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                    <div className="space-y-2">
+                    <Label htmlFor="instituteAddress">
+                       Institue Address
+                      {/* <span className="text-red-500">*</span> */}
+                    </Label>
+                    <Field
+                      as={Input}
+                      id="instituteAddress"
+                      name="instituteAddress"
+                      // type="email"
+                      type="text"
+                      className={errors.instituteAddress ? "validation-error" : ""}
+                      // placeholder="m@example.com"
+                      // required
+                    />
+                    <ErrorMessage
+                      name="instituteAddress"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
                   <div className="space-y-2">
                     <Label htmlFor="dobNepali">
                       Citizenship Issued Date{" "}
@@ -778,6 +824,7 @@ export default function AgentRegistration() {
                       className="text-red-500 text-sm"
                     />
                   </div>
+                  <div></div>
                   <div className="space-y-2">
                     <FileUpload
                       previewUrl={values.panAttachmentPath}

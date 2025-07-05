@@ -40,6 +40,8 @@ import StakeHolderDashboard from './routes/loggedInRoutes/stakeHolders/dashboard
 import { UserGrid } from './routes/loggedInRoutes/users';
 import { MenuGrid } from './routes/loggedInRoutes/menu';
 import RolePermission from './routes/loggedInRoutes/roleManagement';
+import { StudentGrid } from './routes/loggedInRoutes/admission/indexGrid';
+import AgentProfile from './routes/loggedInRoutes/agents/agentProfile';
 
 // Create a client
 const queryClient = new QueryClient()
@@ -108,7 +110,9 @@ function App() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="change-password" element={<ChangePassword />} />
           <Route path="profile" element={<ProfilePage />} />
-          <Route path="admission" element={<Admission />} />
+          <Route path="agent/profile" element={<AgentProfile  />} />
+          <Route path="student" element={<StudentGrid />} />
+          <Route path="student/admission" element={<Admission />} />
           <Route path="agent" element={<AgentGrid />} />
           <Route path="agent/create" element={<AgentRegistration />} />
           <Route path="student/enquiry" element={<StudentsEnquiry />} />

@@ -184,10 +184,10 @@ export default function RolePermission() {
                               roleId: formValues.roleId,
                               menuId: item.MenuId,
                               allowView: Number(!item.AllowView),
-                              allowEdit: item.AllowEdit,
-                              allowDelete: item.AllowDelete,
-                              allowAdd: item.AllowAdd,
-                              userPermissionId: 0, //send when update
+                              allowEdit: Number(item.AllowEdit),
+                              allowDelete: Number(item.AllowDelete),
+                              allowAdd: Number(item.AllowAdd),
+                              userPermissionId: item.UserPermissionID, //send when update
                             };
 
                             handleSubmit(finalData);
@@ -206,12 +206,12 @@ export default function RolePermission() {
                             const finalData = {
                               isActive: true,
                               roleId: formValues.roleId,
-                              menuId: item.MenuId,
+                              menuId: Number(item.MenuId),
                               allowView: Number(item.AllowView),
-                              allowEdit: item.AllowEdit,
-                              allowDelete: item.AllowDelete,
+                              allowEdit: Number(item.AllowEdit),
+                              allowDelete: Number(item.AllowDelete),
                               allowAdd: Number(!item.AllowAdd),
-                              userPermissionId: 0, //send when update
+                              userPermissionId: item.UserPermissionID, //send when update
                             };
 
                             handleSubmit(finalData);
@@ -234,7 +234,7 @@ export default function RolePermission() {
                               allowEdit: Number(!item.AllowEdit),
                               allowDelete: item.AllowDelete,
                               allowAdd: Number(item.AllowAdd),
-                              userPermissionId: 0, //send when update
+                              userPermissionId: item.UserPermissionID, //send when update
                             };
 
                             handleSubmit(finalData);
@@ -256,7 +256,7 @@ export default function RolePermission() {
                               allowEdit: Number(item.AllowEdit),
                               allowDelete: Number(!item.AllowDelete),
                               allowAdd: Number(item.AllowAdd),
-                              userPermissionId: 0, //send when update
+                              userPermissionId: item.UserPermissionID, //send when update
                             };
 
                             handleSubmit(finalData);

@@ -23,13 +23,13 @@ export default function StaffDashboard() {
     // refetchOnMount: false,
     // refetchOnWindowFocus: false,
   });
-       const { data :stakeHolders} = useQuery({
-    queryKey: ["stakeHolders"],
-    queryFn: () => fetchDashboarDetailsStakeHolders({}),
-    retry: true,
-    // refetchOnMount: false,
-    // refetchOnWindowFocus: false,
-  });
+  //      const { data :stakeHolders} = useQuery({
+  //   queryKey: ["stakeHolders"],
+  //   queryFn: () => fetchDashboarDetailsStakeHolders({}),
+  //   retry: true,
+  //   // refetchOnMount: false,
+  //   // refetchOnWindowFocus: false,
+  // });
 const { leads = [] } = data || {};
 const { counts = [] } = data || {};
 

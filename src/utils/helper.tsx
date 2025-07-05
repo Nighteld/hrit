@@ -64,7 +64,9 @@ export const getLocalStorage = ({ key }: { key: string }): string | null => {
 export const getAccessToken = () => {
   const accessToken = Cookies.get("ACCESS_TOKEN");
   if (!accessToken) {
-    throw new Error("Access token is missing");
+    return null;
+
+    // throw new Error("Access token is missing");
   }
   return decrypt(accessToken);
 };
@@ -136,16 +138,13 @@ export const getLoggedInMenuLists = (): Record<string, any> | string => {
   }
 };
 
-
-export const isAuthorizedUser =() =>{
-  if(getLoggedInUserCategory() === "STAKEHOLDER"){
-    return false
+export const isAuthorizedUser = () => {
+  if (getLoggedInUserCategory() === "STAKEHOLDER") {
+    return false;
   }
   return true;
-}
+};
 
 export const IsUserLogin = () => {
-  return Cookies.get("ACCESS_TOKEN") && getLoggedInUser()
-    ? getLoggedInUser()
-    : null;
+  return getAccessToken() && getLoggedInUser() ? getLoggedInUser() : null;
 };

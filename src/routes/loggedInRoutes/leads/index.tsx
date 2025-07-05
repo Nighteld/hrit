@@ -103,6 +103,8 @@ type initialValues = {
   source: string;
   schoolName: string;
   courseIntrested: string;
+  instituteName: string;
+  
 };
 const validationSchema = () =>
   Yup.object({
@@ -123,6 +125,7 @@ export function LeadsGrid() {
     source: "",
     schoolName: "",
     courseIntrested: "",
+    instituteName:"",
   });
   const newFallowUp = {
     followUpDate: new Date(),
@@ -157,6 +160,7 @@ export function LeadsGrid() {
     queryFn: () => fetchLeadsLists(formValues),
     enabled: false,
   });
+  
   useEffect(() => {
     refetchLeads();
   }, [formValues]);
@@ -164,7 +168,8 @@ export function LeadsGrid() {
   console.log("isPending", isPending);
   console.log("data2", data);
   console.log("error", error);
-  const columns: ColumnDef<Leads>[] = [
+  console.log("getAccessToken", getAccessToken());
+  const columns: ColumnDef<Leads>[] = [ 
     {
       id: "expander",
       header: () => null,
@@ -243,6 +248,10 @@ export function LeadsGrid() {
     {
       accessorKey: "Source",
       header: "Source",
+    },
+        {
+      accessorKey: "InstituteName",
+      header: "Institute Name",
     },
     {
       accessorKey: "KnowAbtCollege",
@@ -354,6 +363,19 @@ export function LeadsGrid() {
                 className="max-w-sm"
               />
 
+  <Input
+                placeholder="Filter Institutes..."
+                // value={formValues.schoolName}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                  setTimeout(() => {
+                    setFormValues((prev) => ({
+                      ...prev,
+                      instituteName: event.target.value,
+                    }));
+                  }, 1000);
+                }}
+                className="max-w-sm"
+              />
               <Select
                 onValueChange={(value: string) =>
                   setFormValues((prev) => ({

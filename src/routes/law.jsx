@@ -60,7 +60,7 @@ export default function Law() {
                 <div className="about-embla__slide__number">
                   <img
                     src={`/banner/hrit${index}.jpg`}
-                    className="w-full h-full object-fill"
+                    className="w-full h-full object-cover"
                   />
                 </div>
               </div>

@@ -3,46 +3,65 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useEffect, useRef, useState } from "react";
 import * as Yup from "yup";
 
+import { fetchAgentLists } from "@/action/agentAction";
+import FileUpload from "@/components/file-upload";
 import api from "@/utils/api";
 import API_ENDPOINTS from "@/utils/apiList";
+import { handleImageValidation } from "@/utils/function";
 import { getAppToken, toastError, toastSuccess } from "@/utils/helper";
 import NepaliDatePicker, { NepaliDate } from "@zener/nepali-datepicker-react";
 import "@zener/nepali-datepicker-react/index.css";
-import { useNavigate } from "react-router";
-import FileUpload from "@/components/file-upload";
-import { handleImageValidation } from "@/utils/function";
-
-const validationSchema = () =>
+import { useNavigate, useSearchParams } from "react-router";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs"
+const validationSchema = (isEdit = false) =>
   Yup.object({
-    firstName: Yup.string().required("This field is required"),
     middleName: Yup.string().notRequired(),
     lastName: Yup.string().required("This field is required"),
     gender: Yup.string().required("This field is required"),
-    // dateOfBirth: Yup.string().required("This field is required"),
-    mobileNo: Yup.string().required("This field is required"),
-    // phoneNo: Yup.string().required("This field is required"),
+    firstName: Yup.string().required("This field is required"),
+
+    // dateOfBirth: Yup.string()
+    //   .required("Date of Birth is required")
+    //   .matches(
+    //     /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/,
+    //     "Date of Birth must be in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)"
+    //   )
+    //   .test(
+    //     "is-valid-date",
+    //     "Date of Birth must be a valid date",
+    //     (value) => !isNaN(new Date(value || "").getTime())
+    //   ),
+    // dateOfBirth: Yup.string().required("Date of Birth is required"),
+    phoneNo: Yup.string().notRequired(),
+    mobileNo: Yup.string().required("Mobile number is required"),
     // emailID: Yup.string().email().required("Email ID is required"),
-    // occupation: Yup.string().required("This field is required"),
-    // religion: Yup.string().required("This field is required"),
-    // nationality: Yup.string().required("This field is required"),
-    // bloodGroup: Yup.string().required("This field is required"),
-    // martialStatus: Yup.string().required("This field is required"),
+    // occupation: Yup.string().required("Occupation is required"),
+    // religion: Yup.string().required("Religion is required"),
+    // nationality: Yup.string().required("Nationality is required"),
+    // martialStatus: Yup.string().required("Marital Status is required"),
     // pan: Yup.string()
     //   .matches(/^\d{9}$/, "PAN must be exactly 9 digits")
     //   .required("PAN is required"),
     // panAttachmentPath: Yup.string().required("PAN attachment is required"),
     // citizenshipNo: Yup.string().required("Citizenship number is required"),
+    // instituteName: Yup.string().required("This field is Required!."),
+    // instituteAddress: Yup.string().required("This field is Required!."),
     // citizenshipIssueDate: Yup.string()
     //   .required("Citizenship issue date is required")
     //   .matches(
@@ -60,23 +79,26 @@ const validationSchema = () =>
     // citizenshipBackAttachmentPath: Yup.string().required(
     //   "Citizenship back attachment is required"
     // ),
-
-    password: Yup.string()
-      .min(3, "Minimum 3 symbols")
-      .max(50, "Maximum 50 symbols")
-      .required("Password is required"),
-    passwordConfirmation: Yup.string()
-      .min(3, "Minimum 3 symbols")
-      .max(50, "Maximum 50 symbols")
-      .required("Password confirmation is required")
-      .oneOf(
-        [Yup.ref("password")],
-        "Password and Confirm Password didn't match"
-      ),
+...(isEdit
+      ? {} // No validation on password fields in edit
+      : {
+          password: Yup.string()
+            .min(3, "Minimum 3 symbols")
+            .max(50, "Maximum 50 symbols")
+            .required("Password is required"),
+          passwordConfirmation: Yup.string()
+            .min(3, "Minimum 3 symbols")
+            .max(50, "Maximum 50 symbols")
+            .required("Password confirmation is required")
+            .oneOf(
+              [Yup.ref("password")],
+              "Password and Confirm Password didn't match"
+            ),
+        }),
   });
 
 const initialValues = {
-  //"stakeholderUID": "string",
+  //"agentUID": "string",
   firstName: " ",
   middleName: "",
   lastName: "",
@@ -88,19 +110,24 @@ const initialValues = {
   occupation: "",
   religion: "",
   nationality: "",
-  bloodGroup: "+",
+  bloodGroup: "",
   martialStatus: "",
   pan: "",
   panAttachmentPath: "", //send Base64 string
-  panAttachmentPathFileName: "", //send Base64 string
+  panAttachmentPathFileName: "",
   citizenshipNo: "",
+  instituteName: "",
+  instituteAddress: "",
   citizenshipIssueDate: "",
   citizenshipFrontAttachmentPath: "", //send Base64 string
   citizenshipFrontAttachmentPathFileName: "",
   citizenshipBackAttachmentPath: "", //send Base64 string
-  citizenshipBackAttachmentPathFileName: "",
+  citizenshipBackAttachmentPathFileName: "", //send Base64 string
   password: "",
   passwordConfirmation: "",
+  bankName: "",
+  accountNo: "",
+  accountHolderName: "",
 };
 const flag = [
   "BloodGroupDDL",
@@ -114,8 +141,14 @@ interface DropDown {
 }
 const maxDate = new NepaliDate().subtract(16, "y");
 
-export default function StakeHolderRegistration() {
-  const navigate = useNavigate();
+export default function AgentRegistration() {
+  let [searchParams, setSearchParams] = useSearchParams("");
+  const id = searchParams.get("id");
+const isEdit = !!id; // edit mode if id exists
+  const formikRef = useRef(null);
+  // const {values,setValues} = formikRef?.current;
+  console.log("id", id);
+  console.log("formikRef", formikRef);
   const [bloodGroup, setBloodGroup] = useState<DropDown[] | null>(null);
   const [occupation, setOccupation] = useState<DropDown[] | null>(null);
   const [religion, setReligion] = useState<DropDown[] | null>(null);
@@ -125,13 +158,25 @@ export default function StakeHolderRegistration() {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [userData, setUserData] = useState<(typeof initialValues)[]>([]);
-  const [formLoader, setFormLoader] = useState(false);
+  const navigate = useNavigate();
 
-  console.log("userData", userData);
   useEffect(() => {
     handleInitialApi();
+    if (id) {
+      GetAgentById();
+    }
   }, []);
+
+  const GetAgentById = async () => {
+    const response = await fetchAgentLists({
+      agentUID: id,
+    });
+    console.log("response", response);
+    console.log("formikRef", formikRef);
+    formikRef?.current?.setValues(response[0])
+    
+
+  };
   // useEffect(() => {
   //   if (ref.current) {
   //     console.log('====================================');
@@ -140,6 +185,35 @@ export default function StakeHolderRegistration() {
   //     ref.current.click();
   //   }
   // }, []);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (!file) return;
+
+    // Check file size (2MB = 2 * 1024 * 1024 bytes)
+    if (file.size > 2 * 1024 * 1024) {
+      setError("Image size must be less than 2MB");
+      setSelectedImage(null);
+      setPreviewUrl(null);
+      return;
+    }
+
+    // Check if file is an image
+    if (!file.type.startsWith("image/")) {
+      setError("Please select an image file");
+      setSelectedImage(null);
+      setPreviewUrl(null);
+      return;
+    }
+
+    setError(null);
+    setSelectedImage(file);
+
+    // Create preview URL
+    const url = URL.createObjectURL(file);
+    setPreviewUrl(url);
+  };
 
   const handleInitialApi = async () => {
     try {
@@ -179,8 +253,6 @@ export default function StakeHolderRegistration() {
     }
   };
 
-  console.log("error", error);
-
   const handleImageUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
     setFieldValue: (name: string, value: any) => void
@@ -209,26 +281,23 @@ export default function StakeHolderRegistration() {
       }
     }
   };
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, handleReset) => {
     try {
-      const response = await api.post(
-        API_ENDPOINTS.RegisterStakeHolder,
-        values,
-        {
-          headers: {
-            Authorization: "Bearer " + getAppToken(),
-            "Access-Control-Allow-Origin": "*",
-            "Content-type": "application/json; charset=UTF-8",
-          },
-        }
-      );
+      const response = await api.post(API_ENDPOINTS.registerAgent, values, {
+        headers: {
+          Authorization: "Bearer " + getAppToken(),
+          "Access-Control-Allow-Origin": "*",
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
       debugger;
 
       if (response.data.responseCode !== "0") {
         return toastError(response.data.responseMessage);
       }
       toastSuccess(response.data.responseMessage);
-      navigate("/stake-holder");
+      handleReset();
+      navigate("/agent");
       debugger;
     } catch (error: unknown) {
       const errorAsError = error as Error;
@@ -236,40 +305,22 @@ export default function StakeHolderRegistration() {
       toastError(errorAsError.message);
     }
   };
+
   return (
     <div>
-      <h1 className="text-3xl font-bold text-dark mb-3">
-        Stake Holder Registration
-      </h1>
-      <div className="mb-3">
-        <p className="mb-3">
-          Before you proceed with the form please read below topics:
-        </p>
-        <ul className="list-disc pl-4 mb-5">
-          <li>
-            Field with red border color and fade red background color indicates
-            that this field is required.
-          </li>
-        </ul>
-        {/* <div className="flex items-center space-x-2  p-5 rounded-sm bg-[var(--primary)] text-white">
-          <Checkbox
-            id="terms"
-            checked={isExcel}
-            onCheckedChange={(checked) => setIsExcel(checked === true)}
-          />
-          <label
-            htmlFor="terms"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          >
-            Import from Excel
-          </label>
-        </div> */}
-      </div>
-
-      <Formik
+      <h1 className="text-3xl font-bold text-dark mb-3">Profile</h1>
+         <div className="flex w-full  flex-col gap-6">
+      <Tabs defaultValue="basic">
+        <TabsList>
+          <TabsTrigger value="basic">Basic Details</TabsTrigger>
+          <TabsTrigger value="password">Password</TabsTrigger>
+        </TabsList>
+        <TabsContent value="basic" className="w-full">
+               <Formik
         initialValues={initialValues}
-        validationSchema={validationSchema}
+        validationSchema={validationSchema(isEdit)}
         validateOnMount
+          innerRef={formikRef} 
         // onSubmit={(values) => console.log("Form Submitted:", values)}
         onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}
       >
@@ -358,58 +409,37 @@ export default function StakeHolderRegistration() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="emailID">Email</Label>
-                    <Field
-                      as={Input}
-                      id="emailID"
-                      name="emailID"
-                      type="email"
-                      autoComplete="off"
-                      className={errors.emailID ? "validation-error" : ""}
-                    />
-                    <ErrorMessage
-                      name="emailID"
-                      component="div"
-                      className="text-red-500 text-sm"
-                    />
+                    <Label>
+                      Gender
+                      {/* <span className="text-red-500">*</span> */}
+                    </Label>
+                    <Select
+                      onValueChange={(value: string) =>
+                        setFieldValue("gender", value)
+                      }
+                      value={values.gender}
+                      name="gender"
+                    >
+                      <SelectTrigger
+                        className={errors.gender ? "validation-error" : ""}
+                      >
+                        <SelectValue placeholder="Select Your Gender" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="Male">Male</SelectItem>
+                          <SelectItem value="Female">Female</SelectItem>
+                          <SelectItem value="Others">Others</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                    <div className="text-red-500 text-sm">{errors?.gender}</div>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="mobileNo">Contact No</Label>
-                    <Field
-                      as={Input}
-                      id="mobileNo"
-                      name="mobileNo"
-                      // type="email"
-                      type="text"
-                      // placeholder="m@example.com"
-                      // required
-                    />
-                    <ErrorMessage
-                      name="mobileNo"
-                      component="div"
-                      className="text-red-500 text-sm"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="pan">Pan</Label>
-                    <Field
-                      as={Input}
-                      id="pan"
-                      name="pan"
-                      // type="email"
-                      type="text"
-                      // placeholder="m@example.com"
-                      // required
-                    />
-                    <ErrorMessage
-                      name="pan"
-                      component="div"
-                      className="text-red-500 text-sm"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="dateOfBirth">Date of Birth</Label>
-
+                    <Label htmlFor="dateOfBirth">
+                      DOB
+                      {/* DOB <span className="text-red-500">*</span> */}
+                    </Label>
                     <NepaliDatePicker
                       // value={value}
 
@@ -420,16 +450,126 @@ export default function StakeHolderRegistration() {
 
                         // setValue(e);
                       }}
-                      // max={maxDate}
+                      max={maxDate}
                     />
-
                     <div className="text-red-500 text-sm">
                       {errors?.dateOfBirth}
                     </div>
                   </div>
 
+                  {/* <div className="space-y-2">
+                    <Label htmlFor="dob">
+                      // Date of Birth <span className="text-red-500">*</span>
+                    </Label>
+                    <NepaliDatePicker
+                      // value={value}
+                      type="AD"
+                      lang="en"
+                      placeholder="Select date"
+                      onChange={(e) => {
+                        // setValue(e);
+                      }}
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      Format: YYYY-MM-DD
+                    </p>
+                  </div> */}
+
                   <div className="space-y-2">
-                    <Label>Religion</Label>
+                    <Label htmlFor="email">Phone No</Label>
+                    <Field
+                      as={Input}
+                      id="email"
+                      name="phoneNo"
+                      // type="email"
+                      type="text"
+                      // placeholder="m@example.com"
+                      // required
+                    />
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="email">
+                      Mobile No
+                      {/* <span className="text-red-500">*</span> */}
+                    </Label>
+                    <Field
+                      as={Input}
+                      id="email"
+                      name="mobileNo"
+                      className={errors.mobileNo ? "validation-error" : ""}
+                      // type="email"
+                      type="text"
+                      // placeholder="m@example.com"
+                      // required
+                    />
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="emailID">
+                      Email
+                      {/* <span className="text-red-500">*</span> */}
+                    </Label>
+                    <Field
+                      as={Input}
+                      id="emailID"
+                      name="emailID"
+                      className={errors.emailID ? "validation-error" : ""}
+                      // type="email"
+                      type="text"
+                      // placeholder="m@example.com"
+                      // required
+                    />
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>
+                      Occupation
+                      {/* <span className="text-red-500">*</span> */}
+                    </Label>
+                    <Select
+                      onValueChange={(value: string) =>
+                        setFieldValue("occupation", value)
+                      }
+                      name="bloodGroup"
+                    >
+                      <SelectTrigger
+                        className={errors.occupation ? "validation-error" : ""}
+                      >
+                        <SelectValue placeholder="Click to select" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          {occupation &&
+                            occupation.map((item) => (
+                              <SelectItem value={item.value}>
+                                {item.value}
+                              </SelectItem>
+                            ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>
+                      Religion
+                      {/* <span className="text-red-500">*</span> */}
+                    </Label>
                     <Select
                       onValueChange={(value: string) =>
                         setFieldValue("religion", value)
@@ -482,34 +622,7 @@ export default function StakeHolderRegistration() {
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="space-y-2">
-                    <Label>
-                      Occupation
-                      {/* <span className="text-red-500">*</span> */}
-                    </Label>
-                    <Select
-                      onValueChange={(value: string) =>
-                        setFieldValue("occupation", value)
-                      }
-                      name="bloodGroup"
-                    >
-                      <SelectTrigger
-                        className={errors.occupation ? "validation-error" : ""}
-                      >
-                        <SelectValue placeholder="Click to select" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          {occupation &&
-                            occupation.map((item) => (
-                              <SelectItem value={item.value}>
-                                {item.value}
-                              </SelectItem>
-                            ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </div>
+
                   <div className="space-y-2">
                     <Label>
                       Blood Group
@@ -567,6 +680,25 @@ export default function StakeHolderRegistration() {
                     </Select>
                   </div>
                   <div className="space-y-2">
+                    <Label htmlFor="Pan">Pan</Label>
+                    <Field
+                      as={Input}
+                      id="Pan"
+                      name="pan"
+                      className={errors.pan ? "validation-error" : ""}
+                      // type="Pan"
+                      type="text"
+                      // placeholder="m@example.com"
+                      // required
+                    />
+                    <ErrorMessage
+                      name="Pan"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
                     <Label htmlFor="citizenshipNo">
                       Citizenship No
                       {/* <span className="text-red-500">*</span> */}
@@ -583,6 +715,50 @@ export default function StakeHolderRegistration() {
                     />
                     <ErrorMessage
                       name="citizenshipNo"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="instituteName">
+                      Institue Name
+                      {/* <span className="text-red-500">*</span> */}
+                    </Label>
+                    <Field
+                      as={Input}
+                      id="instituteName"
+                      name="instituteName"
+                      // type="email"
+                      type="text"
+                      className={errors.instituteName ? "validation-error" : ""}
+                      // placeholder="m@example.com"
+                      // required
+                    />
+                    <ErrorMessage
+                      name="instituteName"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="instituteAddress">
+                      Institue Address
+                      {/* <span className="text-red-500">*</span> */}
+                    </Label>
+                    <Field
+                      as={Input}
+                      id="instituteAddress"
+                      name="instituteAddress"
+                      // type="email"
+                      type="text"
+                      className={
+                        errors.instituteAddress ? "validation-error" : ""
+                      }
+                      // placeholder="m@example.com"
+                      // required
+                    />
+                    <ErrorMessage
+                      name="instituteAddress"
                       component="div"
                       className="text-red-500 text-sm"
                     />
@@ -609,34 +785,90 @@ export default function StakeHolderRegistration() {
                       Format: YYYY-MM-DD
                     </p>
                   </div>
+
                   <div className="space-y-2">
-                    <Label>
-                      Gender
+                    <Label htmlFor="instituteAddress">
+                      Bank
                       {/* <span className="text-red-500">*</span> */}
                     </Label>
-                    <Select
-                      onValueChange={(value: string) =>
-                        setFieldValue("gender", value)
+                    <Field
+                      as={Input}
+                      id="bankName"
+                      name="bankName"
+                      // type="email"
+                      type="text"
+                      className={errors.bankName ? "validation-error" : ""}
+                      // placeholder="m@example.com"
+                      // required
+                    />
+                    <ErrorMessage
+                      name="bankName"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="accountNo">
+                      Bank Account No
+                      {/* <span className="text-red-500">*</span> */}
+                    </Label>
+                    <Field
+                      as={Input}
+                      id="accountNo"
+                      name="accountNo"
+                      // type="email"
+                      type="text"
+                      className={errors.accountNo ? "validation-error" : ""}
+                      // placeholder="m@example.com"
+                      // required
+                    />
+                    <ErrorMessage
+                      name="accountNo"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="accountHolderName">
+                      Bank Account Name
+                      {/* <span className="text-red-500">*</span> */}
+                    </Label>
+                    <Field
+                      as={Input}
+                      id="accountHolderName"
+                      name="accountHolderName"
+                      // type="email"
+                      type="text"
+                      className={
+                        errors.accountHolderName ? "validation-error" : ""
                       }
-                      value={values.gender}
-                      name="gender"
-                    >
-                      <SelectTrigger
-                        className={errors.gender ? "validation-error" : ""}
-                      >
-                        <SelectValue placeholder="Select Your Gender" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectItem value="Male">Male</SelectItem>
-                          <SelectItem value="Female">Female</SelectItem>
-                          <SelectItem value="Others">Others</SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                    <div className="text-red-500 text-sm">{errors?.gender}</div>
+                      // placeholder="m@example.com"
+                      // required
+                    />
+                    <ErrorMessage
+                      name="accountHolderName"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
                   </div>
 
+                  {/* <div className="space-y-2">
+                      <Label htmlFor="email">Citizenship Issued Date</Label>
+                      <Field
+                        as={Input}
+                        id="email"
+                        name="citizenshipIssueDate"
+                        // type="email"
+                        type="text"
+                        // placeholder="m@example.com"
+                        // required
+                      />
+                      <ErrorMessage
+                        name="email"
+                        component="div"
+                        className="text-red-500 text-sm"
+                      />
+                    </div> */}
                   <div className="space-y-2">
                     <Label htmlFor="email">
                       Password
@@ -681,9 +913,8 @@ export default function StakeHolderRegistration() {
                       className="text-red-500 text-sm"
                     />
                   </div>
-                  <div className="space-y-2 "></div>
-
-                  {/* <div className="space-y-2">
+                  <div></div>
+                  <div className="space-y-2">
                     <FileUpload
                       previewUrl={values.panAttachmentPath}
                       name="panAttachmentPath"
@@ -695,7 +926,8 @@ export default function StakeHolderRegistration() {
                       }
                       title="Pan"
                     />
-                  </div> */}
+                  </div>
+
                   {/* <div className="space-y-2">
                     <FileUpload
                       previewUrl={values.citizenshipFrontAttachmentPath}
@@ -722,6 +954,8 @@ export default function StakeHolderRegistration() {
                       title="Citizenship Back"
                     />
                   </div> */}
+
+                  <div className="space-y-2"></div>
                 </div>
               </CardContent>
             </Card>
@@ -731,6 +965,7 @@ export default function StakeHolderRegistration() {
                 className=" bg-color"
                 disabled={isSubmitting}
               >
+                {/* {id ? "Update" : "Submit"} */}
                 {isSubmitting ? "Submitting..." : "Submit"}
               </Button>
             </div>
@@ -738,6 +973,10 @@ export default function StakeHolderRegistration() {
           </Form>
         )}
       </Formik>
+            </TabsContent>
+        </Tabs>
+        </div>
+   
     </div>
   );
 }

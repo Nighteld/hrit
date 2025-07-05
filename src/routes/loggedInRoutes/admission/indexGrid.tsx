@@ -57,6 +57,7 @@ import {
 import { fetchAgentLists } from "@/action/agentAction";
 import { dateFormatter } from "@/utils/function";
 import { Link } from "react-router";
+import { fetchStudentLists } from "@/action/studentAction";
 
 export type Agent = {
   id: string;
@@ -163,7 +164,7 @@ export const columns: ColumnDef<Agent>[] = [
   
 ];
 
-export function AgentGrid() {
+export function StudentGrid() {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -172,10 +173,9 @@ export function AgentGrid() {
   const { isPending, error, data } = useQuery({
     queryKey: ["agentList"],
     queryFn: () =>
-      fetchAgentLists({
-        agentUID: "",
+      fetchStudentLists({
       }),
-    retry: true,
+    retry: 2,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
@@ -207,7 +207,7 @@ export function AgentGrid() {
     <section className="w-full">
       <Card className="shadow-none">
         <CardHeader>
-          <CardTitle>Agent Lists</CardTitle>
+          <CardTitle>Student Lists</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center py-4  justify-end">
@@ -249,13 +249,13 @@ export function AgentGrid() {
                 </DropdownMenuContent>
               </DropdownMenu>
               {isAuthorizedUser() && (
-                <Link to="/agent/create">
+                <Link to="/student/admission">
                   <Button
                     variant="outline"
                     className="ml-auto bg-primary text-white"
                   >
                     <Plus />
-                    Add Agents
+                    Add Student
                   </Button>
                 </Link>
               )}

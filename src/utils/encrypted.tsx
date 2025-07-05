@@ -1,4 +1,5 @@
 import CryptoJS from "crypto-js";
+import { removeCookieStorage, removeLocalStorage, toastError } from "./helper";
 
 
 const iv = CryptoJS.enc.Utf8.parse("8080808080808080");
@@ -29,6 +30,12 @@ export const decrypt = (ciphertext: string): string | null => {
         return result ? result : null;
     } catch (error) {
         console.error("Decryption failed:", error);
+        toastError("Session Expired");
+            removeLocalStorage("USER_LOGIN");
+            removeLocalStorage("EXPIRY_DATE");
+            removeLocalStorage("USER_MENU");
+            removeCookieStorage("APP_TOKEN");
+            removeCookieStorage("ACCESS_TOKEN");
         // window.sessionStorage.clear();
         // window.localStorage.clear();
         // Cookies.remove("ACCESS_TOKEN");

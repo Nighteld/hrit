@@ -32,8 +32,10 @@ import { handleImageValidation } from "@/utils/function";
 import FileUpload from "@/components/file-upload";
 import { GenerateToken } from "@/auth/authAction";
 import { getAppToken, toastError, toastSuccess } from "@/utils/helper";
-import { useNavigate } from "react-router";
-const validationSchema = () =>
+import { useNavigate, useSearchParams } from "react-router";
+import { useQuery } from "@tanstack/react-query";
+import { fetchAgentLists } from "@/action/agentAction";
+const validationSchema = (isEdit = false) =>
   Yup.object({
     middleName: Yup.string().notRequired(),
     lastName: Yup.string().required("This field is required"),
@@ -51,50 +53,54 @@ const validationSchema = () =>
     //     "Date of Birth must be a valid date",
     //     (value) => !isNaN(new Date(value || "").getTime())
     //   ),
-    dateOfBirth: Yup.string().required("Date of Birth is required"),
+    // dateOfBirth: Yup.string().required("Date of Birth is required"),
     phoneNo: Yup.string().notRequired(),
     mobileNo: Yup.string().required("Mobile number is required"),
-    emailID: Yup.string().email().required("Email ID is required"),
-    occupation: Yup.string().required("Occupation is required"),
-    religion: Yup.string().required("Religion is required"),
-    nationality: Yup.string().required("Nationality is required"),
-    martialStatus: Yup.string().required("Marital Status is required"),
-    pan: Yup.string()
-      .matches(/^\d{9}$/, "PAN must be exactly 9 digits")
-      .required("PAN is required"),
-    panAttachmentPath: Yup.string().required("PAN attachment is required"),
-    citizenshipNo: Yup.string().required("Citizenship number is required"),
-    instituteName: Yup.string().required("This field is Required!."),
-    instituteAddress: Yup.string().required("This field is Required!."),
-    citizenshipIssueDate: Yup.string()
-      .required("Citizenship issue date is required")
-      .matches(
-        /^\d{4}-\d{2}-\d{2}$/,
-        "Citizenship Issue Date must be in YYYY-MM-DD format"
-      )
-      .test(
-        "is-valid-date",
-        "Citizenship Issue Date must be a valid date",
-        (value) => !isNaN(new Date(value || "").getTime())
-      ),
-    citizenshipFrontAttachmentPath: Yup.string().required(
-      "Citizenship front attachment is required"
-    ),
-    citizenshipBackAttachmentPath: Yup.string().required(
-      "Citizenship back attachment is required"
-    ),
-    password: Yup.string()
-      .min(3, "Minimum 3 symbols")
-      .max(50, "Maximum 50 symbols")
-      .required("Password is required"),
-    passwordConfirmation: Yup.string()
-      .min(3, "Minimum 3 symbols")
-      .max(50, "Maximum 50 symbols")
-      .required("Password confirmation is required")
-      .oneOf(
-        [Yup.ref("password")],
-        "Password and Confirm Password didn't match"
-      ),
+    // emailID: Yup.string().email().required("Email ID is required"),
+    // occupation: Yup.string().required("Occupation is required"),
+    // religion: Yup.string().required("Religion is required"),
+    // nationality: Yup.string().required("Nationality is required"),
+    // martialStatus: Yup.string().required("Marital Status is required"),
+    // pan: Yup.string()
+    //   .matches(/^\d{9}$/, "PAN must be exactly 9 digits")
+    //   .required("PAN is required"),
+    // panAttachmentPath: Yup.string().required("PAN attachment is required"),
+    // citizenshipNo: Yup.string().required("Citizenship number is required"),
+    // instituteName: Yup.string().required("This field is Required!."),
+    // instituteAddress: Yup.string().required("This field is Required!."),
+    // citizenshipIssueDate: Yup.string()
+    //   .required("Citizenship issue date is required")
+    //   .matches(
+    //     /^\d{4}-\d{2}-\d{2}$/,
+    //     "Citizenship Issue Date must be in YYYY-MM-DD format"
+    //   )
+    //   .test(
+    //     "is-valid-date",
+    //     "Citizenship Issue Date must be a valid date",
+    //     (value) => !isNaN(new Date(value || "").getTime())
+    //   ),
+    // citizenshipFrontAttachmentPath: Yup.string().required(
+    //   "Citizenship front attachment is required"
+    // ),
+    // citizenshipBackAttachmentPath: Yup.string().required(
+    //   "Citizenship back attachment is required"
+    // ),
+...(isEdit
+      ? {} // No validation on password fields in edit
+      : {
+          password: Yup.string()
+            .min(3, "Minimum 3 symbols")
+            .max(50, "Maximum 50 symbols")
+            .required("Password is required"),
+          passwordConfirmation: Yup.string()
+            .min(3, "Minimum 3 symbols")
+            .max(50, "Maximum 50 symbols")
+            .required("Password confirmation is required")
+            .oneOf(
+              [Yup.ref("password")],
+              "Password and Confirm Password didn't match"
+            ),
+        }),
   });
 
 const initialValues = {
@@ -116,8 +122,8 @@ const initialValues = {
   panAttachmentPath: "", //send Base64 string
   panAttachmentPathFileName: "",
   citizenshipNo: "",
-  instituteName:"",
-  instituteAddress:"",
+  instituteName: "",
+  instituteAddress: "",
   citizenshipIssueDate: "",
   citizenshipFrontAttachmentPath: "", //send Base64 string
   citizenshipFrontAttachmentPathFileName: "",
@@ -125,6 +131,9 @@ const initialValues = {
   citizenshipBackAttachmentPathFileName: "", //send Base64 string
   password: "",
   passwordConfirmation: "",
+  bankName: "",
+  accountNo: "",
+  accountHolderName: "",
 };
 const flag = [
   "BloodGroupDDL",
@@ -139,6 +148,13 @@ interface DropDown {
 const maxDate = new NepaliDate().subtract(16, "y");
 
 export default function AgentRegistration() {
+  let [searchParams, setSearchParams] = useSearchParams("");
+  const id = searchParams.get("id");
+const isEdit = !!id; // edit mode if id exists
+  const formikRef = useRef(null);
+  // const {values,setValues} = formikRef?.current;
+  console.log("id", id);
+  console.log("formikRef", formikRef);
   const [bloodGroup, setBloodGroup] = useState<DropDown[] | null>(null);
   const [occupation, setOccupation] = useState<DropDown[] | null>(null);
   const [religion, setReligion] = useState<DropDown[] | null>(null);
@@ -152,7 +168,21 @@ export default function AgentRegistration() {
 
   useEffect(() => {
     handleInitialApi();
+    if (id) {
+      GetAgentById();
+    }
   }, []);
+
+  const GetAgentById = async () => {
+    const response = await fetchAgentLists({
+      agentUID: id,
+    });
+    console.log("response", response);
+    console.log("formikRef", formikRef);
+    formikRef?.current?.setValues(response[0])
+    
+
+  };
   // useEffect(() => {
   //   if (ref.current) {
   //     console.log('====================================');
@@ -273,7 +303,7 @@ export default function AgentRegistration() {
       }
       toastSuccess(response.data.responseMessage);
       handleReset();
-      navigate('/agent');
+      navigate("/agent");
       debugger;
     } catch (error: unknown) {
       const errorAsError = error as Error;
@@ -298,8 +328,9 @@ export default function AgentRegistration() {
       </div>
       <Formik
         initialValues={initialValues}
-        validationSchema={validationSchema}
+        validationSchema={validationSchema(isEdit)}
         validateOnMount
+          innerRef={formikRef} 
         // onSubmit={(values) => console.log("Form Submitted:", values)}
         onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}
       >
@@ -430,7 +461,6 @@ export default function AgentRegistration() {
                         // setValue(e);
                       }}
                       max={maxDate}
-
                     />
                     <div className="text-red-500 text-sm">
                       {errors?.dateOfBirth}
@@ -699,7 +729,7 @@ export default function AgentRegistration() {
                       className="text-red-500 text-sm"
                     />
                   </div>
-                    <div className="space-y-2">
+                  <div className="space-y-2">
                     <Label htmlFor="instituteName">
                       Institue Name
                       {/* <span className="text-red-500">*</span> */}
@@ -720,9 +750,9 @@ export default function AgentRegistration() {
                       className="text-red-500 text-sm"
                     />
                   </div>
-                    <div className="space-y-2">
+                  <div className="space-y-2">
                     <Label htmlFor="instituteAddress">
-                       Institue Address
+                      Institue Address
                       {/* <span className="text-red-500">*</span> */}
                     </Label>
                     <Field
@@ -731,7 +761,9 @@ export default function AgentRegistration() {
                       name="instituteAddress"
                       // type="email"
                       type="text"
-                      className={errors.instituteAddress ? "validation-error" : ""}
+                      className={
+                        errors.instituteAddress ? "validation-error" : ""
+                      }
                       // placeholder="m@example.com"
                       // required
                     />
@@ -763,6 +795,73 @@ export default function AgentRegistration() {
                       Format: YYYY-MM-DD
                     </p>
                   </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="instituteAddress">
+                      Bank
+                      {/* <span className="text-red-500">*</span> */}
+                    </Label>
+                    <Field
+                      as={Input}
+                      id="bankName"
+                      name="bankName"
+                      // type="email"
+                      type="text"
+                      className={errors.bankName ? "validation-error" : ""}
+                      // placeholder="m@example.com"
+                      // required
+                    />
+                    <ErrorMessage
+                      name="bankName"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="accountNo">
+                      Bank Account No
+                      {/* <span className="text-red-500">*</span> */}
+                    </Label>
+                    <Field
+                      as={Input}
+                      id="accountNo"
+                      name="accountNo"
+                      // type="email"
+                      type="text"
+                      className={errors.accountNo ? "validation-error" : ""}
+                      // placeholder="m@example.com"
+                      // required
+                    />
+                    <ErrorMessage
+                      name="accountNo"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="accountHolderName">
+                      Bank Account Name
+                      {/* <span className="text-red-500">*</span> */}
+                    </Label>
+                    <Field
+                      as={Input}
+                      id="accountHolderName"
+                      name="accountHolderName"
+                      // type="email"
+                      type="text"
+                      className={
+                        errors.accountHolderName ? "validation-error" : ""
+                      }
+                      // placeholder="m@example.com"
+                      // required
+                    />
+                    <ErrorMessage
+                      name="accountHolderName"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+
                   {/* <div className="space-y-2">
                       <Label htmlFor="email">Citizenship Issued Date</Label>
                       <Field
@@ -838,7 +937,8 @@ export default function AgentRegistration() {
                       title="Pan"
                     />
                   </div>
-                  <div className="space-y-2">
+
+                  {/* <div className="space-y-2">
                     <FileUpload
                       previewUrl={values.citizenshipFrontAttachmentPath}
                       name="citizenshipFrontAttachmentPath"
@@ -850,8 +950,8 @@ export default function AgentRegistration() {
                       }
                       title="Citizenship Front"
                     />
-                  </div>
-                  <div className="space-y-2">
+                  </div> */}
+                  {/* <div className="space-y-2">
                     <FileUpload
                       previewUrl={values.citizenshipBackAttachmentPath}
                       name="citizenshipBackAttachmentPath"
@@ -863,7 +963,7 @@ export default function AgentRegistration() {
                       }
                       title="Citizenship Back"
                     />
-                  </div>
+                  </div> */}
 
                   <div className="space-y-2"></div>
                 </div>
@@ -875,6 +975,7 @@ export default function AgentRegistration() {
                 className=" bg-color"
                 disabled={isSubmitting}
               >
+                {/* {id ? "Update" : "Submit"} */}
                 {isSubmitting ? "Submitting..." : "Submit"}
               </Button>
             </div>

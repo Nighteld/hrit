@@ -11,24 +11,34 @@ import {
 } from "@/components/ui/select";
 import api from "@/utils/api";
 import API_ENDPOINTS from "@/utils/apiList";
-import NepaliDatePicker from "@zener/nepali-datepicker-react";
+import { Button } from "@/components/ui/button";
+import NepaliDatePicker, { NepaliDate } from "@zener/nepali-datepicker-react";
 import { ErrorMessage, Field } from "formik";
+import { ChevronRight, FolderPlus } from "lucide-react";
 import { useEffect, useState } from "react";
+import { dateFormatter } from "@/utils/function";
 const flag = [
   "BloodGroupDDL",
   "OccupationDDL",
   "ReligionDDL",
   "NationalityDDL",
+  "CourseDDL",
 ];
+
+const maxDate = new NepaliDate();
+
 export default function BasicDetails(props: any) {
-  const { errors, touched, setFieldValue } = props;
+  const { errors, touched, setFieldValue, values, setValues } = props;
   const [bloodGroup, setBloodGroup] = useState<DropDown[] | null>(null);
   const [occupation, setOccupation] = useState<DropDown[] | null>(null);
   const [religion, setReligion] = useState<DropDown[] | null>(null);
   const [nationality, setNationality] = useState<DropDown[] | null>(null);
+  const [courseList, setCoursesList] = useState<DropDown[] | null>(null);
   useEffect(() => {
     handleInitialApi();
   }, []);
+
+  console.log("values", values);
   const handleInitialApi = async () => {
     try {
       // Create an array of promises by mapping over the flag array and making axios calls
@@ -53,6 +63,9 @@ export default function BasicDetails(props: any) {
             break;
           case "NationalityDDL":
             setNationality(response.data.data);
+            break;
+                   case "CourseDDL":
+            setCoursesList(response.data.data);
             break;
           default:
             break;
@@ -100,16 +113,44 @@ export default function BasicDetails(props: any) {
               className="text-red-500 text-sm"
             />
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="lastName">Stream</Label>
-            <Field as={Input} id="lastName" name="lastName" type="text" />
+          {/* <div className="space-y-2">
+            <Label htmlFor="courseName">Stream</Label>
+            <Field as={Input} id="courseName" name="courseName" type="text" />
             <ErrorMessage
-              name="lastName"
+              name="courseName"
               component="div"
               className="text-red-500 text-sm"
             />
+          </div> */}
+
+           <div className="space-y-2">
+            <Label>
+              Stream
+              {/* <span className="text-red-500">*</span> */}
+            </Label>
+            <Select
+              onValueChange={(value: string) =>
+                setFieldValue("courseName", value)
+              }
+              name="courseName"
+            >
+              <SelectTrigger
+                className={errors.courseName ? "validation-error" : ""}
+              >
+                <SelectValue placeholder="Click to select" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {courseList &&
+                    courseList.map((item) => (
+                      <SelectItem value={item.value}>{item.value}</SelectItem>
+                    ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
-           <div className="space-y-1">
+
+          <div className="space-y-1">
             <Label>Gender</Label>
             <Select onValueChange={(value) => setFieldValue("gender", value)}>
               <SelectTrigger
@@ -133,24 +174,23 @@ export default function BasicDetails(props: any) {
         <ErrorMessage name="familyMemberValue" component="div" className="text-red-500 text-sm" />
       </div> */}
           <div className="space-y-2">
-             <Label htmlFor="dateOfBirth">Date of Birth</Label>
+            <Label htmlFor="dateOfBirth">Date of Birth</Label>
 
-                    <NepaliDatePicker
-                      // value={value}
+            <NepaliDatePicker
+              // value={value}
 
-                      lang="en"
-                      placeholder="Select date"
-                      onChange={(value) => {
-                        setFieldValue("dateOfBirth", value?.toString());
+              lang="en"
+              type="AD"
+              placeholder="Select date"
+              onChange={(value) => {
+                setFieldValue("dateOfBirth", dateFormatter(value));
 
-                        // setValue(e);
-                      }}
-                      // max={maxDate}
-                    />
+                // setValue(e);
+              }}
+              // max={maxDate}
+            />
 
-                    <div className="text-red-500 text-sm">
-                      {errors?.dateOfBirth}
-                    </div>
+            <div className="text-red-500 text-sm">{errors?.dateOfBirth}</div>
           </div>
           <div className="space-y-2">
             <Label>
@@ -178,9 +218,7 @@ export default function BasicDetails(props: any) {
               </SelectContent>
             </Select>
           </div>
-
-      
-            <div className="space-y-2">
+          <div className="space-y-2">
             <Label htmlFor="firstLanguage">First Language</Label>
             <Field
               as={Input}
@@ -222,15 +260,15 @@ export default function BasicDetails(props: any) {
               className="text-red-500 text-sm"
             />
           </div>
-             <div className="space-y-2">
-            <Label htmlFor="phoneNo">Contact Addres</Label>
+          {/* <div className="space-y-2">
+            <Label htmlFor="phoneNo">Contact Address</Label>
             <Field as={Input} id="phoneNo" name="phoneNo" type="text" />
             <ErrorMessage
               name="phoneNo"
               component="div"
               className="text-red-500 text-sm"
             />
-          </div>{" "}
+          </div>{" "} */}
           <div className="space-y-2">
             <Label htmlFor="mobileNo">Mobile Number</Label>
             <Field as={Input} id="mobileNo" name="mobileNo" type="text" />
@@ -249,7 +287,7 @@ export default function BasicDetails(props: any) {
               className="text-red-500 text-sm"
             />
           </div>
-             <div className="space-y-2">
+          {/* <div className="space-y-2">
             <Label htmlFor="emailID">Permanent Address</Label>
             <Field as={Input} id="emailID" name="emailID" type="email" />
             <ErrorMessage
@@ -258,7 +296,7 @@ export default function BasicDetails(props: any) {
               className="text-red-500 text-sm"
             />
           </div>
-             <div className="space-y-2">
+          <div className="space-y-2">
             <Label htmlFor="emailID">Last school Name</Label>
             <Field as={Input} id="emailID" name="emailID" type="email" />
             <ErrorMessage
@@ -267,7 +305,7 @@ export default function BasicDetails(props: any) {
               className="text-red-500 text-sm"
             />
           </div>
-           <div className="space-y-2">
+          <div className="space-y-2">
             <Label htmlFor="emailID">Last school Address</Label>
             <Field as={Input} id="emailID" name="emailID" type="email" />
             <ErrorMessage
@@ -275,68 +313,8 @@ export default function BasicDetails(props: any) {
               component="div"
               className="text-red-500 text-sm"
             />
-          </div>
-             <div className="space-y-2">
-            <Label htmlFor="emailID">Have you already decided on a courses for higher studies or a carrer ? if so, give details</Label>
-            <Field as={Input} id="emailID" name="emailID" type="email" />
-            <ErrorMessage
-              name="emailID"
-              component="div"
-              className="text-red-500 text-sm"
-            />
-          </div>
-           <div className="space-y-2">
-            <Label htmlFor="emailID">What extracurricular activities have you been involved in ? (Social service, sports, arts, music ,club activities etc...)</Label>
-            <Field as={Input} id="emailID" name="emailID" type="email" />
-            <ErrorMessage
-              name="emailID"
-              component="div"
-              className="text-red-500 text-sm"
-            />
-          </div>
-         
-         <div className="space-y-2">
-            <Label htmlFor="emailID">Have you been evaluated for any learning difficulties? if so, please describe and attach report.</Label>
-            <Field as={Input} id="emailID" name="emailID" type="email" />
-            <ErrorMessage
-              name="emailID"
-              component="div"
-              className="text-red-500 text-sm"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="emailID">Have you had any academic or other problem in school? if so, please describe it.</Label>
-            <Field as={Input} id="emailID" name="emailID" type="email" />
-            <ErrorMessage
-              name="emailID"
-              component="div"
-              className="text-red-500 text-sm"
-            />
-          </div>
-         <div className="space-y-2">
-            <Label htmlFor="emailID">What are your weakness ? Please decribe.</Label>
-            <Field as={Input} id="emailID" name="emailID" type="email" />
-            <ErrorMessage
-              name="emailID"
-              component="div"
-              className="text-red-500 text-sm"
-            />
-          </div>
-         <div className="space-y-2">
-            <Label htmlFor="emailID">What are your strengths ? Please decribe.</Label>
-            <Field as={Input} id="emailID" name="emailID" type="email" />
-            <ErrorMessage
-              name="emailID"
-              component="div"
-              className="text-red-500 text-sm"
-            />
-          </div>
-       
-        
-          {/* <div className="space-y-1">
-            <Label htmlFor="picture">Photo</Label>
-            <Field name="picture" as={Input} type="file" accept="image/*" />
           </div> */}
+        
         </div>
       </CardContent>
     </Card>

@@ -17,6 +17,7 @@ const API_ENDPOINTS = {
 
   registerAgent: adminUser + "RegisterAgent",
   getAgents: adminUser + "GetAgentDetails",
+  
   registerStaff: adminUser + "RegisterStaff",
   getStaff: adminUser + "GetStaffDetails",
   GetStakeHolderDetails: adminUser + "GetStakeHolderDetails",
@@ -40,7 +41,10 @@ const API_ENDPOINTS = {
   GetFollowupDetails: user + "GetFollowupDetails",
   StaffDashboard: user + "StaffDashboard",
   StakeholderDashboard: user + "StakeholderDashboard",
+  registerStudent: user + "InsertStudentDetails",
+  getStudentLists: user + "GetStudentDetails",
   getEventsCMS: cms + "GetEvents",
+
 };
 
 export default API_ENDPOINTS;

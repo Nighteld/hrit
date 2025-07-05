@@ -1,6 +1,6 @@
 import type React from "react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,23 +22,31 @@ import API_ENDPOINTS from "@/utils/apiList";
 import { getAppToken, toastError, toastSuccess } from "@/utils/helper";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUserProfileDetails } from "@/action/utilityAction";
+import { useNavigate } from "react-router";
 
 export default function ProfilePage() {
-    const { isPending, error, data:profileDetails ,
-    refetch,
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  console.log("user", user);
+  useEffect(() => {
+    if (user?.userCategory?.toUpperCase() === "AGENT") {
+      navigate("/agent/profile");
+    }
+  }, []);
 
-    } = useQuery({
+  const {
+    isPending,
+    error,
+    data: profileDetails,
+    refetch,
+  } = useQuery({
     queryKey: ["agentList"],
 
-    queryFn: () =>
-      fetchUserProfileDetails({
-      }),
-      retry: true,
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
+    queryFn: () => fetchUserProfileDetails({}),
+    retry: true,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
-
-  const { user } = useAuth();
 
   const [formData, setFormData] = useState({
     userProfileImage: {
@@ -46,7 +54,7 @@ export default function ProfilePage() {
       documentFile: "",
     },
   });
-const [loader ,setLoader] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   const handleImageUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -83,16 +91,20 @@ const [loader ,setLoader] = useState(false);
     }
   };
 
-  const handleSaveImage = async() => {
+  const handleSaveImage = async () => {
     setLoader(true);
-      try {
-      const response = await api.post(API_ENDPOINTS.UploadProfileImage, formData, {
-        headers: {
-          Authorization: "Bearer " + getAppToken(),
-          "Access-Control-Allow-Origin": "*",
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      });
+    try {
+      const response = await api.post(
+        API_ENDPOINTS.UploadProfileImage,
+        formData,
+        {
+          headers: {
+            Authorization: "Bearer " + getAppToken(),
+            "Access-Control-Allow-Origin": "*",
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        }
+      );
       debugger;
 
       if (response.data.responseCode !== "0") {
@@ -109,16 +121,15 @@ const [loader ,setLoader] = useState(false);
       setLoader(false);
     }
     setLoader(false);
-
   };
 
   const handleCancelImage = () => {
     setFormData({
-    userProfileImage: {
-      documentName: "",
-      documentFile: "",
-    },
-  })
+      userProfileImage: {
+        documentName: "",
+        documentFile: "",
+      },
+    });
   };
 
   const handleInputChange = (
@@ -176,8 +187,12 @@ const [loader ,setLoader] = useState(false);
 
             {formData.userProfileImage.documentFile && (
               <div className="flex gap-2 w-full">
-                <Button onClick={handleSaveImage} className="flex-1" disabled={loader}>
-                {loader  ? "Uploading...":"Save"}  
+                <Button
+                  onClick={handleSaveImage}
+                  className="flex-1"
+                  disabled={loader}
+                >
+                  {loader ? "Uploading..." : "Save"}
                 </Button>
                 <Button
                   onClick={handleCancelImage}
@@ -208,7 +223,6 @@ const [loader ,setLoader] = useState(false);
                   value={user?.firstName}
                   onChange={handleInputChange}
                   disabled
-
                 />
               </div>
 
@@ -221,10 +235,9 @@ const [loader ,setLoader] = useState(false);
                   value={user?.email}
                   onChange={handleInputChange}
                   disabled
-
                 />
               </div>
-{/* 
+              {/* 
               <div className="space-y-2">
                 <Label htmlFor="bio">Bio</Label>
                 <Textarea

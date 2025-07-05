@@ -21,7 +21,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { format } from "date-fns";
-import { Calendar as CalendarIcon, Upload } from "lucide-react";
+import {
+  Calendar as CalendarIcon,
+  PencilLine,
+  Trash2,
+  Upload,
+} from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 
 import { cn } from "@/lib/utils";
@@ -37,6 +42,7 @@ import {
   getAppToken,
   toastError,
   toastSuccess,
+  toastWarning,
 } from "@/utils/helper";
 import {
   CategoryList,
@@ -54,21 +60,21 @@ const validationSchema = () =>
     middleName: Yup.string().notRequired(),
     lastName: Yup.string().required("This field is required"),
     firstName: Yup.string().required("This field is required"),
-    permanentAddress: Yup.string().required("This field is required"),
-    correspondingAddress: Yup.string().required("This field is required"),
-    studentContactNo: Yup.string().required("This field is required"),
-    // email: Yup.string().email().required("Email ID is required"),
-    parentContactNo: Yup.string().required("This field is required"),
-    sessionId: Yup.string().required("This field is required"),
-    schoolName: Yup.string().required("This field is required"),
-    schoolAddress: Yup.string().required("This field is required"),
-    category: Yup.string().required("This field is required"),
-    courseIntrested: Yup.string().required("This field is required"),
-    source: Yup.string().required("This field is required"),
-    instituteName: Yup.string().required("This field is required"),
-    knowAbtCollege: Yup.string().required("This field is required"),
-    counselledDate: Yup.string().required("This field is required"),
-    followUpDate: Yup.string().required("This field is required"),
+    // permanentAddress: Yup.string().required("This field is required"),
+    // correspondingAddress: Yup.string().required("This field is required"),
+    // studentContactNo: Yup.string().required("This field is required"),
+    // // email: Yup.string().email().required("Email ID is required"),
+    // parentContactNo: Yup.string().required("This field is required"),
+    // sessionId: Yup.string().required("This field is required"),
+    // schoolName: Yup.string().required("This field is required"),
+    // schoolAddress: Yup.string().required("This field is required"),
+    // category: Yup.string().required("This field is required"),
+    // courseIntrested: Yup.string().required("This field is required"),
+    // source: Yup.string().required("This field is required"),
+    // instituteName: Yup.string().required("This field is required"),
+    // knowAbtCollege: Yup.string().required("This field is required"),
+    // counselledDate: Yup.string().required("This field is required"),
+    // followUpDate: Yup.string().required("This field is required"),
   });
 
 const initialValues = {
@@ -90,10 +96,11 @@ const initialValues = {
   sourceDescription: "",
   knowAbtCollege: "",
   knowAbtCollegeDescription: "",
-  instituteName:"",
+  instituteName: "",
   remarks: "",
   counselledDate: "",
   followUpDate: "",
+  isFailed: 0,
 };
 const flag = [
   "BloodGroupDDL",
@@ -290,29 +297,30 @@ export default function LeadsRegistration() {
         counselledDate: member.counselledDate,
         followUpDate: member.followUpDate,
       };
-
-      const schema = validationSchema(); // Call the function to get the object schema
-      try {
-        await schema.validate(user, { abortEarly: false });
         setUserData((prevData) => [...prevData, user]);
-      } catch (err) {
-        toastError(
-          "Due to insufficient data, certain columns have not been updated."
-        );
 
-        const validationErrors = {};
+      // const schema = validationSchema(); // Call the function to get the object schema
+      // try {
+      //   await schema.validate(user, { abortEarly: false });
+      //   setUserData((prevData) => [...prevData, user]);
+      // } catch (err) {
+      //   toastError(
+      //     "Due to insufficient data, certain columns have not been updated."
+      //   );
 
-        if (err.inner && Array.isArray(err.inner)) {
-          err.inner.forEach((error) => {
-            validationErrors[error.path] = error.message;
-          });
-        } else if (err.path && err.message) {
-          // Single error fallback
-          validationErrors[err.path] = err.message;
-        }
+      //   const validationErrors = {};
 
-        setError(validationErrors);
-      }
+      //   if (err.inner && Array.isArray(err.inner)) {
+      //     err.inner.forEach((error) => {
+      //       validationErrors[error.path] = error.message;
+      //     });
+      //   } else if (err.path && err.message) {
+      //     // Single error fallback
+      //     validationErrors[err.path] = err.message;
+      //   }
+
+      //   setError(validationErrors);
+      // }
     });
 
     console.log("memberList", memberList);
@@ -336,12 +344,23 @@ export default function LeadsRegistration() {
       );
       debugger;
       setFormLoader(false);
+      if (!isExcel) {
+        if (response.data.responseCode !== "0") {
+          return toastError(response.data.responseMessage);
+        }
+        toastSuccess(response.data.responseMessage);
+        // setUserData(response.data.data);
 
-      if (response.data.responseCode !== "0") {
-        return toastError(response.data.responseMessage);
+        navigate("/leads");
+      } else {
+        toastWarning(response.data.responseMessage);
+        setUserData(response.data.data);
       }
-      toastSuccess(response.data.responseMessage);
-      navigate("/leads");
+      // if (response.data.responseCode !== "0") {
+      //   return toastError(response.data.responseMessage);
+      // }
+
+      // navigate("/leads");
       if (handleReset) {
         handleReset();
       }
@@ -352,6 +371,11 @@ export default function LeadsRegistration() {
       toastError(errorAsError.message);
       setFormLoader(false);
     }
+  };
+
+  const handleDelete = async (index) => {
+    debugger;
+    setUserData((prevData) => prevData.filter((_, i) => i !== index));
   };
   return (
     <div>
@@ -366,6 +390,15 @@ export default function LeadsRegistration() {
             that this field is required.
           </li>
         </ul>
+        <div className="flex gap-4 mb-4">
+          <div className="bg-green-600 text-white px-5 py-3 rounded-lg">
+Leads Added
+           </div>
+
+          <div className="bg-red-600 text-white px-5 py-3 rounded-lg">
+            Leads Added Failed
+          </div>
+        </div>
         <div className="flex items-center space-x-2  p-5 rounded-sm bg-[var(--primary)] text-white">
           <Checkbox
             id="terms"
@@ -798,8 +831,8 @@ export default function LeadsRegistration() {
                           className="text-red-500 text-sm"
                         />
                       </div>
-                                            <div className="space-y-2">
-     <Label htmlFor="schoolAinstituteNameddress">Institue Name</Label>
+                      <div className="space-y-2">
+                        <Label htmlFor="instituteName">Institue Name</Label>
                         <Field
                           as={Input}
                           id="instituteName"
@@ -814,8 +847,6 @@ export default function LeadsRegistration() {
                           component="div"
                           className="text-red-500 text-sm"
                         />
-
-
                       </div>
 
                       <div className="space-y-2">
@@ -911,14 +942,22 @@ export default function LeadsRegistration() {
                         <th> Course Interested</th>
                         <th>Source</th>
                         <th>How did you know about us?</th>
+                        <th>Institue Name</th>
                         <th>Remarks</th>
                         <th>Counselled Date</th>
                         <th>Follow Up Date</th>
+                        <th>failReason</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="whitespace-nowrap">
                       {userData.map((item, index) => (
-                        <tr key={index}>
+                        <tr
+                          key={index}
+                          // className={
+                          //   item.isFailed ? "bg-red-600 text-white" : ""
+                          // }
+                          className={"isFailed" in item ? item.isFailed ? "bg-red-600 text-white" : "bg-green-600 text-white" : "" }
+                        >
                           <td>{index + 1}</td>
                           <td>{item.firstName}</td>
                           <td>{item.lastName}</td>
@@ -940,6 +979,7 @@ export default function LeadsRegistration() {
                           <td>{item.remarks}</td>
                           <td>{item.counselledDate}</td>
                           <td>{item.followUpDate}</td>
+                          <td>{item.failReason}</td>
                         </tr>
                       ))}
                     </tbody>

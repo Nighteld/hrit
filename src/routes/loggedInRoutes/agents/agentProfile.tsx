@@ -3,32 +3,26 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useEffect, useRef, useState } from "react";
 import * as Yup from "yup";
 
-import { fetchAgentLists } from "@/action/agentAction";
+import { fetchAgentInfo } from "@/action/agentAction";
 import FileUpload from "@/components/file-upload";
 import api from "@/utils/api";
 import API_ENDPOINTS from "@/utils/apiList";
 import { handleImageValidation } from "@/utils/function";
-import { getAppToken, toastError, toastSuccess } from "@/utils/helper";
+import { getAppToken, getLoggedInUser, toastError, toastSuccess } from "@/utils/helper";
 import NepaliDatePicker, { NepaliDate } from "@zener/nepali-datepicker-react";
 import "@zener/nepali-datepicker-react/index.css";
 import { useNavigate, useSearchParams } from "react-router";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs"
 const validationSchema = (isEdit = false) =>
   Yup.object({
     middleName: Yup.string().notRequired(),
@@ -106,14 +100,14 @@ const isEdit = !!id; // edit mode if id exists
 
   useEffect(() => {
     handleInitialApi();
-    if (id) {
+    // if (id) {
       GetAgentById();
-    }
+    // }
   }, []);
 
   const GetAgentById = async () => {
-    const response = await fetchAgentLists({
-      agentUID: id,
+    const response = await fetchAgentInfo({
+      agentUID: getLoggedInUser()?.agentUID || null,
     });
     console.log("response", response);
     console.log("formikRef", formikRef);
@@ -227,7 +221,7 @@ const isEdit = !!id; // edit mode if id exists
   };
   const handleSubmit = async (values, handleReset) => {
     try {
-      const response = await api.post(API_ENDPOINTS.registerAgent, values, {
+      const response = await api.post(API_ENDPOINTS.updateAgentInfo, values, {
         headers: {
           Authorization: "Bearer " + getAppToken(),
           "Access-Control-Allow-Origin": "*",
@@ -241,7 +235,8 @@ const isEdit = !!id; // edit mode if id exists
       }
       toastSuccess(response.data.responseMessage);
       handleReset();
-      navigate("/agent");
+      GetAgentById();
+      // navigate("/agent");
       debugger;
     } catch (error: unknown) {
       const errorAsError = error as Error;
@@ -253,13 +248,7 @@ const isEdit = !!id; // edit mode if id exists
   return (
     <div>
       <h1 className="text-3xl font-bold text-dark mb-3">Profile</h1>
-         <div className="flex w-full  flex-col gap-6">
-      <Tabs defaultValue="basic">
-        <TabsList>
-          <TabsTrigger value="basic">Basic Details</TabsTrigger>
-          <TabsTrigger value="bank">Bank Details</TabsTrigger>
-        </TabsList>
-        <TabsContent value="basic" className="w-full">
+
                <Formik
         initialValues={initialValues}
         validationSchema={validationSchema(isEdit)}
@@ -729,93 +718,7 @@ const isEdit = !!id; // edit mode if id exists
                       Format: YYYY-MM-DD
                     </p>
                   </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="instituteAddress">
-                      Bank
-                      {/* <span className="text-red-500">*</span> */}
-                    </Label>
-                    <Field
-                      as={Input}
-                      id="bankName"
-                      name="bankName"
-                      // type="email"
-                      type="text"
-                      className={errors.bankName ? "validation-error" : ""}
-                      // placeholder="m@example.com"
-                      // required
-                    />
-                    <ErrorMessage
-                      name="bankName"
-                      component="div"
-                      className="text-red-500 text-sm"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="accountNo">
-                      Bank Account No
-                      {/* <span className="text-red-500">*</span> */}
-                    </Label>
-                    <Field
-                      as={Input}
-                      id="accountNo"
-                      name="accountNo"
-                      // type="email"
-                      type="text"
-                      className={errors.accountNo ? "validation-error" : ""}
-                      // placeholder="m@example.com"
-                      // required
-                    />
-                    <ErrorMessage
-                      name="accountNo"
-                      component="div"
-                      className="text-red-500 text-sm"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="accountHolderName">
-                      Bank Account Name
-                      {/* <span className="text-red-500">*</span> */}
-                    </Label>
-                    <Field
-                      as={Input}
-                      id="accountHolderName"
-                      name="accountHolderName"
-                      // type="email"
-                      type="text"
-                      className={
-                        errors.accountHolderName ? "validation-error" : ""
-                      }
-                      // placeholder="m@example.com"
-                      // required
-                    />
-                    <ErrorMessage
-                      name="accountHolderName"
-                      component="div"
-                      className="text-red-500 text-sm"
-                    />
-                  </div>
-
-                  {/* <div className="space-y-2">
-                      <Label htmlFor="email">Citizenship Issued Date</Label>
-                      <Field
-                        as={Input}
-                        id="email"
-                        name="citizenshipIssueDate"
-                        // type="email"
-                        type="text"
-                        // placeholder="m@example.com"
-                        // required
-                      />
-                      <ErrorMessage
-                        name="email"
-                        component="div"
-                        className="text-red-500 text-sm"
-                      />
-                    </div> */}
-            
-                  <div></div>
-                  <div className="space-y-2">
+                    <div className="space-y-2">
                     <FileUpload
                       previewUrl={values.panAttachmentPath}
                       name="panAttachmentPath"
@@ -829,86 +732,24 @@ const isEdit = !!id; // edit mode if id exists
                     />
                   </div>
 
-                  {/* <div className="space-y-2">
-                    <FileUpload
-                      previewUrl={values.citizenshipFrontAttachmentPath}
-                      name="citizenshipFrontAttachmentPath"
-                      imageName={values.citizenshipFrontAttachmentPath}
-                      fileName={values.citizenshipFrontAttachmentPathFileName}
-                      error={error}
-                      handleFileUpload={(e) =>
-                        handleImageUpload(e, setFieldValue)
-                      }
-                      title="Citizenship Front"
-                    />
-                  </div> */}
-                  {/* <div className="space-y-2">
-                    <FileUpload
-                      previewUrl={values.citizenshipBackAttachmentPath}
-                      name="citizenshipBackAttachmentPath"
-                      imageName={values.citizenshipBackAttachmentPath}
-                      fileName={values.citizenshipBackAttachmentPathFileName}
-                      error={error}
-                      handleFileUpload={(e) =>
-                        handleImageUpload(e, setFieldValue)
-                      }
-                      title="Citizenship Back"
-                    />
-                  </div> */}
+          
+            
+                
 
-                  <div className="space-y-2"></div>
+    
                 </div>
               </CardContent>
             </Card>
-            <div className="text-end">
-              <Button
-                type="submit"
-                className=" bg-color"
-                disabled={isSubmitting}
-              >
-                {/* {id ? "Update" : "Submit"} */}
-                {isSubmitting ? "Submitting..." : "Submit"}
-              </Button>
-            </div>
-            {/* <ScrollToError /> */}
-          </Form>
-        )}
-      </Formik>
-            </TabsContent>
-               <TabsContent value="bank" className="w-full">
-               <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema(isEdit)}
-        validateOnMount
-          innerRef={formikRef} 
-        // onSubmit={(values) => console.log("Form Submitted:", values)}
-        onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}
-      >
-        {({
-          setFieldValue,
-          errors,
-          touched,
-          isValidating,
-          isSubmitting,
-          values,
-        }) => (
-          <Form className="space-y-4">
-            <Card className="shadow-none">
-              <CardHeader>
-                <CardTitle>Bank Details</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {console.log("values", values)}
-                {console.log("errors", errors)}
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                 
-
-              
-
+              <Card className="shadow-none">
+      <CardHeader>
+        <CardTitle>Basic Details</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="instituteAddress">
-                      Bank
+                    <Label htmlFor="bankName">
+                      Bank Name
                       {/* <span className="text-red-500">*</span> */}
                     </Label>
                     <Field
@@ -971,32 +812,25 @@ const isEdit = !!id; // edit mode if id exists
                       className="text-red-500 text-sm"
                     />
                   </div>
-
-                
-
-               
-
-                  <div className="space-y-2"></div>
                 </div>
-              </CardContent>
-            </Card>
+      </CardContent>
+    </Card>
+
             <div className="text-end">
               <Button
                 type="submit"
                 className=" bg-color"
                 disabled={isSubmitting}
               >
-                {/* {id ? "Update" : "Submit"} */}
+         
                 {isSubmitting ? "Submitting..." : "Submit"}
               </Button>
             </div>
-            {/* <ScrollToError /> */}
+          
           </Form>
         )}
       </Formik>
-            </TabsContent>
-        </Tabs>
-        </div>
+           
    
     </div>
   );

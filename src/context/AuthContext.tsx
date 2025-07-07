@@ -11,6 +11,7 @@ interface AuthContextType {
   user: string | null;
   login: (userData: LoginData) => void;
   logout: () => void;
+  setUser: React.Dispatch<React.SetStateAction<string | null>>;
 }
 type LoginData = {
   encrypted: string;
@@ -30,7 +31,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const login = ({ encrypted, encryptedToken ,encryptedMenu}: LoginData) => {
     debugger;
-    setUser(encrypted);
+    // setUser(encrypted);
     updateLocalStorage({ key: "USER_LOGIN", value: encrypted });
     updateCookieStorage({ key: "ACCESS_TOKEN", value: encryptedToken });
     updateLocalStorage({ key: "USER_MENU", value: encryptedMenu });
@@ -46,7 +47,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user,setUser, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

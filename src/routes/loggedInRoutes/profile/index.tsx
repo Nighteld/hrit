@@ -30,6 +30,7 @@ export default function ProfilePage() {
   console.log("user", user);
   useEffect(() => {
     if (user?.userCategory?.toUpperCase() === "AGENT") {
+      debugger;
       navigate("/agent/profile");
     }
   }, []);

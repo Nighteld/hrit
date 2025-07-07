@@ -33,7 +33,7 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const { login } = useAuth();
+  const { login ,setUser} = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (values: {
@@ -55,6 +55,7 @@ export function LoginForm({
       const encryptedToken = encrypt(userDetails.userToken);
       const encryptedMenu = encrypt(JSON.stringify(menuList));
       debugger;
+      setUser(newData);
       login({
         encrypted: encrypted,
         encryptedToken: encryptedToken,

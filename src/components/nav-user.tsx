@@ -54,8 +54,8 @@ export function NavUser({
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">{getLoggedInUserCategory()?.toString()||""}</span>
-<span className="truncate text-xs">{getLoggedInUser()?.email}</span>
+                <span className="truncate font-semibold">{getLoggedInUserCategory()?.toString() || ""}</span>
+                <span className="truncate text-xs">{getLoggedInUser()?.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -73,7 +73,7 @@ export function NavUser({
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                                  <span className="truncate font-semibold">{getLoggedInUserCategory()?.toString()||""}</span>
+                  <span className="truncate font-semibold">{getLoggedInUserCategory()?.toString() || ""}</span>
 
                   <span className="truncate text-xs">{getLoggedInUser()?.email}</span>
 
@@ -89,15 +89,18 @@ export function NavUser({
             </DropdownMenuGroup>
             <DropdownMenuSeparator /> */}
             <DropdownMenuGroup>
-                      <DropdownMenuItem>
-        <UserPen />
-                <Link to="/profile">Profile</Link>
-              </DropdownMenuItem>
-
+               <Link to="/profile">
               <DropdownMenuItem>
-                <BadgeCheck />
-                <Link to="/change-password">Change Password</Link>
+                <UserPen />
+               Profile
               </DropdownMenuItem>
+              </Link>
+              <Link to="/change-password">
+                <DropdownMenuItem>
+                  <BadgeCheck />
+                  Change Password
+                </DropdownMenuItem>
+              </Link>
               {/* <DropdownMenuItem>
                 <CreditCard />
                 Billing

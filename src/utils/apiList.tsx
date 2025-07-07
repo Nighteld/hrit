@@ -3,6 +3,9 @@ const utility = "/api/Utility/";
 const adminUser = "/api/AdminUser/";
 const user = "/api/User/";
 const cms = "/api/CMS/";
+const agentUser = "/api/AgentUser/";
+
+
 const API_ENDPOINTS = {
   registerUser: userManagement + "RegisterUser",
   login: userManagement + "Login",
@@ -17,7 +20,7 @@ const API_ENDPOINTS = {
 
   registerAgent: adminUser + "RegisterAgent",
   getAgents: adminUser + "GetAgentDetails",
-  
+
   registerStaff: adminUser + "RegisterStaff",
   getStaff: adminUser + "GetStaffDetails",
   GetStakeHolderDetails: adminUser + "GetStakeHolderDetails",
@@ -44,6 +47,11 @@ const API_ENDPOINTS = {
   registerStudent: user + "InsertStudentDetails",
   getStudentLists: user + "GetStudentDetails",
   getEventsCMS: cms + "GetEvents",
+
+
+  getAgentInfo: agentUser + "GetAgentInfo",
+  updateAgentInfo: agentUser + "UpdateAgentInfo",
+
 
 };
 

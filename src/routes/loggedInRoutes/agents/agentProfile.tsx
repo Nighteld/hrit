@@ -35,66 +35,10 @@ const validationSchema = (isEdit = false) =>
     lastName: Yup.string().required("This field is required"),
     gender: Yup.string().required("This field is required"),
     firstName: Yup.string().required("This field is required"),
-
-    // dateOfBirth: Yup.string()
-    //   .required("Date of Birth is required")
-    //   .matches(
-    //     /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/,
-    //     "Date of Birth must be in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)"
-    //   )
-    //   .test(
-    //     "is-valid-date",
-    //     "Date of Birth must be a valid date",
-    //     (value) => !isNaN(new Date(value || "").getTime())
-    //   ),
-    // dateOfBirth: Yup.string().required("Date of Birth is required"),
     phoneNo: Yup.string().notRequired(),
     mobileNo: Yup.string().required("Mobile number is required"),
-    // emailID: Yup.string().email().required("Email ID is required"),
-    // occupation: Yup.string().required("Occupation is required"),
-    // religion: Yup.string().required("Religion is required"),
-    // nationality: Yup.string().required("Nationality is required"),
-    // martialStatus: Yup.string().required("Marital Status is required"),
-    // pan: Yup.string()
-    //   .matches(/^\d{9}$/, "PAN must be exactly 9 digits")
-    //   .required("PAN is required"),
-    // panAttachmentPath: Yup.string().required("PAN attachment is required"),
-    // citizenshipNo: Yup.string().required("Citizenship number is required"),
-    // instituteName: Yup.string().required("This field is Required!."),
-    // instituteAddress: Yup.string().required("This field is Required!."),
-    // citizenshipIssueDate: Yup.string()
-    //   .required("Citizenship issue date is required")
-    //   .matches(
-    //     /^\d{4}-\d{2}-\d{2}$/,
-    //     "Citizenship Issue Date must be in YYYY-MM-DD format"
-    //   )
-    //   .test(
-    //     "is-valid-date",
-    //     "Citizenship Issue Date must be a valid date",
-    //     (value) => !isNaN(new Date(value || "").getTime())
-    //   ),
-    // citizenshipFrontAttachmentPath: Yup.string().required(
-    //   "Citizenship front attachment is required"
-    // ),
-    // citizenshipBackAttachmentPath: Yup.string().required(
-    //   "Citizenship back attachment is required"
-    // ),
-...(isEdit
-      ? {} // No validation on password fields in edit
-      : {
-          password: Yup.string()
-            .min(3, "Minimum 3 symbols")
-            .max(50, "Maximum 50 symbols")
-            .required("Password is required"),
-          passwordConfirmation: Yup.string()
-            .min(3, "Minimum 3 symbols")
-            .max(50, "Maximum 50 symbols")
-            .required("Password confirmation is required")
-            .oneOf(
-              [Yup.ref("password")],
-              "Password and Confirm Password didn't match"
-            ),
-        }),
+  
+
   });
 
 const initialValues = {
@@ -313,7 +257,7 @@ const isEdit = !!id; // edit mode if id exists
       <Tabs defaultValue="basic">
         <TabsList>
           <TabsTrigger value="basic">Basic Details</TabsTrigger>
-          <TabsTrigger value="password">Password</TabsTrigger>
+          <TabsTrigger value="bank">Bank Details</TabsTrigger>
         </TabsList>
         <TabsContent value="basic" className="w-full">
                <Formik
@@ -869,50 +813,7 @@ const isEdit = !!id; // edit mode if id exists
                         className="text-red-500 text-sm"
                       />
                     </div> */}
-                  <div className="space-y-2">
-                    <Label htmlFor="email">
-                      Password
-                      {/* <span className="text-red-500">*</span> */}
-                    </Label>
-                    <Field
-                      as={Input}
-                      id="email"
-                      name="password"
-                      className={errors.password ? "validation-error" : ""}
-                      // type="email"
-                      type="password"
-                      // placeholder="m@example.com"
-                      // required
-                    />
-                    <ErrorMessage
-                      name="password"
-                      component="div"
-                      className="text-red-500 text-sm"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="email">
-                      Confirm Password
-                      {/* <span className="text-red-500">*</span> */}
-                    </Label>
-                    <Field
-                      as={Input}
-                      id="email"
-                      name="passwordConfirmation"
-                      className={
-                        errors.passwordConfirmation ? "validation-error" : ""
-                      }
-                      // type="email"
-                      type="password"
-                      // placeholder="m@example.com"
-                      // required
-                    />
-                    <ErrorMessage
-                      name="passwordConfirmation"
-                      component="div"
-                      className="text-red-500 text-sm"
-                    />
-                  </div>
+            
                   <div></div>
                   <div className="space-y-2">
                     <FileUpload
@@ -954,6 +855,126 @@ const isEdit = !!id; // edit mode if id exists
                       title="Citizenship Back"
                     />
                   </div> */}
+
+                  <div className="space-y-2"></div>
+                </div>
+              </CardContent>
+            </Card>
+            <div className="text-end">
+              <Button
+                type="submit"
+                className=" bg-color"
+                disabled={isSubmitting}
+              >
+                {/* {id ? "Update" : "Submit"} */}
+                {isSubmitting ? "Submitting..." : "Submit"}
+              </Button>
+            </div>
+            {/* <ScrollToError /> */}
+          </Form>
+        )}
+      </Formik>
+            </TabsContent>
+               <TabsContent value="bank" className="w-full">
+               <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema(isEdit)}
+        validateOnMount
+          innerRef={formikRef} 
+        // onSubmit={(values) => console.log("Form Submitted:", values)}
+        onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}
+      >
+        {({
+          setFieldValue,
+          errors,
+          touched,
+          isValidating,
+          isSubmitting,
+          values,
+        }) => (
+          <Form className="space-y-4">
+            <Card className="shadow-none">
+              <CardHeader>
+                <CardTitle>Bank Details</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {console.log("values", values)}
+                {console.log("errors", errors)}
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                 
+
+              
+
+                  <div className="space-y-2">
+                    <Label htmlFor="instituteAddress">
+                      Bank
+                      {/* <span className="text-red-500">*</span> */}
+                    </Label>
+                    <Field
+                      as={Input}
+                      id="bankName"
+                      name="bankName"
+                      // type="email"
+                      type="text"
+                      className={errors.bankName ? "validation-error" : ""}
+                      // placeholder="m@example.com"
+                      // required
+                    />
+                    <ErrorMessage
+                      name="bankName"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="accountNo">
+                      Bank Account No
+                      {/* <span className="text-red-500">*</span> */}
+                    </Label>
+                    <Field
+                      as={Input}
+                      id="accountNo"
+                      name="accountNo"
+                      // type="email"
+                      type="text"
+                      className={errors.accountNo ? "validation-error" : ""}
+                      // placeholder="m@example.com"
+                      // required
+                    />
+                    <ErrorMessage
+                      name="accountNo"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="accountHolderName">
+                      Bank Account Name
+                      {/* <span className="text-red-500">*</span> */}
+                    </Label>
+                    <Field
+                      as={Input}
+                      id="accountHolderName"
+                      name="accountHolderName"
+                      // type="email"
+                      type="text"
+                      className={
+                        errors.accountHolderName ? "validation-error" : ""
+                      }
+                      // placeholder="m@example.com"
+                      // required
+                    />
+                    <ErrorMessage
+                      name="accountHolderName"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+
+                
+
+               
 
                   <div className="space-y-2"></div>
                 </div>

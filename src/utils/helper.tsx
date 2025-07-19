@@ -148,3 +148,19 @@ export const isAuthorizedUser = () => {
 export const IsUserLogin = () => {
   return getAccessToken() && getLoggedInUser() ? getLoggedInUser() : null;
 };
+
+
+export function showLoader() {
+  const loader = document.getElementById("loader");
+  if (loader) {
+    loader.classList.remove("hidden");
+    loader.classList.add("block");
+  }
+}
+export function hideLoader() {
+  const loader = document.getElementById("loader");
+  if (loader) {
+    loader.classList.remove("block");
+    loader.classList.add("hidden");
+  }
+}

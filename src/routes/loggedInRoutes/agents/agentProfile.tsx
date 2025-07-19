@@ -19,7 +19,7 @@ import FileUpload from "@/components/file-upload";
 import api from "@/utils/api";
 import API_ENDPOINTS from "@/utils/apiList";
 import { handleImageValidation } from "@/utils/function";
-import { getAppToken, getLoggedInUser, toastError, toastSuccess } from "@/utils/helper";
+import { getAppToken, getLoggedInUser, hideLoader, showLoader, toastError, toastSuccess } from "@/utils/helper";
 import NepaliDatePicker, { NepaliDate } from "@zener/nepali-datepicker-react";
 import "@zener/nepali-datepicker-react/index.css";
 import { useNavigate, useSearchParams } from "react-router";
@@ -106,12 +106,21 @@ const isEdit = !!id; // edit mode if id exists
   }, []);
 
   const GetAgentById = async () => {
-    const response = await fetchAgentInfo({
+    showLoader();
+try {
+      const response = await fetchAgentInfo({
       agentUID: getLoggedInUser()?.agentUID || null,
     });
+    hideLoader();
     console.log("response", response);
     console.log("formikRef", formikRef);
     formikRef?.current?.setValues(response[0])
+} catch (error) {
+    hideLoader();
+    console.error("Error fetching agent info:", error);
+    toastError("Failed to fetch agent information");
+}
+
     
 
   };
@@ -247,6 +256,7 @@ const isEdit = !!id; // edit mode if id exists
 
   return (
     <div>
+          
       <h1 className="text-3xl font-bold text-dark mb-3">Profile</h1>
 
                <Formik
@@ -374,7 +384,7 @@ const isEdit = !!id; // edit mode if id exists
                       {/* DOB <span className="text-red-500">*</span> */}
                     </Label>
                     <NepaliDatePicker
-                      // value={value}
+                      // value={values?.dateOfBirth||new NepaliDate().toString()}
 
                       lang="en"
                       placeholder="Select date"
@@ -469,149 +479,9 @@ const isEdit = !!id; // edit mode if id exists
                     />
                   </div>
 
-                  <div className="space-y-2">
-                    <Label>
-                      Occupation
-                      {/* <span className="text-red-500">*</span> */}
-                    </Label>
-                    <Select
-                      onValueChange={(value: string) =>
-                        setFieldValue("occupation", value)
-                      }
-                      name="bloodGroup"
-                    >
-                      <SelectTrigger
-                        className={errors.occupation ? "validation-error" : ""}
-                      >
-                        <SelectValue placeholder="Click to select" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          {occupation &&
-                            occupation.map((item) => (
-                              <SelectItem value={item.value}>
-                                {item.value}
-                              </SelectItem>
-                            ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </div>
+                 
 
-                  <div className="space-y-2">
-                    <Label>
-                      Religion
-                      {/* <span className="text-red-500">*</span> */}
-                    </Label>
-                    <Select
-                      onValueChange={(value: string) =>
-                        setFieldValue("religion", value)
-                      }
-                      name="religion"
-                    >
-                      <SelectTrigger
-                        className={errors.religion ? "validation-error" : ""}
-                      >
-                        <SelectValue placeholder="Click to select" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          {religion &&
-                            religion.map((item) => (
-                              <SelectItem value={item.value}>
-                                {item.value}
-                              </SelectItem>
-                            ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </div>
 
-                  <div className="space-y-2">
-                    <Label>
-                      Nationality
-                      {/* <span className="text-red-500">*</span> */}
-                    </Label>
-                    <Select
-                      onValueChange={(value: string) =>
-                        setFieldValue("nationality", value)
-                      }
-                      name="nationality"
-                    >
-                      <SelectTrigger
-                        className={errors.nationality ? "validation-error" : ""}
-                      >
-                        <SelectValue placeholder="Click to select" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          {nationality &&
-                            nationality.map((item) => (
-                              <SelectItem value={item.value}>
-                                {item.value}
-                              </SelectItem>
-                            ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label>
-                      Blood Group
-                      {/* <span className="text-red-500">*</span> */}
-                    </Label>
-                    <Select
-                      onValueChange={(value: string) =>
-                        setFieldValue("bloodGroup", value)
-                      }
-                      name="bloodGroup"
-                    >
-                      <SelectTrigger
-                        className={errors.bloodGroup ? "validation-error" : ""}
-                      >
-                        <SelectValue placeholder="Click to select" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          {bloodGroup &&
-                            bloodGroup.map((item) => (
-                              <SelectItem value={item.value}>
-                                {item.value}
-                              </SelectItem>
-                            ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label>
-                      Marital Status
-                      {/* <span className="text-red-500">*</span> */}
-                    </Label>
-                    <Select
-                      onValueChange={(value: string) =>
-                        setFieldValue("martialStatus", value)
-                      }
-                      name="martialStatus"
-                    >
-                      <SelectTrigger
-                        className={
-                          errors.martialStatus ? "validation-error" : ""
-                        }
-                      >
-                        <SelectValue placeholder="Click to select" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectItem value="Unmarried">Unmarried</SelectItem>
-                          <SelectItem value="Married">Married</SelectItem>
-                          <SelectItem value="Divorced">Divorced</SelectItem>
-                          <SelectItem value="Widowed">Widowed</SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </div>
                   <div className="space-y-2">
                     <Label htmlFor="Pan">Pan</Label>
                     <Field
@@ -634,7 +504,6 @@ const isEdit = !!id; // edit mode if id exists
                   <div className="space-y-2">
                     <Label htmlFor="citizenshipNo">
                       Citizenship No
-                      {/* <span className="text-red-500">*</span> */}
                     </Label>
                     <Field
                       as={Input}
@@ -652,6 +521,31 @@ const isEdit = !!id; // edit mode if id exists
                       className="text-red-500 text-sm"
                     />
                   </div>
+                
+                         <div className="space-y-2">
+                    <Label htmlFor="dobNepali">
+                      Citizenship Issued Date{" "}
+                    </Label>
+                    <NepaliDatePicker
+                      // value={value}
+                      lang="en"
+                      placeholder="Select date"
+                      onChange={(value) => {
+                        setFieldValue(
+                          "citizenshipIssueDate",
+                          value?.toString()
+                        );
+
+                        // setValue(e);
+                      }}
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      Format: YYYY-MM-DD
+                    </p>
+                  </div>
+                    <div className="space-y-2">
+
+</div>
                   <div className="space-y-2">
                     <Label htmlFor="instituteName">
                       Institue Name
@@ -696,28 +590,9 @@ const isEdit = !!id; // edit mode if id exists
                       className="text-red-500 text-sm"
                     />
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="dobNepali">
-                      Citizenship Issued Date{" "}
-                      {/* <span className="text-red-500">*</span> */}
-                    </Label>
-                    <NepaliDatePicker
-                      // value={value}
-                      lang="en"
-                      placeholder="Select date"
-                      onChange={(value) => {
-                        setFieldValue(
-                          "citizenshipIssueDate",
-                          value?.toString()
-                        );
+                               <div className="space-y-2">
 
-                        // setValue(e);
-                      }}
-                    />
-                    <p className="text-xs text-muted-foreground">
-                      Format: YYYY-MM-DD
-                    </p>
-                  </div>
+</div>
                     <div className="space-y-2">
                     <FileUpload
                       previewUrl={values.panAttachmentPath}

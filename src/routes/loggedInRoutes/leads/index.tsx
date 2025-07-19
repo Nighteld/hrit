@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useMemo, useState } from "react";
+import React, { ChangeEvent, Fragment, useEffect, useMemo, useState } from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -74,6 +74,9 @@ import { CategoryList, CourseList } from "@/utils/constant";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import NepaliDatePicker from "@zener/nepali-datepicker-react";
 import * as Yup from "yup";
+import TableLoading from "@/components/table-loading";
+import { Skeleton } from "@/components/ui/skeleton"
+
 
 export type Leads = {
   ID: number;
@@ -104,7 +107,7 @@ type initialValues = {
   schoolName: string;
   courseIntrested: string;
   instituteName: string;
-  
+
 };
 const validationSchema = () =>
   Yup.object({
@@ -114,6 +117,9 @@ const validationSchema = () =>
   });
 
 export function LeadsGrid() {
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -125,7 +131,7 @@ export function LeadsGrid() {
     source: "",
     schoolName: "",
     courseIntrested: "",
-    instituteName:"",
+    instituteName: "",
   });
   const newFallowUp = {
     followUpDate: new Date(),
@@ -147,29 +153,43 @@ export function LeadsGrid() {
       }),
     enabled: !!marketingOfficerId,
   });
-
-  const {
-    data,
-    error,
-    isLoading,
-    isFetching,
-    isPending,
-    refetch: refetchLeads,
-  } = useQuery({
-    queryKey: ["leadList"],
-    queryFn: () => fetchLeadsLists(formValues),
-    enabled: false,
-  });
-  
   useEffect(() => {
-    refetchLeads();
-  }, [formValues]);
+    const fetchLeads = async () => {
+      try {
+        const result = await fetchLeadsLists(formValues); // pass params
+        setData(result);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  console.log("isPending", isPending);
-  console.log("data2", data);
-  console.log("error", error);
+    fetchLeads();
+  }, [formValues.category, formValues.source, formValues.schoolName, formValues.courseIntrested, formValues.instituteName]);
+
+  // const {
+  //   data,
+  //   error,
+  //   isLoading,
+  //   isFetching,
+  //   isPending,
+  //   refetch: refetchLeads,
+  // } = useQuery({
+  //   queryKey: ["leadList"],
+  //   queryFn: () => fetchLeadsLists(formValues),
+  //   enabled: false,
+  // });
+
+  // useEffect(() => {
+  //   refetchLeads();
+  // }, [formValues.category, formValues.source, formValues.schoolName, formValues.courseIntrested, formValues.instituteName]);
+
+  // console.log("isPending", isPending);
+  // console.log("data2", data);
+  // console.log("error", error);
   console.log("getAccessToken", getAccessToken());
-  const columns: ColumnDef<Leads>[] = [ 
+  const columns: ColumnDef<Leads>[] = [
     {
       id: "expander",
       header: () => null,
@@ -249,7 +269,7 @@ export function LeadsGrid() {
       accessorKey: "Source",
       header: "Source",
     },
-        {
+    {
       accessorKey: "InstituteName",
       header: "Institute Name",
     },
@@ -314,7 +334,7 @@ export function LeadsGrid() {
           remarks: values.remarks,
           followUpDate: values.followUpDate,
           // counselledDate:values.counselledDate
-          
+
         },
         {
           headers: {
@@ -339,6 +359,24 @@ export function LeadsGrid() {
       toastError(errorAsError.message);
     }
   };
+  const renderSkeletonRows = () => (
+    <Fragment>
+      {/* Render 10 skeleton rows as a placeholder while loading */}
+      {Array.from(new Array(15)).map((_, index) => (
+        <TableRow key={index}>
+          {/* Render skeleton cells for each visible column */}
+          {/* <Skeleton variant="rounded" width="100%" height={25} /> */}
+
+
+          {table.getVisibleLeafColumns().map((column) => (
+            <TableCell key={column.id} className="p-2 w-full">
+              <Skeleton variant="rounded"  width="100%" className="h-4" />
+            </TableCell>
+          ))}
+        </TableRow>
+      ))}
+    </Fragment>
+  );
 
   return (
     <section className="w-full">
@@ -363,7 +401,7 @@ export function LeadsGrid() {
                 className="max-w-sm"
               />
 
-  <Input
+              <Input
                 placeholder="Filter Institutes..."
                 // value={formValues.schoolName}
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -471,9 +509,9 @@ export function LeadsGrid() {
                           {header.isPlaceholder
                             ? null
                             : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
                         </TableHead>
                       );
                     })}
@@ -481,144 +519,158 @@ export function LeadsGrid() {
                 ))}
               </TableHeader>
               <TableBody>
-                {table.getRowModel().rows?.length ? (
-                  table.getRowModel().rows.map((row) => (
-                    <React.Fragment key={row.id}>
-                      <TableRow
-                        key={row.id}
-                        data-state={row.getIsSelected() && "selected"}
-                      >
-                        {row.getVisibleCells().map((cell) => (
-                          <TableCell key={cell.id}>
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext()
-                            )}
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                      {row.original.LeadID === marketingOfficerId && (
-                        <TableRow>
-                          <TableCell colSpan={columns.length} className="p-0">
-                            <div className="p-4 bg-muted/50">
-                              <Card className="w-[1024px]">
-                                <CardContent className="p-4">
-                                  <div className="  items-center gap-5 py-2 mb-2">
-                                    <Button
-                                      variant="outline"
-                                      className="mb-2"
-                                      onClick={() => {
-                                        setIsAddingNew(true);
-                                      }}
-                                    >
-                                      <Plus />
-                                      Add Log
-                                    </Button>
-                                    {/* <h3 className="font-semibold text-lg mb-2 ">
+                {loading
+                  ? (
+                    <>
+                    { renderSkeletonRows()}
+                    </>
+                  )
+                  : table.getRowModel().rows.length === 0
+                    ?
+                    <TableCell
+                      // colSpan={columns?.length}
+                      className="h-24 text-center"
+                    >
+                      No results.
+                    </TableCell>
+                    : (
+                      table.getRowModel().rows.map((row) => (
+                        <React.Fragment key={row.id}>
+                          <TableRow
+                            key={row.id}
+                            data-state={row.getIsSelected() && "selected"}
+                          >
+                            {row.getVisibleCells().map((cell) => (
+                              <TableCell key={cell.id}>
+                                {flexRender(
+                                  cell.column.columnDef.cell,
+                                  cell.getContext()
+                                )}
+                              </TableCell>
+                            ))}
+                          </TableRow>
+                          {row.original.LeadID === marketingOfficerId && (
+                            <TableRow>
+                              <TableCell colSpan={columns.length} className="p-0">
+                                <div className="p-4 bg-muted/50">
+                                  <Card className="w-[1024px]">
+                                    <CardContent className="p-4">
+                                      <div className="  items-center gap-5 py-2 mb-2">
+                                        <Button
+                                          variant="outline"
+                                          className="mb-2"
+                                          onClick={() => {
+                                            setIsAddingNew(true);
+                                          }}
+                                        >
+                                          <Plus />
+                                          Add Log
+                                        </Button>
+                                        {/* <h3 className="font-semibold text-lg mb-2 ">
                                   Fallow up History
                                 </h3> */}
 
-                                    <div className="">
-                                      <Formik
-                                        initialValues={newFallowUp}
-                                        validationSchema={validationSchema}
-                                        // validateOnMount
-                                        onSubmit={(values, { resetForm }) =>
-                                          handleSubmit(values, resetForm)
-                                        }
-                                      >
-                                        {({
-                                          setFieldValue,
-                                          errors,
-                                          touched,
-                                          isValidating,
-                                          isSubmitting,
-                                          values,
-                                        }) => (
-                                          <Form className="space-y-4">
-                                            <Table>
-                                              <TableCaption className="font-bold py-4">
-                                                {" "}
-                                                Fallow up History.
-                                              </TableCaption>
-                                              <TableHeader>
-                                                <TableRow>
-                                                  <TableHead className="w-[100px]">
-                                                    SN
-                                                  </TableHead>
-                                                  <TableHead>
-                                                    Fallow up Date
-                                                  </TableHead>
-                                                  <TableHead>
-                                                    Category
-                                                  </TableHead>
-                                                  {/* <TableHead>
+                                        <div className="">
+                                          <Formik
+                                            initialValues={newFallowUp}
+                                            validationSchema={validationSchema}
+                                            // validateOnMount
+                                            onSubmit={(values, { resetForm }) =>
+                                              handleSubmit(values, resetForm)
+                                            }
+                                          >
+                                            {({
+                                              setFieldValue,
+                                              errors,
+                                              touched,
+                                              isValidating,
+                                              isSubmitting,
+                                              values,
+                                            }) => (
+                                              <Form className="space-y-4">
+                                                <Table>
+                                                  <TableCaption className="font-bold py-4">
+                                                    {" "}
+                                                    Fallow up History.
+                                                  </TableCaption>
+                                                  <TableHeader>
+                                                    <TableRow>
+                                                      <TableHead className="w-[100px]">
+                                                        SN
+                                                      </TableHead>
+                                                      <TableHead>
+                                                        Fallow up Date
+                                                      </TableHead>
+                                                      <TableHead>
+                                                        Category
+                                                      </TableHead>
+                                                      {/* <TableHead>
                                                Fallowup Type
                                               </TableHead> */}
-                                                  <TableHead className="">
-                                                    Remarks
-                                                  </TableHead>
-                                                  <TableHead className="">
-                                                    Action
-                                                  </TableHead>
-                                                </TableRow>
-                                              </TableHeader>
-                                              <TableBody>
-                                                {fallowUpLists &&
-                                                  fallowUpLists.map(
-                                                    (item, index) => (
-                                                      <TableRow key={index}>
-                                                        <TableCell className="font-medium">
-                                                          {index + 1}
-                                                        </TableCell>
-                                                        <TableCell>
-                                                          {dateFormatter(
-                                                            item.CounselledDate
-                                                          )}
-                                                        </TableCell>
-                                                        <TableCell>
-                                                          {item.Category}
-                                                        </TableCell>
-                                                        {/* <TableCell>
+                                                      <TableHead className="">
+                                                        Remarks
+                                                      </TableHead>
+                                                      <TableHead className="">
+                                                        Action
+                                                      </TableHead>
+                                                    </TableRow>
+                                                  </TableHeader>
+                                                  <TableBody>
+                                                    {fallowUpLists &&
+                                                      fallowUpLists.map(
+                                                        (item, index) => (
+                                                          <TableRow key={index}>
+                                                            <TableCell className="font-medium">
+                                                              {index + 1}
+                                                            </TableCell>
+                                                            <TableCell>
+                                                              {dateFormatter(
+                                                                item.CounselledDate
+                                                              )}
+                                                            </TableCell>
+                                                            <TableCell>
+                                                              {item.Category}
+                                                            </TableCell>
+                                                            {/* <TableCell>
                                                     {dateFormatter(
                                                       item.nextFollowUpDate
                                                     )}{" "}
                                                   </TableCell> */}
-                                                        <TableCell className="">
-                                                          {item.Remarks}
-                                                        </TableCell>
-                                                      </TableRow>
-                                                    )
-                                                  )}
-                                                {console.log("errors", errors)}
-                                                {console.log("values", values)}
-                                                {isAddingNew && (
-                                                  <>
-                                                    <TableRow>
-                                                      <TableCell>
-                                                        {fallowUpLists.length +
-                                                          1}
-                                                      </TableCell>
-                                                      <TableCell>
-                                                        <NepaliDatePicker
-                                                          className="date-picker"
-                                                          value={
-                                                            values.followUpDate
-                                                          }
-                                                          lang="en"
-                                                          type="AD"
-                                                          placeholder="Select date"
-                                                          onChange={(
-                                                            e: Date
-                                                          ) => {
-                                                            setFieldValue(
-                                                              "followUpDate",
-                                                              dateFormatter(e)
-                                                            );
-                                                          }}
-                                                        />
-                                                      </TableCell>
-                                                      {/* <TableCell>
+                                                            <TableCell className="">
+                                                              {item.Remarks}
+                                                            </TableCell>
+                                                          </TableRow>
+                                                        )
+                                                      )}
+                                                    {console.log("errors", errors)}
+                                                    {console.log("values", values)}
+                                                    {isAddingNew && (
+                                                      <>
+                                                        <TableRow>
+                                                          <TableCell>
+                                                            {fallowUpLists.length +
+                                                              1}
+                                                          </TableCell>
+                                                          <TableCell>
+                                                            <NepaliDatePicker
+                                                              className="date-picker"
+                                                              value={
+                                                                values.followUpDate
+                                                              }
+                                                              lang="en"
+                                                              type="AD"
+                                                              placeholder="Select date"
+                                                              onChange={(
+                                                                e: Date
+                                                              ) => {
+                                                                setFieldValue(
+                                                                  "followUpDate",
+                                                                  dateFormatter(e)
+                                                                );
+                                                              }}
+                                                            />
+                                                          </TableCell>
+                                                          {/* <TableCell>
                                                         <NepaliDatePicker
                                                           className="date-picker"
                                                           value={
@@ -637,122 +689,114 @@ export function LeadsGrid() {
                                                           }}
                                                         />
                                                       </TableCell> */}
-                                                      <TableCell>
-                                                        <Select
-                                                          onValueChange={(
-                                                            value: string
-                                                          ) =>
-                                                            setFieldValue(
-                                                              "category",
-                                                              value
-                                                            )
-                                                          }
-                                                          value={
-                                                            values.category
-                                                          }
-                                                          name="category"
-                                                        >
-                                                          <SelectTrigger
-                                                            className={
-                                                              errors.category
-                                                                ? "validation-error"
-                                                                : ""
-                                                            }
-                                                          >
-                                                            <SelectValue placeholder="Select Category" />
-                                                          </SelectTrigger>
-                                                          <SelectContent>
-                                                            <SelectGroup>
-                                                              {CategoryList.map(
-                                                                (item) => (
-                                                                  <SelectItem
-                                                                    value={item}
-                                                                  >
-                                                                    {item}
-                                                                  </SelectItem>
+                                                          <TableCell>
+                                                            <Select
+                                                              onValueChange={(
+                                                                value: string
+                                                              ) =>
+                                                                setFieldValue(
+                                                                  "category",
+                                                                  value
                                                                 )
-                                                              )}
-                                                            </SelectGroup>
-                                                          </SelectContent>
-                                                        </Select>
-                                                        {/* {touched.ProductTypeId && errors.ProductTypeId && (
+                                                              }
+                                                              value={
+                                                                values.category
+                                                              }
+                                                              name="category"
+                                                            >
+                                                              <SelectTrigger
+                                                                className={
+                                                                  errors.category
+                                                                    ? "validation-error"
+                                                                    : ""
+                                                                }
+                                                              >
+                                                                <SelectValue placeholder="Select Category" />
+                                                              </SelectTrigger>
+                                                              <SelectContent>
+                                                                <SelectGroup>
+                                                                  {CategoryList.map(
+                                                                    (item) => (
+                                                                      <SelectItem
+                                                                        value={item}
+                                                                      >
+                                                                        {item}
+                                                                      </SelectItem>
+                                                                    )
+                                                                  )}
+                                                                </SelectGroup>
+                                                              </SelectContent>
+                                                            </Select>
+                                                            {/* {touched.ProductTypeId && errors.ProductTypeId && (
                       <p className="text-red-500 text-sm">
                         {errors.ProductTypeId}
                       </p>
                     )} */}
-                                                      </TableCell>
+                                                          </TableCell>
 
-                                                      <TableCell>
-                                                        <Field
-                                                          as={Input}
-                                                          id="remarks"
-                                                          name="remarks"
-                                                          value={values.remarks}
-                                                          type="text"
-                                                          // placeholder="m@example.com"
-                                                        />
-                                                        <ErrorMessage
-                                                          name="remarks"
-                                                          component="div"
-                                                          className="text-red-500 text-sm"
-                                                        />
-                                                      </TableCell>
-                                                      <TableCell>
-                                                        <div className="flex items-center gap-2">
-                                                          <Button
-                                                            variant="ghost"
-                                                            size="icon"
-                                                            type="submit"
-                                                          >
-                                                            <div className="bg-blue-500 text-white p-1 rounded-sm">
-                                                              <Check className="h-4 w-4" />
+                                                          <TableCell>
+                                                            <Field
+                                                              as={Input}
+                                                              id="remarks"
+                                                              name="remarks"
+                                                              value={values.remarks}
+                                                              type="text"
+                                                            // placeholder="m@example.com"
+                                                            />
+                                                            <ErrorMessage
+                                                              name="remarks"
+                                                              component="div"
+                                                              className="text-red-500 text-sm"
+                                                            />
+                                                          </TableCell>
+                                                          <TableCell>
+                                                            <div className="flex items-center gap-2">
+                                                              <Button
+                                                                variant="ghost"
+                                                                size="icon"
+                                                                type="submit"
+                                                              >
+                                                                <div className="bg-blue-500 text-white p-1 rounded-sm">
+                                                                  <Check className="h-4 w-4" />
+                                                                </div>
+                                                              </Button>
+                                                              <Button
+                                                                variant="ghost"
+                                                                size="icon"
+                                                                type="button"
+                                                                onClick={() =>
+                                                                  setIsAddingNew(
+                                                                    false
+                                                                  )
+                                                                }
+                                                              >
+                                                                <div className="bg-red-500 text-white p-1 rounded-sm">
+                                                                  <X className="h-4 w-4" />
+                                                                </div>
+                                                              </Button>
                                                             </div>
-                                                          </Button>
-                                                          <Button
-                                                            variant="ghost"
-                                                            size="icon"
-                                                            type="button"
-                                                            onClick={() =>
-                                                              setIsAddingNew(
-                                                                false
-                                                              )
-                                                            }
-                                                          >
-                                                            <div className="bg-red-500 text-white p-1 rounded-sm">
-                                                              <X className="h-4 w-4" />
-                                                            </div>
-                                                          </Button>
-                                                        </div>
-                                                      </TableCell>
-                                                    </TableRow>
-                                                  </>
-                                                )}
-                                              </TableBody>
-                                            </Table>
-                                          </Form>
-                                        )}
-                                      </Formik>
-                                    </div>
-                                  </div>
-                                  <div className=""></div>
-                                </CardContent>
-                              </Card>
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      )}
-                    </React.Fragment>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      // colSpan={columns?.length}
-                      className="h-24 text-center"
-                    >
-                      No results.
-                    </TableCell>
-                  </TableRow>
-                )}
+                                                          </TableCell>
+                                                        </TableRow>
+                                                      </>
+                                                    )}
+                                                  </TableBody>
+                                                </Table>
+                                              </Form>
+                                            )}
+                                          </Formik>
+                                        </div>
+                                      </div>
+                                      <div className=""></div>
+                                    </CardContent>
+                                  </Card>
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          )}
+                        </React.Fragment>
+                      ))
+                    )}
+
               </TableBody>
             </Table>
           </div>

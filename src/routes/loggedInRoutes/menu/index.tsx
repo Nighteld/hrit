@@ -127,6 +127,9 @@ const validationSchema = () =>
   });
 
 export function MenuGrid() {
+    const [data, setData] = useState([]);
+    const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(true);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -154,19 +157,19 @@ export function MenuGrid() {
     retry: 2,
   });
 
-  const {
-    data,
-    error,
-    isLoading,
-    isFetching,
-    isPending,
-    refetch: refetchMappedMenuLists,
-  } = useQuery({
-    queryKey: ["menuMappedLists"],
-    queryFn: () => fetchMenuMappedLists(formValues),
-    retry: 2,
-    enabled: false,
-  });
+  // const {
+  //   data,
+  //   error,
+  //   isLoading,
+  //   isFetching,
+  //   isPending,
+  //   refetch: refetchMappedMenuLists,
+  // } = useQuery({
+  //   queryKey: ["menuMappedLists"],
+  //   queryFn: () => fetchMenuMappedLists(formValues),
+  //   retry: 2,
+  //   enabled: false,
+  // });
 
   const {
     data: userLists,
@@ -184,11 +187,25 @@ export function MenuGrid() {
   console.log("userLists", userLists);
   console.log("data", data);
 
-  useEffect(() => {
-    refetchMappedMenuLists();
-  }, [formValues]);
+  // useEffect(() => {
+  //   refetchMappedMenuLists();
+  // }, [formValues]);
+    useEffect(() => {
+      const fetchMenuLists = async () => {
+        try {
+          const result = await fetchMenuMappedLists(formValues); // pass params
+          setData(result);
+        } catch (err: any) {
+          setError(err.message);
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchMenuLists();
+    }, [formValues.roleId]);
 
-  console.log("isPending", isPending);
+  // console.log("isPending", isPending);
   console.log("data2", data);
   console.log("error", error);
   const columns: ColumnDef<Leads>[] = [
@@ -251,7 +268,7 @@ export function MenuGrid() {
         return toastError(response.data.responseMessage);
       }
       toastSuccess(response.data.responseMessage);
-      refetchMappedMenuLists();
+      // refetchMappedMenuLists();
       handleClose();
     } catch (error: unknown) {
       setLoader(false);

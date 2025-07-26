@@ -43,6 +43,7 @@ import RolePermission from './routes/loggedInRoutes/roleManagement';
 import { StudentGrid } from './routes/loggedInRoutes/admission/indexGrid';
 import AgentProfile from './routes/loggedInRoutes/agents/agentProfile';
 import { OrbitalRings } from './helper/loader';
+import AgentDashboard from './routes/loggedInRoutes/agents/dashboard';
 
 // Create a client
 const queryClient = new QueryClient()
@@ -118,6 +119,8 @@ function App() {
             <Route path="student" element={<StudentGrid />} />
             <Route path="student/admission" element={<Admission />} />
             <Route path="agent" element={<AgentGrid />} />
+            <Route path="agent/dashboard" element={<AgentDashboard />} />
+
             <Route path="agent/create" element={<AgentRegistration />} />
             <Route path="student/enquiry" element={<StudentsEnquiry />} />
             <Route path="leads" element={<LeadsGrid />} />

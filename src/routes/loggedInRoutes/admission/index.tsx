@@ -38,6 +38,8 @@ const validationSchema = Yup.object().shape({
   firstLanguage: Yup.string(),
   secondLanguage: Yup.string(),
   otherLanguage: Yup.string(),
+  startYear: Yup.string().required("Start year is required"),
+  certifiedDate: Yup.string().required("Certified date is required"),
 
 
   // Qualification Info
@@ -194,6 +196,14 @@ export default function AdmissionForm() {
   const handleSubmit = async (values, handleReset) => {
     const finalData = {
       ...values,
+studentECAAchievements: values.studentECAAchievements
+  .filter((achievement) => !!achievement.achievementECADate)
+  .map((achievement) => ({
+    achievementECA: achievement.achievementECA,
+    achievementECAArea: achievement.achievementECAArea,
+    achievementECADesc: achievement.achievementECADesc,
+    achievementECADate: achievement.achievementECADate,
+  })),
       studentCourseOrCareer: [
         {
           studentCourseOrCareerDescription:

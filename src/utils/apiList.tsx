@@ -46,6 +46,8 @@ const API_ENDPOINTS = {
   StakeholderDashboard: user + "StakeholderDashboard",
   registerStudent: user + "InsertStudentDetails",
   getStudentLists: user + "GetStudentDetails",
+  getStudentCount: user + "StudentCount",
+
   getEventsCMS: cms + "GetEvents",
 
 
